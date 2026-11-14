@@ -1,0 +1,14 @@
+﻿import { t } from "@/shared/translations";
+import Link from "next/link";
+import {headers} from "next/headers";
+
+export default async function NotFound() {
+  const lang=(await headers()).get('x-language')==='en'?'en':'mn';
+  return (
+    <main id="main" className="content page">
+      <h1>{t(lang, "page_not_found")}</h1>
+      <Link className="text-link" href={`/services?lang=${lang}`}>{t(lang, "service_directory")}</Link>
+    </main>
+  );
+}
+

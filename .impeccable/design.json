@@ -1,0 +1,26 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-11-14T00:00:00Z",
+  "title": "Design System: Хүртээмж",
+  "extensions": {
+    "shadows": [],
+    "motion": [],
+    "breakpoints": [
+      { "name": "mobile", "value": "650px" },
+      { "name": "tablet", "value": "1000px" }
+    ]
+  },
+  "components": [],
+  "narrative": {
+    "northStar": "A readable civic support directory",
+    "overview": "Calm text-first directory with explicit information states.",
+    "keyCharacteristics": [
+      "Native forms",
+      "Useful list view",
+      "Explicit unknowns"
+    ],
+    "rules": [],
+    "dos": ["Distinguish source review from direct provider confirmation"],
+    "donts": ["Do not equate unknown with unavailable"]
+  }
+}
