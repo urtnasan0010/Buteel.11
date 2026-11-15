@@ -6,17 +6,17 @@ import PrintButton from '@/client/components/print-button';
 import ClaimList from './claim-list';
 import {redirect} from 'next/navigation';
 import type {ContentPage} from '@/shared/content-pages';
+import {publicText} from '@/shared/public-content';
 
 export function TopicDetails({page,lang,open=false}:{page:ContentPage;lang:Lang;open?:boolean}) {
  const id=page.path.split('/').pop()!;
  return <details id={id} className="topic-details" open={open}>
   <summary><h2>{t(lang,page.title)}</h2></summary>
   <p>{t(lang,page.summary)}</p>
-  {page.points.length>0&&<ul className="reading-list">{page.points.map(key=><li key={key}>{t(lang,key)}</li>)}</ul>}
-  {page.path==='/understand/deaf-hard-of-hearing'&&lang==='mn'&&<p className="note">{t(lang,'msl_native')}</p>}
+  {page.points.length>0&&<ul className="reading-list">{page.points.filter(key=>publicText(t(lang,key))).map(key=><li key={key}>{t(lang,key)}</li>)}</ul>}
+  {page.path==='/understand/deaf-hard-of-hearing'&&lang==='mn'&&publicText(t(lang,'msl_native'))&&<p className="note">{t(lang,'msl_native')}</p>}
   {page.claimIds&&<ClaimList ids={page.claimIds} lang={lang}/>}
-  <p className="meta">{t(lang,'editorial_note')}</p>
-  <dl className="content-provenance"><dt>{t(lang,page.claimIds?.length?'general_guidance_source':'source_line')}</dt><dd>TODO [source needed]</dd><dt>{t(lang,'content_review_date')}</dt><dd>TODO [review date]</dd></dl>
+  {publicText(t(lang,'editorial_note'))&&<p className="meta">{t(lang,'editorial_note')}</p>}
  </details>;
 }
 export default function SectionContent({path,lang,topic:selectedTopic}:{path:string;lang:Lang;topic?:string}) {

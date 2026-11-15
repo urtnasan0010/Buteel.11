@@ -1,0 +1,79 @@
+READ-ONLY CONTENT FLAGS
+No records, contacts, addresses or publication states were changed.
+
+DRAFT ORGANISATIONS
+- Arkhangai Disability Development Centre
+- Association of Parents with Differently-abled Children
+- Autism Association of Mongolia
+- Darkhan-Uul Disability Development Centre
+- Disability and working-capacity assessment
+- Dornod Disability Development Centre
+- Dundgovi Disability Development Centre
+- Employment Support Centre for People with Disabilities
+- General Authority for Development of Persons with Disabilities
+- Information and Emergency Management Centre — emergency numbers
+- Khuvsgul Disability Development Centre
+- Mongolian National Federation of the Blind
+- National Association of Deaf People of Mongolia
+- National Centre for the Rights of Women with Disabilities
+- Norwegian Lutheran Mission Mongolia
+
+PHONE FORMAT FLAGS: published organisation numbers may still be personal; ownership requires confirmation.
+- General Education School No. 116: 351781 (six digits; do not infer 11 prefix)
+- General Education School No. 25: 320868 (six digits; do not infer 11 prefix)
+- General Education School No. 55: 455447 (six digits; do not infer 11 prefix)
+- General Education School No. 63: 321474 (six digits; do not infer 11 prefix)
+- General Education School No. 70: 360191 (six digits; do not infer 11 prefix)
+- MNFB — Arkhangai branch: 99338809 (mobile-style; personal ownership not established)
+- MNFB — Bayan-Ulgii branch: 95422667 (mobile-style; personal ownership not established)
+- MNFB — Bayankhongor branch: 94090499 (mobile-style; personal ownership not established)
+- MNFB — Bulgan branch: 99078680 (mobile-style; personal ownership not established)
+- MNFB — Darkhan-Uul branch: 99547997 (mobile-style; personal ownership not established)
+- MNFB — Dornod branch: 89764600 (mobile-style; personal ownership not established)
+- MNFB — Dornogovi branch: 85000848 (mobile-style; personal ownership not established)
+- MNFB — Dundgovi branch: 89842824 (mobile-style; personal ownership not established)
+- MNFB — Govi-Altai branch: 95793015 (mobile-style; personal ownership not established)
+- MNFB — Govisumber branch: 99721496 (mobile-style; personal ownership not established)
+- MNFB — Khentii branch: 99561358 (mobile-style; personal ownership not established)
+- MNFB — Khovd branch: 99126969 (mobile-style; personal ownership not established)
+- MNFB — Khuvsgul branch: 88383361 (mobile-style; personal ownership not established)
+- MNFB — Orkhon branch: 99080565 (mobile-style; personal ownership not established)
+- MNFB — Selenge branch: 88179696 (mobile-style; personal ownership not established)
+- MNFB — Sukhbaatar aimag branch: 96731973 (mobile-style; personal ownership not established)
+- MNFB — Tuv branch: 99239958 (mobile-style; personal ownership not established)
+- MNFB — Umnugovi branch: 88202865 (mobile-style; personal ownership not established)
+- MNFB — Uvs branch: 95696045 (mobile-style; personal ownership not established)
+- MNFB — Uvurkhangai branch: 96750076 (mobile-style; personal ownership not established)
+- MNFB — Uvurkhangai branch: 86979697 (mobile-style; personal ownership not established)
+- MNFB — Zavkhan branch: 95696789 (mobile-style; personal ownership not established)
+- Mongolian Association of Sign Language Interpreters: 9700-1220 (mobile-style; personal ownership not established)
+- Mongolian National Association of Wheelchair Users: 8998-2929 (mobile-style; personal ownership not established)
+- Mongolian National Association of Wheelchair Users: 8977-2929 (mobile-style; personal ownership not established)
+
+NON-ADDRESS OR INCOMPLETE ADDRESS TEXT
+- Arkhangai Disability Development Centre: UNVERIFIED
+- Autism Association of Mongolia: UNVERIFIED
+- Darkhan-Uul Disability Development Centre: UNVERIFIED
+- Disability and working-capacity assessment: Relevant assessment body; individual offices UNVERIFIED
+- Dornod Disability Development Centre: UNVERIFIED
+- Dundgovi Disability Development Centre: UNVERIFIED
+- General Authority for Development of Persons with Disabilities: Сүхбаатар дүүрэг, 7-р хороо, Эрхүүгийн гудамж; current building details UNVERIFIED
+- General Authority for Labour and Welfare Services / e-Halamj: UNVERIFIED
+- Government 11-11 Public Enquiry and Complaint Centre: UNVERIFIED
+- Khan-Uul District Social Insurance Office: UNVERIFIED
+- Khovd Disability Development Centre: UNVERIFIED
+- Khuvsgul Disability Development Centre: UNVERIFIED
+- Legal Aid Centre: Current central visitor address UNVERIFIED
+- MNFB — Dornogovi branch: Public visitor-office address UNVERIFIED
+- MNFB — Govisumber branch: Public visitor-office address UNVERIFIED
+- MNFB — Sukhbaatar aimag branch: Public visitor-office address UNVERIFIED
+- MNFB — Umnugovi branch: Public visitor-office address UNVERIFIED
+- Mongolian National Association of Wheelchair Users: 2-р хороо; detailed current office address UNVERIFIED
+- National Association of Deaf People of Mongolia: Current office UNVERIFIED
+- National Centre for the Rights of Women with Disabilities: Current office UNVERIFIED
+- National Council for Ensuring the Rights of Persons with Disabilities: Dedicated current office UNVERIFIED
+- Norwegian Lutheran Mission Mongolia: UNVERIFIED
+- Rehabilitation and Development Centre for Children with Disabilities: 20-р хороо; full current street address UNVERIFIED
+- Songinokhairkhan District Social Insurance Office: UNVERIFIED
+- Sukhbaatar District Social Insurance Office: UNVERIFIED
+- Universal Progress Independent Living Centre: Current office UNVERIFIED

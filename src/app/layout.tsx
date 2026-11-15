@@ -8,14 +8,21 @@ import LanguageSwitch, { Navigation } from "@/client/components/language-switch"
 import { Icon, } from "@/shared/ui";
 import "@/client/styles/globals.css";
 import { n } from '@/shared/nationwide';
-export const metadata: Metadata = {
-  title: {
-    default: "Хүртээмж — дэмжлэгт хүрэх зам",
-    template: "%s | Хүртээмж",
-  },
-  description:
-    "Монгол орны дэмжлэг, хүртээмж, эрхийн мэдээлэл. Disability support and rights across Mongolia.",
-};
+export async function generateMetadata():Promise<Metadata> {
+  const h=await headers();
+  const lang=selectLanguage(h.get('x-language'));
+  const path=h.get('x-page')||'/';
+  const admin=path==='/admin'||path.startsWith('/admin/');
+  const info=new URLSearchParams(h.get('x-query')||'').get('info');
+  const infoTitle=info==='privacy'?t(lang,'privacy'):info==='disclaimer'?n(lang,'disclaimer'):info==='accessibility'?t(lang,'accessibility_statement'):info?n(lang,'siteInfo'):'';
+  const title=path==='/admin/login'?n(lang,'login'):path==='/admin/reset'?n(lang,'resetPassword'):admin?n(lang,'admin'):path.startsWith('/rights')?n(lang,'rights'):path.startsWith('/help')?n(lang,'help'):path.startsWith('/understand')?n(lang,'understand'):infoTitle||t(lang,'home');
+  return {
+    title:{default:`${title} | ${n(lang,'brand')}`,template:`%s | ${n(lang,'brand')}`},
+    description:n(lang,'homeShort'),
+    ...(admin?{robots:{index:false,follow:false}}:{}),
+  };
+}
+
 export default async function Layout({
   children,
 }: {

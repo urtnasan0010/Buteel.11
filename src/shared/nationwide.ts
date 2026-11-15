@@ -27,6 +27,8 @@ export const regions: { id: string; name: Text }[] = [
 ];
 
 export const copy = {
+  evidenceExplanation: {mn:'Нотолгооны түвшин нь нийтэлсэн эх сурвалжийн мэдээлэлд хамаарна. «Баталгаажуулалт: Тодорхойгүй» гэдэг нь байгууллагатай шууд холбогдож үйлчилгээ, холбоо барих мэдээллийг баталгаажуулаагүй гэсэн үг.',en:'Evidence confidence describes the published sources. “Verification: Unknown” means the service and contact details have not been confirmed directly with the provider.'},
+  contactRightsHelp: {mn:'Хүний эрхийн гомдол, хууль зүйн тусламжийн байгууллагын мэдээллийг доороос үзнэ үү. Эрх хэмжээ, үнэ төлбөргүй тусламжийн шалгуурыг тухайн эх сурвалжаас шалгаарай.',en:'Find human-rights complaints and legal-assistance organisations below. Check their remit and eligibility for free assistance using the linked sources.'},
   sources: {mn:'Эх сурвалжууд',en:'Sources'},
   confidence: {mn:'Эх сурвалжийн нотолгооны түвшин',en:'Source evidence confidence'},
   high: {mn:'Өндөр',en:'High'}, medium: {mn:'Дунд',en:'Medium'}, low: {mn:'Бага',en:'Low'},
@@ -69,7 +71,7 @@ export const copy = {
   law: { mn: 'Хуулийн нэр', en: 'Law name' }, article: { mn: 'Зүйл, заалт', en: 'Article number' },
   revised: { mn: 'Хуулийн шинэчлэлийн төлөв', en: 'Law revision status' },
   contact: { mn: 'Хэнд хандах вэ?', en: 'Who to contact' },
-  todo: { mn: 'TODO [source needed]', en: 'TODO [source needed]' },
+  todo: { mn: 'Мэдээлэл хараахан алга.', en: 'Information is not available yet.' },
   report: { mn: 'Асуудал мэдээлэх', en: 'Report a problem' },
   message: { mn: 'Мэдээлэл эсвэл санал', en: 'Problem or suggestion' },
   reportHint: { mn: 'Онош, регистрийн дугаар болон эмзэг хувийн мэдээлэл бүү оруулаарай.', en: 'Do not include diagnoses, identity numbers or sensitive personal information.' },
@@ -127,7 +129,7 @@ export const itemSchema = z.object({
   }
 });
 export type ItemInput = z.infer<typeof itemSchema>;
-export type PublicationInfo = {sources:string[];phones:string[];emails:string[];address:Text;hours:Text;eligibility:Text;howToApply:Text;focus:Text;contactTested:boolean;research:boolean};
+export type PublicationInfo = {sources:string[];phones:string[];emails:string[];address:Text;hours:Text;eligibility:Text;howToApply:Text;focus:Text;contactTested:boolean;research:boolean;category?:string};
 export type Item = ItemInput & { id: string; createdAt: string; updatedAt: string; publicationInfo?:PublicationInfo };
 export const kinds = ['organisations', 'rights', 'guides'] as const;
 export type Kind = typeof kinds[number];

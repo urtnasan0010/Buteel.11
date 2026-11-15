@@ -393,6 +393,7 @@ export const translations = {
 } as const;
 export type TranslationKey = keyof typeof translations;
 export function t(lang: Lang, key: TranslationKey, values: readonly (string | number)[] = []): string {
+ if(/TODO\s*\[/i.test(translations[key][lang]))return lang==='mn'?'Мэдээлэл хараахан алга.':'Information is not available yet.';
  return translations[key][lang].replace(/\{(\d+)\}/g, (match,index: string) => values[Number(index)] === undefined ? match : String(values[Number(index)]));
 }
 

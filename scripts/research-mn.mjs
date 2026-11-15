@@ -103,6 +103,14 @@ export const guideText = {
   31: ['Хөдөлмөрийн тухай хуулийн 144.2 дахь заалтаар 25 ба түүнээс дээш ажилтантай ажил олгогч нийт ажлын байрны дөрвөөс доошгүй хувьд хөгжлийн бэрхшээлтэй хүн ажиллуулах үүрэгтэй гэж судалгаанд тэмдэглэсэн. Энэ нь тодорхой ажлын байранд хүн бүрийг авах баталгаа биш. Ажил олгогч эсвэл хөдөлмөр эрхлэлтийг дэмжих төвөөс зуучлал, дэмжлэгийг лавлана. Зөрчил байж болзошгүй бол эрх бүхий хөдөлмөр, хүний эрхийн байгууллагын сувгаар хандана.', 'The research identifies Labour Law Article 144.2 as requiring employers with at least 25 employees to employ persons with disabilities in at least 4% of positions. This does not guarantee an individual a particular vacancy. Ask the employer or disability employment-support centre about matching and support. Raise suspected non-compliance through the competent labour or human-rights channel.'],
 };
 
+export const publicCopyEdits = [
+  ['Хэрэгсэлд тохирох эмнэлгийн дүгнэлт, төлбөрийн цахим баримт эсвэл нэхэмжлэх шаардлагатай гэж судалгаанд тэмдэглэсэн.','Эмнэлгийн дүгнэлт, төлбөрийн цахим баримт эсвэл нэхэмжлэхийн шаардлагыг ишилсэн 2025 оны 117 дугаар тогтоолын журмаас шалгана.'],
+  ['The research lists an appropriate medical opinion and payment e-receipt or invoice.','Check the requirements for a medical opinion and payment e-receipt or invoice in the cited procedure under Resolution 117 of 2025.'],
+  ['ажиллуулах үүрэгтэй гэж судалгаанд тэмдэглэсэн.','ажиллуулах үүргийг ишилсэн заалтад тусгасан.'],
+  ['The research identifies Labour Law Article 144.2 as requiring employers','The cited Labour Law Article 144.2 requires employers'],
+];
+for(const row of [25,31]) for(const language of [0,1]) for(const [before,after] of publicCopyEdits) guideText[row][language]=guideText[row][language].replace(before,after);
+
 export const eligibilityMn = {
   'Public enquiries and matters within the ministry\'s responsibilities.':'Иргэдийн лавлагаа болон яамны хариуцах асуудал.',
   'Depends on the selected welfare service.':'Сонгосон халамжийн үйлчилгээнээс хамаарна.',

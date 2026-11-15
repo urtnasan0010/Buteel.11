@@ -18,10 +18,6 @@ export default async function Accessibility({
       <p className="intro">
         {t(lang, "we_aim_to_make_hurteemj_easy_for_everyone_to_use_working_towards_")}
       </p>
-      <p className="meta">
-        {t(lang, "updated")}{" "}
-        <strong>TODO [date]</strong>
-      </p>
       <section>
         <h2>{t(lang, "what_we_have_checked")}</h2>
         <ul className="reading-list">
@@ -43,7 +39,7 @@ export default async function Accessibility({
         <h2>
           {t(lang, "what_still_needs_testing")}
         </h2>
-        <p className="note"><strong>TODO [known limits]</strong>{" "}{t(lang, "update_after_manual_testing_mongolian_wording_still_needs_native_")}</p>
+        <p className="note">{t(lang, "update_after_manual_testing_mongolian_wording_still_needs_native_")}</p>
         <p>
           {t(lang, "nvda_voiceover_and_physical_phones_have_not_been_tested_mongolian")}
         </p>
@@ -61,11 +57,10 @@ export default async function Accessibility({
       </section>
       <section>
         <h2>{t(lang, "reporting_a_barrier")}</h2>
-        <p><strong>TODO [contact]</strong></p>
         <p>
           {n(lang, 'reportHint')}
         </p>
-        <p>{t(lang, "response_target")} <strong>TODO [response time]</strong>. {t(lang, "no_response_time_commitment_has_been_set")}</p>
+        <p>{t(lang, "no_response_time_commitment_has_been_set")}</p>
         <Link className="text-link" href={`/contact?lang=${lang}#report-problem`}>
           {n(lang, 'report')}
         </Link>

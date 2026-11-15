@@ -33,6 +33,8 @@ export function proxy(request: NextRequest) {
   );
   h.set("x-page", request.nextUrl.pathname);
   h.set("x-query", request.nextUrl.searchParams.toString());
-  return NextResponse.next({ request: { headers: h } });
+  const response=NextResponse.next({ request: { headers: h } });
+  if(oldPath==='/admin'||oldPath.startsWith('/admin/'))response.headers.set('X-Robots-Tag','noindex, nofollow');
+  return response;
 }
 export const config = { matcher: ["/((?!_next|favicon.ico).*)"] };

@@ -9,7 +9,7 @@ const columns = (kind:Kind) => `id, title, body, region, local_area AS "localAre
  COALESCE(to_char(review_date, 'YYYY-MM-DD'), '') AS "reviewDate", status, publish_state AS "publishState",
  law_name AS "lawName", article, revision, checklist, contact, website, phone, email,
  COALESCE(to_jsonb(${tables[kind]})->>'confidence', raw_record->>'confidence') AS confidence,
- jsonb_build_object('sources',COALESCE(raw_record->'source_urls','[]'::jsonb),
+ jsonb_build_object('category',raw_record->>'category','sources',COALESCE(raw_record->'source_urls','[]'::jsonb),
  'phones',COALESCE(to_jsonb(${tables[kind]})->'phones','[]'::jsonb),
  'emails',COALESCE(to_jsonb(${tables[kind]})->'emails','[]'::jsonb),
  'address',COALESCE(to_jsonb(${tables[kind]})->'address','{"mn":"","en":""}'::jsonb),

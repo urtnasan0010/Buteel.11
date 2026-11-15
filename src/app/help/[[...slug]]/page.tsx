@@ -9,6 +9,7 @@ import { PublishedItem } from '@/server/components/published-content';
 import { TopicDetails } from '@/server/components/section-content';
 import Checklist from '@/client/components/checklist';
 import ReportForm from '@/client/components/report-form';
+import {sortByRegionName} from '@/shared/public-content';
 
 export default async function Help({ params, searchParams }: {
   params: Promise<{ slug?: string[] }>;
@@ -40,10 +41,12 @@ export default async function Help({ params, searchParams }: {
     }
   } catch { failed = true; }
   try { guides = await listContent('guides'); } catch { guidesFailed = true; }
+  items=sortByRegionName(items,lang);
+  national=sortByRegionName(national,lang);
   const noVerified = !items.some(item => item.status === 'confirmed');
   const topics = contentPages.filter(page => page.section === 'help' && page.path !== '/help');
   return <main id="main" className="content page help-page">
-    <h1>{n(lang,'help')}</h1><p className="intro">{n(lang,'helpCard')}</p>
+    <h1>{n(lang,'help')}</h1><p className="intro">{n(lang,'helpCard')}</p><p className="meta">{n(lang,'evidenceExplanation')}</p>
     <section id="organisations" aria-labelledby="organisations-title">
       <h2 id="organisations-title">{n(lang,'directory')}</h2>
       <form action="/help#organisations" className="region-filters">
