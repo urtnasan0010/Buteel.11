@@ -14,6 +14,21 @@ npm run build
 npm start
 ```
 
+## Render deployment
+
+Use a Node Web Service for this repository, with Root Directory blank. The checked-in render.yaml defines a free Singapore service with automatic deploys disabled; .node-version pins the verified Node version. For an existing Render service, enter these settings manually instead of creating a second service:
+
+- Build: `npm ci --include=dev && npm run build`
+- Start: `npm start -- --port $PORT` (npm start binds to 0.0.0.0)
+- Health check: `/`
+- Node: `24.14.1`
+
+Copy DATABASE_URL, NEON_AUTH_BASE_URL, NEON_AUTH_COOKIE_SECRET and REPORT_SECRET from the local ignored .env into Render Environment. Set APP_ORIGIN to the exact public HTTPS origin, with no trailing slash, and add that origin to Neon Auth trusted domains on the production branch. Keep public sign-up disabled. The Blueprint prompts for these values; it contains no credentials. Existing services need their environment values entered manually.
+
+Optional storage monitoring uses AWS_ENDPOINT_URL_S3, AWS_REGION, AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY from .env. They are only needed for the existing /api/health/services probe; that probe is not the Render health check. DATABASE_URL_UNPOOLED is for maintenance scripts and is not required by the web process.
+
+Do not run migration, import, publication or admin-grant commands as part of deployment. The existing Neon database already contains the reviewed data. Do not commit .env, .next, node_modules or *.tsbuildinfo. Creating/syncing a Render Blueprint can start the first deployment even with automatic deploys disabled; do that only when ready. Application preparation does not push code or deploy a service.
+
 ## Data and content
 
 Neon Postgres tables: organisations, rights, guides, reports. Editorial records store paired mn/en title, body, local area, law name, article, revision, checklist and contact text. URLs, identifiers, contact addresses, timestamps and enum values are language-neutral. Reports retain the original message in its submitted-language field; the other language is empty rather than a fabricated translation.

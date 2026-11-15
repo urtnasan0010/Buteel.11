@@ -1,0 +1,26 @@
+# Repository root contains package.json; leave Root Directory blank.
+# No migrations, imports, or publication commands run during deployment.
+services:
+  - type: web
+    name: buteel
+    runtime: node
+    region: singapore
+    plan: free
+    branch: main
+    autoDeployTrigger: off
+    buildCommand: npm ci --include=dev && npm run build
+    startCommand: npm start -- --port $PORT
+    healthCheckPath: /
+    envVars:
+      - key: NODE_VERSION
+        value: 24.14.1
+      - key: DATABASE_URL
+        sync: false
+      - key: NEON_AUTH_BASE_URL
+        sync: false
+      - key: NEON_AUTH_COOKIE_SECRET
+        sync: false
+      - key: REPORT_SECRET
+        sync: false
+      - key: APP_ORIGIN
+        sync: false
