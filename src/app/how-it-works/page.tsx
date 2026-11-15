@@ -1,4 +1,5 @@
-import InformationPage from '@/server/components/information-page';
-export default async function Page({searchParams}:{searchParams:Promise<{lang?:string}>}){const lang=(await searchParams).lang==='en'?'en':'mn';return <InformationPage lang={lang} title="how_it_works" sections={[
- ['finding_support','finding_support_text'],['published_sources','published_sources_text'],['unknown_means','unknown_means_text'],['review_process','review_process_text']
-]}/>;}
+import Link from 'next/link';
+import { selectLanguage } from '@/shared/language';
+import { n } from '@/shared/nationwide';
+const text={title:{mn:'Хэрхэн ашиглах вэ?',en:'How it works'},body:{mn:'Аймаг эсвэл Улаанбаатарыг сонгож, дүүрэг эсвэл сумаар хайлтаа нарийсгана. Улс даяар эсвэл цахимаар үйлчилгээ авах сонголтыг мөн шалгаарай. Эх сурвалж, шалгасан огноо, баталгаажуулалтын төлөвийг уншина. Мэдээлэл тодорхойгүй бол баталгаатай гэж бүү үзээрэй.',en:'Choose an aimag or Ulaanbaatar, then narrow your search by district or soum. Check national and online options too. Read the source, review date and verification status. Do not treat unknown information as confirmed.'}};
+export default async function How({searchParams}:{searchParams:Promise<{lang?:string|string[]}>}){const lang=selectLanguage((await searchParams).lang);return <main id="main" className="content page reading"><h1>{text.title[lang]}</h1><p>{text.body[lang]}</p><Link href={`/services?lang=${lang}`}>{n(lang,'directory')}</Link><p>{n(lang,'legal')}</p></main>;}

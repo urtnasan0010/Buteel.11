@@ -1,3 +1,4 @@
+import { selectLanguage } from '@/shared/language';
 import { t } from "@/shared/translations";
 import type { Metadata } from "next";
 import { headers } from "next/headers";
@@ -6,13 +7,14 @@ import { Suspense } from "react";
 import LanguageSwitch, { Navigation } from "@/client/components/language-switch";
 import { Icon, } from "@/shared/ui";
 import "@/client/styles/globals.css";
+import { n } from '@/shared/nationwide';
 export const metadata: Metadata = {
   title: {
     default: "Хүртээмж — дэмжлэгт хүрэх зам",
     template: "%s | Хүртээмж",
   },
   description:
-    "Улаанбаатарын дэмжлэгийн байгууллагуудын лавлах. Support organisation directory for Ulaanbaatar.",
+    "Монгол орны дэмжлэг, хүртээмж, эрхийн мэдээлэл. Disability support and rights across Mongolia.",
 };
 export default async function Layout({
   children,
@@ -20,7 +22,7 @@ export default async function Layout({
   children: React.ReactNode;
 }) {
   const h = await headers();
-  const lang = h.get("x-language") === "en" ? "en" : "mn";
+  const lang = selectLanguage(h.get("x-language"));
   return (
     <html lang={lang}>
       <body>
@@ -40,27 +42,12 @@ export default async function Layout({
           </Suspense>
         </header>
         {children}
-        <footer>
-          <Link className="brand" href={`/?lang=${lang}`}>
-            Хүртээмж
-          </Link>
-          <p>
-            {t(lang, "access_to_information_for_everyone")}
-          </p>
+        <footer className="compact-footer">
           <div className="footer-links">
-            <Link href={`/how-it-works?lang=${lang}`}>{t(lang,'how_it_works')}</Link>
-            <Link href={`/privacy?lang=${lang}`}>{t(lang,'privacy')}</Link>
-            <Link href={`/for-organisations?lang=${lang}`}>{t(lang,'for_organisations')}</Link>
-            <Link href={`/accessibility?lang=${lang}`}>
-              {t(lang, "accessibility_statement")}
-            </Link>
-            <Link href={`/contact?lang=${lang}`}>
-              {t(lang, "contact_page")}
-            </Link>
+            <Link href={`/?lang=${lang}&info=site-info#site-info`}>{n(lang,'siteInfo')}</Link>
+            <Link href={`/help?lang=${lang}&report=1#report-problem`}>{n(lang,'reportLink')}</Link>
+            <Link href={`/admin?lang=${lang}`}>{n(lang,'admin')}</Link>
           </div>
-          <small>
-            {t(lang, "ulaanbaatar_local_prototype")}
-          </small>
         </footer>
       </body>
     </html>

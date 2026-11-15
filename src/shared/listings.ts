@@ -1,7 +1,7 @@
 import type { Service, Text } from "./data";
 
 // Reading a published page is not a phone call, site visit, or confirmation
-// that a programme is accepting applications. See SOURCES.md.
+// that a programme is accepting applications. See README.md#sources.
 const checkedAt = "2026-11-14";
 const generalSteps: Text[] = [
   {

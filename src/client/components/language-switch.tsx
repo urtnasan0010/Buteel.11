@@ -2,23 +2,23 @@
 import { usePathname, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { type Lang } from "@/shared/data";
-import {t,type TranslationKey} from '@/shared/translations';
+import {t} from '@/shared/translations';
+import { n } from '@/shared/nationwide';
 export function Navigation({ lang }: { lang: Lang }) {
   const path = usePathname();
   return (
     <nav aria-label={t(lang,'main_navigation')}>
       {[
-        ["/services", "find_support_nav"],
         ["/understand", "understand"],
         ["/help", "help"],
-        ["/reach", "reach"],
+        ["/rights", "rights"],
       ].map(([href, key]) => (
         <Link
           key={href}
           href={`${href}?lang=${lang}`}
           aria-current={path.startsWith(href) ? "page" : undefined}
         >
-          {t(lang,key as TranslationKey)}
+          {n(lang,key as 'understand' | 'help' | 'rights' | 'admin')}
         </Link>
       ))}
     </nav>

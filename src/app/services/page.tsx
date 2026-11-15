@@ -1,138 +1,21 @@
-import { t } from "@/shared/translations";
-import Link from "next/link";
-import MslVideo from "@/shared/msl-video";
-import {
-  categories,
-  features,
-  featureLabels,
-  filterServices,
-  services,
-} from "@/shared/data";
-import { SourceNotice, DistrictSelect, ServiceCard, } from "@/shared/ui";
-export default async function Directory({
-  searchParams,
-}: {
-  searchParams: Promise<Record<string, string | string[] | undefined>>;
-}) {
-  const p = await searchParams;
-  const scalar = (k: string) =>
-    typeof p[k] === "string" ? (p[k] as string) : "";
-  const lang = scalar("lang") === "en" ? "en" : "mn";
-  const access = Array.isArray(p.access)
-    ? p.access
-    : p.access
-      ? [p.access]
-      : [];
-  const results = filterServices(services, {
-    q: scalar("q"),
-    category: scalar("category"),
-    district: scalar("district"),
-    cost: scalar("cost"),
-    access,
-  });
-  return (
-    <main id="main" className="content page">
-      <Link className="breadcrumb" href={`/?lang=${lang}`}>
-        {t(lang, "home")}
-      </Link>
-      <h1>{t(lang, "service_directory")}</h1>
-      <SourceNotice lang={lang} />
-      <div className="directory">
-        <form key={JSON.stringify(p)} action="/services" className="filters">
-          <input type="hidden" name="lang" value={lang} />
-
-          <label htmlFor="search">{t(lang, "search_term")}</label>
-          <input
-            id="search"
-            name="q"
-            defaultValue={scalar("q")}
-            placeholder={t(lang, "name_need_keyword")}
-          />
-          <label htmlFor="category">
-            {t(lang, "support_category")}
-          </label>
-          <select
-            id="category"
-            name="category"
-            defaultValue={scalar("category")}
-          >
-            <option value="">{t(lang, "all_categories")}</option>
-            {categories.map((c, i) => (
-              <option key={i} value={i}>
-                {c[lang]}
-              </option>
-            ))}
-          </select>
-          <label htmlFor="district">
-            {t(lang, "office_district")}
-          </label>
-          <DistrictSelect lang={lang} value={scalar("district")} />
-          <details
-            className="more-filters"
-            open={!!scalar("cost") || access.length > 0}
-          >
-            <summary>{t(lang, "more_filters")}</summary>
-            <label htmlFor="cost">{t(lang, "cost")}</label>
-            <select id="cost" name="cost" defaultValue={scalar("cost")}>
-              <option value="">{t(lang, "any_cost")}</option>
-              <option value="free">{t(lang, "free")}</option>
-              <option value="paid">{t(lang, "paid")}</option>
-              <option value="unknown">
-                {t(lang, "unknown")}
-              </option>
-            </select>
-            <fieldset>
-              <legend>{t(lang, "accessibility")}</legend>
-              {features.map((f) => (
-                <label className="check" key={f}>
-                  <input
-                    type="checkbox"
-                    name="access"
-                    value={f}
-                    defaultChecked={access.includes(f)}
-                  />
-                  {featureLabels[f][lang]}
-                </label>
-              ))}
-              <p className="meta">
-                {t(lang, "only_shows_listings_with_the_selected_features_recorded_as_availa")}
-              </p>
-            </fieldset>
-          </details>
-          <button>{t(lang, "search")}</button>
-          <Link className="reset" href={`/services?lang=${lang}`}>
-            {t(lang, "reset_filters")}
-          </Link>
-        </form>
-        <section aria-label={t(lang, "search_results")}>
-          <div className="results-heading">
-            <h2>
-              {t(lang, "count_organisations", [results.length])}
-            </h2>
-            <span className="meta">
-              {t(lang, "ulaanbaatar")}
-            </span>
-          </div>
-          {results.length ? (
-            results.map((s) => (
-              <ServiceCard key={s.id} service={s} lang={lang} />
-            ))
-          ) : (
-            <div className="empty">
-              <h3>
-                {t(lang, "no_matching_services")}
-              </h3>
-              <p>
-                {t(lang, "try_a_different_keyword_or_fewer_filters_this_directory_does_not_")}
-              </p>
-              <Link className="button" href={`/services?lang=${lang}`}>
-                {t(lang, "view_all_services")}
-              </Link>
-            </div>
-          )}
-        </section>
-      </div>
-      <MslVideo lang={lang} title={t(lang,"finding_support")}><p>{t(lang,"msl_find")}</p></MslVideo>
-    </main>
-  );
+import Link from 'next/link';
+import { selectLanguage } from '@/shared/language';
+import { listContent } from '@/server/content';
+import { n, regions, type Item } from '@/shared/nationwide';
+import { PublishedItem } from '@/server/components/published-content';
+export default async function Directory({ searchParams }: { searchParams: Promise<Record<string, string | string[] | undefined>> }) {
+  const p = await searchParams; const scalar = (k: string) => typeof p[k] === 'string' ? p[k] as string : '';
+  const lang = selectLanguage(p.lang); const region = scalar('region'); const area = region ? scalar('area').slice(0, 150) : ''; const nationwide = scalar('nationwide') === '1';
+  let items: Item[] = []; let national: Item[] = []; let failed = false;
+  try { items = await listContent('organisations', { region, area, nationwide, q: scalar('q').slice(0, 300) }); if (region && !nationwide && !items.some(i => i.status === 'confirmed')) national = await listContent('organisations', { nationwide: true }); } catch { failed = true; }
+  const noVerified = !items.some(i => i.status === 'confirmed');
+  return <main id="main" className="content page"><h1>{n(lang, 'directory')}</h1><p>{n(lang, 'homeIntro')}</p>
+    <form action="/services" className="region-filters"><input type="hidden" name="lang" value={lang} />
+      <label>{n(lang, 'region')}<select name="region" defaultValue={region}><option value="">{n(lang, 'allRegions')}</option>{regions.map(r => <option key={r.id} value={r.id}>{r.name[lang]}</option>)}</select></label>
+      <label>{n(lang, 'area')}<input name="area" defaultValue={area} maxLength={150} placeholder={n(lang, 'areaHint')} /></label><label>{n(lang, 'query')}<input name="q" defaultValue={scalar('q')} maxLength={300} /></label>
+      <label className="check"><input type="checkbox" name="nationwide" value="1" defaultChecked={nationwide} />{n(lang, 'nationwide')}</label><button>{n(lang, 'search')}</button></form>
+    {failed ? <p role="alert">{n(lang, 'unavailable')}</p> : <>{noVerified && <section className="empty-region"><h2>{n(lang, 'empty')}</h2><Link href={`/contact?lang=${lang}&service=${encodeURIComponent(region)}#report-problem`}>{n(lang, 'suggest')}</Link></section>}
+      {items.map(item => <PublishedItem key={item.id} item={item} lang={lang} kind="organisations" />)}
+      {noVerified && region && !nationwide && <section><h2>{n(lang, 'nationalOptions')}</h2>{national.length ? national.map(item => <PublishedItem key={item.id} item={item} lang={lang} kind="organisations" />) : <p>{n(lang, 'todo')}</p>}</section>}</>}
+  </main>;
 }

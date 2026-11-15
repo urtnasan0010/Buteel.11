@@ -7,3 +7,7 @@ playwright-report/
 .env.*
 !.env.example
 *.log
+coverage/
+reports/
+.stryker-tmp/
+.neon

@@ -1,1 +1,1 @@
-﻿export { default } from "@/server/components/service-detail";
+export { default } from "@/server/components/service-detail";

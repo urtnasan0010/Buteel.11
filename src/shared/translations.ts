@@ -10,7 +10,6 @@ export const translations = {
   deaf_todo: {"mn": "Одоогийн үйлчилгээ, хэлмэрчийн хүртээмж: TODO [source needed]", "en": "Current services and interpreting availability: TODO [source needed]"},
   written_unknown: {"mn": "Бичвэр / мессежийн боломж: тодорхойгүй", "en": "Text/messaging option: unknown"},
   interpreting_unknown: {"mn": "Дохионы хэлний хэлмэрч: тодорхойгүй. TODO [source needed]", "en": "Sign language interpreting: unknown. TODO [source needed]"},
-  msl_find: {"mn": "Түлхүүр үг, хэрэгцээ эсвэл байгууллагын нэрээр хайна уу. Дүүрэг болон ангиллаар шүүж, байгууллагын дэлгэрэнгүй мэдээллийг нээнэ үү. Тодорхойгүй мэдээллийг баталгаатай гэж бүү үзээрэй.", "en": "Search by keyword, need or organisation name. Filter by district or category, then open an organisation for contact details. Do not treat unknown information as confirmed."},
 
   sourced_context: {mn:"Эх сурвалжтай мэдээлэл",en:"Sourced information"},
   pending_information: {mn:"Нягтлах шаардлагатай",en:"Still to verify"},
@@ -29,10 +28,6 @@ export const translations = {
   help: {mn:"Дэмжих",en:"Help"},
   reach: {mn:"Харилцах",en:"Reach"},
   find_support_nav: {mn:"Тусламж хайх",en:"Find support"},
-  audience_heading: {mn:"Танд тохирох эхлэл",en:"A starting point for you"},
-  audience_disabled: {mn:"Би хөгжлийн бэрхшээлтэй хүн",en:"I am a person with a disability"},
-  audience_family: {mn:"Би гэр бүлийн гишүүн, асран хамгаалагч",en:"I am family or a carer"},
-  audience_organisation: {mn:"Би байгууллага, ажил олгогчийг төлөөлж байна",en:"I represent an organisation or employer"},
   understand_summary: {mn:"Хүмүүсийн хэрэгцээ, сонголтыг ойлгож, хүндэтгэлтэй харилцаарай.",en:"Understand people’s needs and choices, and communicate respectfully."},
   help_summary: {mn:"Хүнээс өөрөөс нь асууж, хүссэн дэмжлэгийг нь үзүүлээрэй.",en:"Ask the person and offer the support they choose."},
   reach_summary: {mn:"Мэдээлэл, харилцааг олон хэлбэрээр хүргэхийг төлөвлөөрэй.",en:"Plan different ways to share information and communicate."},
@@ -58,9 +53,6 @@ export const translations = {
   myths_two: {mn:"“Дуугүй байвал зөвшөөрсөн” гэж бүү үз. Зөвшөөрлийг нь асууж, хариулах хугацаа өг.",en:"Do not treat silence as consent. Ask and allow time for an answer."},
   myths_three: {mn:"“Туслахаар ирсэн тул шууд хийж болно” гэж бүү үз. Эхлээд асуу.",en:"An offer to help is not permission to act. Ask first."},
   rights_title: {mn:"Эрх ба хууль",en:"Rights and laws"},
-  rights_summary: {mn:"Албан ёсны эх сурвалж өгөх хүртэл Монголын хууль, эрхийн тайлбар нийтлэхгүй.",en:"Explanations of Mongolian law and legal rights await supplied official sources."},
-  rights_one: {mn:"TODO [source needed] — Монголын хууль, эрхийн тухай албан эх сурвалж шаардлагатай.",en:"TODO [source needed] — official sources for Mongolian laws and rights are required."},
-  rights_two: {mn:"TODO [source needed] — хамрагдах нөхцөл, баримт, гомдлын журмыг эх сурвалжгүйгээр тайлбарлахгүй.",en:"TODO [source needed] — eligibility, documents, and complaint procedures will not be described without sources."},
   voices_title: {mn:"Хөгжлийн бэрхшээлтэй хүмүүсийн дуу хоолой",en:"Voices of disabled people"},
   voices_summary: {mn:"Хүмүүсийн өөрсдөө хуваалцахыг сонгосон туршлагад зориулсан орон зай.",en:"A space for experiences people choose to share in their own words."},
   voices_one: {mn:"TODO [consent needed] — оролцогчийн зөвшөөрөлтэй агуулга шаардлагатай. Одоогоор түүх, эшлэл нийтлээгүй.",en:"TODO [consent needed] — content requires the contributor’s consent. No stories or quotes are published yet."},
@@ -79,7 +71,6 @@ export const translations = {
   employers_summary: {mn:"Хүртээмжийг тухайн хүнтэй хамт төлөвлөж, тохирсон хувилбараа шалгаарай.",en:"Plan access with the person and check whether the arrangement works."},
   employers_one: {mn:"Уулзалт, хичээл, ажилд оролцоход юу хэрэгтэйг асуу. Онош шаардах асуултаас зайлсхий.",en:"Ask what would support participation in a meeting, lesson, or task. Avoid unnecessary questions about diagnoses."},
   employers_two: {mn:"Зааврыг ойлгомжтой өгч, бичгээр болон өөр хэлбэрээр авах сонголт санал болго.",en:"Give clear instructions and offer written or alternative formats."},
-  employers_three: {mn:"TODO [source needed] — хуульд заасан үүргийн тайлбарт албан эх сурвалж шаардлагатай.",en:"TODO [source needed] — explanations of legal duties require official sources."},
   support_org_title: {mn:"Байгууллагыг дэмжих",en:"Supporting organisations"},
   support_org_summary: {mn:"Юу хэрэгтэйг нь байгууллагаас өөрөөс нь асуугаарай.",en:"Ask the organisation what support it wants."},
   support_org_one: {mn:"Одоогийн хэрэгцээ, сайн дурын ажил болон оролцох нөхцөлийг лавла.",en:"Ask about current needs, volunteering, and participation arrangements."},
@@ -104,33 +95,11 @@ export const translations = {
   privacy: {mn:"Хувийн мэдээлэл",en:"Privacy"},
   contact_page: {mn:"Холбоо барих / алдаа мэдэгдэх",en:"Contact / report a problem"},
   for_organisations: {mn:"Байгууллагуудад",en:"For organisations"},
-  finding_support: {mn:"Хэрэгтэй байгууллагаа олох",en:"Finding support"},
-  finding_support_text: {mn:"Хэрэгцээгээр хайх эсвэл чиглэлээ сонгоно уу. Байгууллагын хуудсыг нээгээд утас, цахим шууданг ашиглаж болно. Бүртгэл шаардлагагүй. Дүүрэг нь оффисын байршил бөгөөд үйлчлүүлэх эрхийг заахгүй.",en:"Search by need or choose a category. Open an organisation to find its phone and email. No account is needed. District means office location, not who can use the service."},
-  published_sources: {mn:"Мэдээллийн эх сурвалж",en:"Where information comes from"},
-  published_sources_text: {mn:"Байгууллагын өөрийн нийтэлсэн мэдээллийг ашигладаг. Бүртгэл бүрд эх сурвалж, уншсан огноо бий. Цахим эх сурвалж шалгасан нь утасдаж эсвэл биеэр очиж баталгаажуулсан гэсэн үг биш. Англи тайлбарыг бид орчуулсан.",en:"We use organisations’ own published information. Each listing shows its sources and review date. Source checked means we read the page, not that we called or visited. English summaries are our translations."},
-  unknown_means: {mn:"Тодорхойгүй гэж юу гэсэн үг вэ?",en:"What unknown means"},
-  unknown_means_text: {mn:"Баталгаатай мэдээлэл байхгүйг хэлнэ. Энэ нь үйлчилгээ байхгүй, төлбөртэй эсвэл хүртээмжгүй гэсэн үг биш. Очихын өмнө зардал, шаардлага, орц болон харилцааны дэмжлэгийг лавлаарай.",en:"It means we do not have reliable information. It does not mean unavailable, paid, or inaccessible. Ask about costs, requirements, entrances, and communication support before visiting."},
-  review_process: {mn:"Мэдээллийг шинэчлэх",en:"Keeping information current"},
-  review_process_text: {mn:"Одоогоор тогтмол шалгах хариуцагч, батлагдсан хуваарь байхгүй. Холбоо барих мэдээллийг 3 сар, бүтэн бүртгэлийг 6 сар тутам шалгах саналтай боловч энэ нь одоогийн амлалт биш. Огноо нь тухайн эх сурвалжийг бодитоор уншсан өдрийг заана.",en:"A maintainer and regular review schedule have not been assigned yet. Contact checks every three months and full reviews every six months are proposed, not an operating promise. Review dates record an actual reading of the source."},
-  privacy_intro: {mn:"Хайхад бүртгэл, онош, эмнэлгийн баримт хэрэггүй.",en:"You do not need an account, diagnosis, or medical records to search."},
-  search_privacy: {mn:"Хайлтын мэдээлэл",en:"Search information"},
-  search_privacy_text: {mn:"Хайлтын үг, шүүлтүүр нь хуудасны холбоосод орно. Браузерын түүх, хуулсан холбоос болон серверийн хүсэлтэд харагдаж болно. Иймээс хувийн нууц мэдээлэл бүү бичээрэй. Бид хайлтаар хэрэглэгчийн профайл үүсгэхгүй.",en:"Search terms and filters appear in the page URL. They may appear in browser history, shared links, and server requests. Do not enter sensitive information. The app does not build profiles from searches."},
-  local_form_data: {mn:"Маягт ба жагсаалт",en:"Forms and checklists"},
-  local_form_data_text: {mn:"Тайлан болон жагсаалтын тэмдэглэгээ зөвхөн нээлттэй хуудасны санах ойд байна. Дахин ачаалах эсвэл гарахад алдагдаж болно. Тайлан серверт илгээгдэхгүй. Хуулах товч нь текстийг таны төхөөрөмжийн санах ойд хуулна. Хэвлэхдээ браузерын хэвлэх эсвэл PDF хадгалах боломжийг ашиглана.",en:"Reports and checklist selections stay in the open page’s memory and may be lost on reload or navigation. Reports are not sent to a server. Copy places text on your device’s clipboard. Printing uses your browser’s print or save-as-PDF feature."},
-  tracking_and_links: {mn:"Хяналт ба бусад сайт",en:"Tracking and external links"},
-  tracking_and_links_text: {mn:"Аппд аналитик, зар сурталчилгааны хяналт, бүртгэлийн cookie тохируулаагүй. Байгууллагын сайт, цахим шуудан, газрын зургийг нээхэд өөр үйлчилгээний нөхцөл үйлчилнэ. Нийтийн хостинг хараахан сонгоогүй; серверийн лог, хадгалах хугацааг нийтлэхээс өмнө тайлбарлана.",en:"The app has no configured analytics, advertising trackers, or login cookies. Organisation websites, email apps, and maps have their own practices when you open them. Public hosting is not configured; server logging and retention must be described before launch."},
-  contact_unavailable: {mn:"Холбоо барих хаяг хараахан тохируулаагүй",en:"Contact channels are not set up yet"},
-  contact_unavailable_text: {mn:"Бидэнд хүрэх утас, цахим шуудан эсвэл мессежийн хаяг одоогоор байхгүй. Энэ хуудас тайлан бэлдэж хуулна; бидэнд хүргэхгүй. Хариулах хугацаа амлаагүй. Сайтыг нийтлэхээс өмнө хянадаг холбоо барих сувгуудыг тохируулна.",en:"No directory phone, email, or messaging address is configured. You can prepare and copy a report here, but it will not reach us. No response time is promised. Monitored contact options must be set up before launch."},
-  contact_provider: {mn:"Үйлчилгээний талаар асуух бол",en:"For questions about a service"},
-  contact_provider_text: {mn:"Тухайн байгууллагын хуудасны нийтэлсэн утас эсвэл цахим шууданг ашиглаарай. Эдгээр нь лавлахын багийн холбоо барих хаяг биш. SMS, мессежийн аппыг зөвхөн байгууллага өөрөө нийтэлсэн тохиолдолд нэмнэ.",en:"Use the published phone or email on that organisation’s page. Those contacts belong to the provider, not the directory team. SMS or messaging links will only be added when the provider publishes them."},
   listing_request: {mn:"Бүртгэл нэмэх, засах хүсэлт",en:"Request a listing or correction"},
   listing_request_text: {mn:"Байгууллагын нэр, нийтэд нээлттэй эх сурвалжийн холбоос, үзүүлдэг үйлчилгээ, нийтэлж болох холбоо барих мэдээллээ бэлдээрэй. Зардал, шаардлага, хүртээмжийн мэдээллийг тус тусад нь нотлох эх сурвалжтай өгнө үү. Хувь хүний онош, баримт бүү явуулаарай.",en:"Prepare the organisation’s name, public source link, services, and contacts approved for publication. Provide separate evidence for costs, requirements, and accessibility. Do not include anyone’s diagnosis or personal records."},
   listing_review: {mn:"Хүсэлтийг хэрхэн хянах вэ?",en:"How requests will be reviewed"},
-  listing_review_text: {mn:"Одоогоор хүсэлт хүлээн авах суваг тохируулаагүй. Нийтлэхээс өмнө эх сурвалж, огноог шалгаж, баталгаагүй талбарыг тодорхойгүй хэвээр үлдээнэ. Бүртгэлд орсон нь түншлэл, зөвлөмж эсвэл бүх мэдээлэл баталгаатай гэсэн үг биш.",en:"Request delivery is not configured yet. Before adding information, sources and dates must be checked and unsupported fields left unknown. A listing does not imply partnership, endorsement, or confirmation of every detail."},
+  listing_review_text: {mn:"???????? ?????? ????? ???????? ?????? ?????. ?????????? ???? ?? ???????, ?????? ??????, ??????????? ???????? ??????????? ?????? ???????. ???????? ????? ?? ???????, ??????? ????? ??? ???????? ??????????? ????? ?? ???.",en:"Submit requests through the contact page. Before adding information, sources and dates must be checked and unsupported fields left unknown. A listing does not imply partnership, endorsement, or confirmation of every detail."},
   main_navigation: {mn:"Үндсэн цэс",en:"Main navigation"},
-  navigation_services: {mn:"Үйлчилгээ",en:"Services"},
-  navigation_guides: {mn:"Хөтөч",en:"Guides"},
-  navigation_about: {mn:"Бидний тухай",en:"About"},
   language_name: {mn:"Монгол",en:"English"},
   brand: {mn:"Хүртээмж",en:"Хүртээмж"},
   loading: {mn:"Уншиж байна…",en:"Loading…"},
@@ -140,42 +109,6 @@ export const translations = {
   "home": {
     "mn": "Нүүр",
     "en": "Home"
-  },
-  "information_should_be_within_everyone_s_reach": {
-    "mn": "Мэдээлэл хүн бүрд хүрэх ёстой",
-    "en": "Information should be within everyone’s reach"
-  },
-  "hurteemj_is_a_prototype_directory_to_help_people_with_disabilitie": {
-    "mn": "Хүртээмж нь Монгол дахь хөгжлийн бэрхшээлтэй хүмүүс дэмжлэгийн үйлчилгээг хайж, дараагийн алхмаа ойлгоход зориулсан лавлахын туршилтын хувилбар юм.",
-    "en": "Hurteemj is a prototype directory to help people with disabilities in Mongolia find support and understand their next steps."
-  },
-  "current_scope": {
-    "mn": "Одоогийн хамрах хүрээ",
-    "en": "Current scope"
-  },
-  "count_real_organisations_using_their_published_information_distri": {
-    "mn": "{0} бодит байгууллагын нийтэлсэн мэдээллийг нэгтгэв. Дүүрэг нь байгууллагын байрлах газар; хамрагдах эрхийг заахгүй. Лавлахад бүх байгууллага ороогүй.",
-    "en": "{0} real organisations, using their published information. District means office location, not eligibility. This directory is not comprehensive."
-  },
-  "sources_and_verification": {
-    "mn": "Эх сурвалж ба нягтлах үйл явц",
-    "en": "Sources and verification"
-  },
-  "information_comes_from_each_organisation_s_own_website_with_sourc": {
-    "mn": "Байгууллагуудын өөрийн цахим хуудаснаас мэдээлэл авч, холбоос болон уншсан огноог бүртгэсэн. “Цахим эх сурвалж шалгасан” нь утасдаж эсвэл биеэр очиж баталгаажуулсан гэсэн үг биш. Англи тайлбар нь манай орчуулга. Очихоос өмнө мэдээллээ лавлаарай.",
-    "en": "Information comes from each organisation’s own website, with source links and review dates. “Source checked” means we read the page, not that we called or visited. English descriptions are our translations. Confirm details before visiting."
-  },
-  "missing_information_is_shown_as_unknown_it_is_not_a_conclusion_th": {
-    "mn": "Мэдээлэл дутуу бол “тодорхойгүй” гэж харуулна. Энэ нь хүртээмжгүй гэсэн дүгнэлт биш.",
-    "en": "Missing information is shown as “unknown.” It is not a conclusion that a service is inaccessible."
-  },
-  "your_information_your_choice": {
-    "mn": "Таны мэдээлэл, таны сонголт",
-    "en": "Your information, your choice"
-  },
-  "browse_without_an_account_we_do_not_request_diagnoses_or_medical_": {
-    "mn": "Бүртгэлгүйгээр хайж болно. Онош болон эмнэлгийн мэдээлэл цуглуулахгүй. Хайлтын үг холбоосод ордог тул хувийн нууц мэдээлэл бүү бичээрэй.",
-    "en": "Browse without an account. We do not request diagnoses or medical information. Search terms appear in the URL, so do not enter sensitive personal information."
   },
   "accessibility_statement": {
     "mn": "Хүртээмжийн мэдэгдэл",
@@ -237,10 +170,6 @@ export const translations = {
     "mn": "Саад, алдааг мэдэгдэх",
     "en": "Reporting a barrier"
   },
-  "a_monitored_contact_address_has_not_been_configured_yet_you_can_p": {
-    "mn": "Санал хүлээн авах хаяг хараахан тохируулаагүй. Тайлан бэлдэж хуулж болно, гэхдээ бидэнд илгээгдэхгүй. Аль хуудас, ямар үйлдэлд саад гарсныг бичээрэй. Онош, эмнэлгийн баримт, хувийн дугаар оруулах шаардлагагүй.",
-    "en": "A monitored contact address has not been configured yet. You can prepare and copy a report, but it will not be delivered to us. Describe the page and the action that caused a problem. No diagnosis, medical records, or identity numbers are needed."
-  },
   "response_target": {
     "mn": "Хариулах зорилтот хугацаа:",
     "en": "Response target:"
@@ -249,69 +178,13 @@ export const translations = {
     "mn": "Одоогоор хугацаа амлаагүй.",
     "en": "No response-time commitment has been set."
   },
-  "prepare_a_copyable_report": {
-    "mn": "Хуулах тайлан бэлдэх",
-    "en": "Prepare a copyable report"
-  },
-  "prepare_to_contact_a_service": {
-    "mn": "Хандахаас өмнө бэлдэх нь",
-    "en": "Prepare to contact a service"
-  },
-  "describe_your_needs_in_your_own_words_and_get_the_information_you": {
-    "mn": "Өөрийн хэрэгцээг өөрийн үгээр илэрхийлж, хэрэгтэй мэдээллээ урьдчилан аваарай.",
-    "en": "Describe your needs in your own words and get the information you need in advance."
-  },
-  "general_preparation_advice": {
-    "mn": "Ерөнхий зөвлөгөө",
-    "en": "General preparation advice"
-  },
-  "this_is_not_an_official_requirement_no_verified_official_requirem": {
-    "mn": "Энэ нь албан ёсны шаардлага биш. Баталгаажсан албан шаардлага одоогоор оруулаагүй.",
-    "en": "This is not an official requirement. No verified official requirements are included yet."
-  },
-  "1_decide_what_support_you_need": {
-    "mn": "1. Хэрэгтэй тусламжаа тодорхойлох",
-    "en": "1. Decide what support you need"
-  },
-  "write_down_the_activity_you_want_support_with_you_do_not_need_to_": {
-    "mn": "Ямар ажил, үйлдэлд тусламж хэрэгтэйгээ бичээрэй. Лавлахаар хайхын тулд оношоо хэлэх шаардлагагүй.",
-    "en": "Write down the activity you want support with. You do not need to disclose a diagnosis to browse this directory."
-  },
-  "2_ask_the_provider": {
-    "mn": "2. Үйлчилгээ үзүүлэгчээс лавлах",
-    "en": "2. Ask the provider"
-  },
-  "you_could_ask_what_does_this_service_cost_which_documents_do_i_ne": {
-    "mn": "“Энэ үйлчилгээний зардал хэд вэ? Ямар баримт хэрэгтэй вэ? Бичгээр харилцаж болох уу? Очих зам, орцны талаар хэлж өгнө үү?” гэж асууж болно.",
-    "en": "You could ask: “What does this service cost? Which documents do I need? Can we communicate in writing? Could you describe the route and entrance?”"
-  },
-  "3_prepare_documents_safely": {
-    "mn": "3. Баримтаа аюулгүй бэлдэх",
-    "en": "3. Prepare documents safely"
-  },
-  "confirm_requirements_with_an_official_source_and_prepare_only_the": {
-    "mn": "Албан эх сурвалжаас шаардлагыг баталгаажуулж, зөвхөн шаардлагатай баримтыг бэлдээрэй. Энэ сайтад эмнэлгийн баримт, онош, регистрийн дугаар оруулахгүй.",
-    "en": "Confirm requirements with an official source and prepare only the documents requested. Do not enter medical records, diagnoses, or identity numbers on this site."
-  },
-  "find_a_service": {
-    "mn": "Үйлчилгээ хайх",
-    "en": "Find a service"
-  },
   "skip_to_main_content": {
     "mn": "Үндсэн агуулга руу алгасах",
     "en": "Skip to main content"
   },
-  "access_to_information_for_everyone": {
-    "mn": "Мэдээлэлд хүрэх эрх — хүн бүрд.",
-    "en": "Access to information, for everyone."
-  },
   "feedback": {
     "mn": "Санал хүсэлт",
     "en": "Feedback"
-  },
-  "ulaanbaatar_local_prototype": {
-    "mn": "Улаанбаатар · Туршилтын хувилбар",
-    "en": "Ulaanbaatar · Local prototype"
   },
   "page_not_found": {
     "mn": "Хуудас олдсонгүй",
@@ -321,65 +194,13 @@ export const translations = {
     "mn": "Үйлчилгээний лавлах",
     "en": "Service directory"
   },
-  "find_the_support": {
-    "mn": "Хэрэгтэй тусламжаа",
-    "en": "Find the support"
-  },
-  "you_need": {
-    "mn": "олоорой.",
-    "en": "you need."
-  },
-  "find_support_organisations_in_ulaanbaatar_by_need_and_office_loca": {
-    "mn": "Улаанбаатарын байгууллагыг хэрэгцээ, байршлаар хайгаарай.",
-    "en": "Find support organisations in Ulaanbaatar by need and office location."
-  },
-  "no_registration_no_diagnosis_or_personal_details_required": {
-    "mn": "Бүртгэл шаардахгүй. Онош, хувийн мэдээлэл асуухгүй.",
-    "en": "No registration. No diagnosis or personal details required."
-  },
-  "how_can_we_help": {
-    "mn": "Ямар дэмжлэг хэрэгтэй вэ?",
-    "en": "How can we help?"
-  },
-  "all_services": {
-    "mn": "Бүх үйлчилгээ",
-    "en": "All services"
-  },
-  "what_should_i_prepare": {
-    "mn": "Хандахаас өмнө юу бэлдэх вэ?",
-    "en": "What should I prepare?"
-  },
-  "search_term": {
-    "mn": "Хайх үг",
-    "en": "Search term"
-  },
-  "name_need_keyword": {
-    "mn": "Нэр, хэрэгцээ, түлхүүр үг",
-    "en": "Name, need, keyword"
-  },
-  "support_category": {
-    "mn": "Дэмжлэгийн чиглэл",
-    "en": "Support category"
-  },
-  "all_categories": {
-    "mn": "Бүх чиглэл",
-    "en": "All categories"
-  },
   "office_district": {
     "mn": "Байршил (дүүрэг)",
     "en": "Office district"
   },
-  "more_filters": {
-    "mn": "Нэмэлт шүүлтүүр",
-    "en": "More filters"
-  },
   "cost": {
     "mn": "Зардал",
     "en": "Cost"
-  },
-  "any_cost": {
-    "mn": "Бүгд",
-    "en": "Any cost"
   },
   "free": {
     "mn": "Үнэгүй",
@@ -397,61 +218,17 @@ export const translations = {
     "mn": "Хүртээмж",
     "en": "Accessibility"
   },
-  "only_shows_listings_with_the_selected_features_recorded_as_availa": {
-    "mn": "Зөвхөн тухайн нөхцөл нь баталгаатай гэж тэмдэглэсэн байгууллагыг харуулна. Тодорхойгүй нь хүртээмжгүй гэсэн үг биш.",
-    "en": "Only shows listings with the selected features recorded as available. Unknown does not mean inaccessible."
-  },
   "search": {
     "mn": "Хайх",
     "en": "Search"
-  },
-  "reset_filters": {
-    "mn": "Шүүлтүүр арилгах",
-    "en": "Reset filters"
-  },
-  "search_results": {
-    "mn": "Хайлтын үр дүн",
-    "en": "Search results"
-  },
-  "count_organisations": {
-    "mn": "{0} байгууллага",
-    "en": "{0} organisations"
   },
   "ulaanbaatar": {
     "mn": "Улаанбаатар",
     "en": "Ulaanbaatar"
   },
-  "no_matching_services": {
-    "mn": "Тохирох үйлчилгээ олдсонгүй",
-    "en": "No matching services"
-  },
-  "try_a_different_keyword_or_fewer_filters_this_directory_does_not_": {
-    "mn": "Өөр үг ашиглах эсвэл шүүлтүүрээ цөөлөөрэй. Лавлахад бүх байгууллага хараахан ороогүй.",
-    "en": "Try a different keyword or fewer filters. This directory does not include every provider."
-  },
-  "view_all_services": {
-    "mn": "Бүх үйлчилгээг харах",
-    "en": "View all services"
-  },
-  "who_is_it_for": {
-    "mn": "Хэнд зориулсан бэ?",
-    "en": "Who is it for?"
-  },
-  "what_should_i_prepare_2": {
-    "mn": "Юу бэлдэх вэ?",
-    "en": "What should I prepare?"
-  },
-  "how_to_get_started": {
-    "mn": "Хэрхэн хандах вэ?",
-    "en": "How to get started"
-  },
   "address": {
     "mn": "Хаяг",
     "en": "Address"
-  },
-  "report_incorrect_information": {
-    "mn": "Буруу мэдээлэл мэдэгдэх",
-    "en": "Report incorrect information"
   },
   "check_the_source_and_contact_details": {
     "mn": "Үйлчилгээний эх сурвалж, холбоо барих мэдээллийг шалгах",
@@ -549,18 +326,6 @@ export const translations = {
     "mn": "Тайлан бэлэн. Илгээгдээгүй, хадгалагдаагүй.",
     "en": "Report ready. Not submitted or saved."
   },
-  "unknown_ask_the_organisation": {
-    "mn": "Тодорхойгүй — байгууллагаас лавлана уу.",
-    "en": "Unknown — ask the organisation."
-  },
-  "back_to_directory_2": {
-    "mn": "Лавлах руу буцах",
-    "en": "Back to directory"
-  },
-  "contact_options": {
-    "mn": "Холбоо барих",
-    "en": "Contact options"
-  },
   "call": {
     "mn": "Залгах",
     "en": "Call"
@@ -569,25 +334,9 @@ export const translations = {
     "mn": "Цахим шуудан бичих",
     "en": "Email"
   },
-  "search_google_maps": {
-    "mn": "Google Maps-аас хайх",
-    "en": "Search Google Maps"
-  },
-  "no_confirmed_document_checklist_is_available_ask_when_you_contact": {
-    "mn": "Шаардлагатай баримтын баталгаатай жагсаалт оруулаагүй. Холбоо барихдаа асуугаарай.",
-    "en": "No confirmed document checklist is available. Ask when you contact the organisation."
-  },
-  "general_advice_not_official_application_requirements": {
-    "mn": "Ерөнхий зөвлөгөө — байгууллагын албан шаардлага биш.",
-    "en": "General advice — not official application requirements."
-  },
   "preparation_checklist": {
     "mn": "Бэлтгэлийн жагсаалт",
     "en": "Preparation checklist"
-  },
-  "entrance_lift_and_communication_support_have_not_been_confirmed_d": {
-    "mn": "Орц, лифт болон харилцааны дэмжлэгийг шууд баталгаажуулаагүй. Тодорхойгүй нь хүртээмжгүй гэсэн үг биш.",
-    "en": "Entrance, lift, and communication support have not been confirmed directly. Unknown does not mean inaccessible."
   },
   "available": {
     "mn": "Байгаа",
@@ -596,38 +345,6 @@ export const translations = {
   "unavailable": {
     "mn": "Байхгүй",
     "en": "Unavailable"
-  },
-  "location_and_hours": {
-    "mn": "Байршил, цаг",
-    "en": "Location and hours"
-  },
-  "office_district_2": {
-    "mn": "Байрлах дүүрэг",
-    "en": "Office district"
-  },
-  "published_opening_hours": {
-    "mn": "Нийтэлсэн ажиллах цаг",
-    "en": "Published opening hours"
-  },
-  "published_address": {
-    "mn": "Нийтэлсэн хаяг",
-    "en": "Published address"
-  },
-  "about_the_map_link": {
-    "mn": "Газрын зургийн тухай",
-    "en": "About the map link"
-  },
-  "searches_by_name_and_published_address_the_map_pin_and_an_accessi": {
-    "mn": "Нэр, нийтэлсэн хаягаар хайна. Байршлын цэг, хүртээмжтэй замыг баталгаажуулаагүй.",
-    "en": "Searches by name and published address. The map pin and an accessible route have not been verified."
-  },
-  "published_email": {
-    "mn": "Нийтэлсэн цахим шуудан",
-    "en": "Published email"
-  },
-  "information_status": {
-    "mn": "Мэдээллийн төлөв",
-    "en": "Information status"
   },
   "provider_confirmed": {
     "mn": "Байгууллага баталгаажуулсан",
@@ -640,22 +357,6 @@ export const translations = {
   "not_checked": {
     "mn": "Шалгаагүй",
     "en": "Not checked"
-  },
-  "source_reviewed": {
-    "mn": "Эх сурвалж уншсан огноо",
-    "en": "Source reviewed"
-  },
-  "direct_provider_confirmation": {
-    "mn": "Байгууллагаас шууд баталгаажуулсан эсэх",
-    "en": "Direct provider confirmation"
-  },
-  "not_yet_confirmed": {
-    "mn": "Одоогоор баталгаажуулаагүй",
-    "en": "Not yet confirmed"
-  },
-  "organisation_sources": {
-    "mn": "Байгууллагын эх сурвалж",
-    "en": "Organisation sources"
   },
   "about_this_information": {
     "mn": "Эх сурвалжийн мэдээлэл",

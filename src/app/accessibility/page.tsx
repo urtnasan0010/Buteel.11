@@ -1,12 +1,14 @@
+import { selectLanguage } from '@/shared/language';
 import Link from "next/link";
+import {n} from '@/shared/nationwide';
 import { t } from "@/shared/translations";
 
 export default async function Accessibility({
   searchParams,
 }: {
-  searchParams: Promise<{ lang?: string }>;
+  searchParams: Promise<{ lang?: string | string[] }>;
 }) {
-  const lang = (await searchParams).lang === "en" ? "en" : "mn";
+  const lang = selectLanguage((await searchParams).lang);
   return (
     <main id="main" className="content page reading">
       <Link className="breadcrumb" href={`/?lang=${lang}`}>
@@ -61,11 +63,11 @@ export default async function Accessibility({
         <h2>{t(lang, "reporting_a_barrier")}</h2>
         <p><strong>TODO [contact]</strong></p>
         <p>
-          {t(lang, "a_monitored_contact_address_has_not_been_configured_yet_you_can_p")}
+          {n(lang, 'reportHint')}
         </p>
         <p>{t(lang, "response_target")} <strong>TODO [response time]</strong>. {t(lang, "no_response_time_commitment_has_been_set")}</p>
-        <Link className="text-link" href={`/contact?lang=${lang}#feedback`}>
-          {t(lang, "prepare_a_copyable_report")}
+        <Link className="text-link" href={`/contact?lang=${lang}#report-problem`}>
+          {n(lang, 'report')}
         </Link>
       </section>
     </main>

@@ -1,0 +1,18 @@
+import { listContent } from '@/server/content';
+import { selectLanguage } from '@/shared/language';
+import { n } from '@/shared/nationwide';
+import { PublishedItem } from '@/server/components/published-content';
+import PrintButton from '@/client/components/print-button';
+import { notFound } from 'next/navigation';
+const steps = [
+  { mn: 'Юу болсныг бичиж тэмдэглэ.', en: 'Write down what happened.' }, { mn: 'Ямар эрх хамаарахыг эх сурвалжаас шалга.', en: 'Check which right applies using its source.' },
+  { mn: 'Тусламж хүс.', en: 'Ask for help.' }, { mn: 'Гомдлоо бичгээр гарга.', en: 'Complain in writing.' }, { mn: 'Хариуг лавлаж, явцыг тэмдэглэ.', en: 'Follow up and keep a record.' },
+];
+export default async function Rights({ params, searchParams }: { params: Promise<{ slug?: string[] }>; searchParams: Promise<{ lang?: string | string[] }> }) {
+  const slug = (await params).slug || []; if (slug.length && !['know','defend'].includes(slug.join('/'))) notFound();
+  const lang = selectLanguage((await searchParams).lang);
+  const [items,guidance]=await Promise.all([listContent('rights'),listContent('guides')]);
+  return <main id="main" className="content page reading"><h1>{n(lang, 'rights')}</h1><p className="note">{n(lang, 'legal')}</p>
+    {slug[0] !== 'defend' && <section id="know"><h2>{n(lang, 'know')}</h2>{items.map(item => <PublishedItem key={item.id} item={item} lang={lang} kind="rights" />)}{guidance.map(item=><PublishedItem key={item.id} item={item} lang={lang} kind="guides"/>)}{!items.length&&!guidance.length&&<p>{n(lang,'noItems')}</p>}</section>}
+    {slug[0] !== 'know' && <section id="defend"><h2>{n(lang, 'defend')}</h2><ol className="rights-steps">{steps.map((step, i) => <li key={i}>{step[lang]}</li>)}</ol><h3>{n(lang, 'contact')}</h3><p>{n(lang, 'todo')}</p><PrintButton lang={lang} /></section>}</main>;
+}

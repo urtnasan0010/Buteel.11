@@ -1,0 +1,138 @@
+import { z } from 'zod';
+import type { Lang, Text } from './data';
+
+export const regions: { id: string; name: Text }[] = [
+  { id: 'ulaanbaatar', name: { mn: 'Улаанбаатар', en: 'Ulaanbaatar' } },
+  { id: 'arkhangai', name: { mn: 'Архангай', en: 'Arkhangai' } },
+  { id: 'bayan-olgii', name: { mn: 'Баян-Өлгий', en: 'Bayan-Olgii' } },
+  { id: 'bayankhongor', name: { mn: 'Баянхонгор', en: 'Bayankhongor' } },
+  { id: 'bulgan', name: { mn: 'Булган', en: 'Bulgan' } },
+  { id: 'govi-altai', name: { mn: 'Говь-Алтай', en: 'Govi-Altai' } },
+  { id: 'govisumber', name: { mn: 'Говьсүмбэр', en: 'Govisumber' } },
+  { id: 'darkhan-uul', name: { mn: 'Дархан-Уул', en: 'Darkhan-Uul' } },
+  { id: 'dornogovi', name: { mn: 'Дорноговь', en: 'Dornogovi' } },
+  { id: 'dornod', name: { mn: 'Дорнод', en: 'Dornod' } },
+  { id: 'dundgovi', name: { mn: 'Дундговь', en: 'Dundgovi' } },
+  { id: 'zavkhan', name: { mn: 'Завхан', en: 'Zavkhan' } },
+  { id: 'orkhon', name: { mn: 'Орхон', en: 'Orkhon' } },
+  { id: 'ovorkhangai', name: { mn: 'Өвөрхангай', en: 'Ovorkhangai' } },
+  { id: 'omnogovi', name: { mn: 'Өмнөговь', en: 'Omnogovi' } },
+  { id: 'sukhbaatar', name: { mn: 'Сүхбаатар', en: 'Sukhbaatar' } },
+  { id: 'selenge', name: { mn: 'Сэлэнгэ', en: 'Selenge' } },
+  { id: 'tov', name: { mn: 'Төв', en: 'Tov' } },
+  { id: 'uvs', name: { mn: 'Увс', en: 'Uvs' } },
+  { id: 'khovd', name: { mn: 'Ховд', en: 'Khovd' } },
+  { id: 'khovsgol', name: { mn: 'Хөвсгөл', en: 'Khovsgol' } },
+  { id: 'khentii', name: { mn: 'Хэнтий', en: 'Khentii' } },
+];
+
+export const copy = {
+  sources: {mn:'Эх сурвалжууд',en:'Sources'},
+  confidence: {mn:'Эх сурвалжийн нотолгооны түвшин',en:'Source evidence confidence'},
+  high: {mn:'Өндөр',en:'High'}, medium: {mn:'Дунд',en:'Medium'}, low: {mn:'Бага',en:'Low'},
+  address: {mn:'Хаяг',en:'Address'}, hours: {mn:'Ажиллах цаг',en:'Hours'},
+  eligibility: {mn:'Хэнд хамаарах вэ?',en:'Eligibility'}, howToApply: {mn:'Хэрхэн хандах вэ?',en:'How to apply'},
+  focus: {mn:'Хамрах хүрээ',en:'Focus'},
+  notContactTested: {mn:'Холбоо барих мэдээллийг утсаар туршиж баталгаажуулаагүй. Үйлчилгээ, цаг, төлбөр, хүртээмжийг урьдчилан лавлаарай.',en:'Contacts have not been telephone-tested. Confirm services, hours, fees and accessibility before visiting.'},
+  descriptiveEnglish: {mn:'Англи нэр нь тайлбарлах орчуулга; албан ёсны англи нэр гэж баталгаажуулаагүй.',en:'The English name is a descriptive translation, not a confirmed official English name.'},
+  siteInfo: { mn: 'Сайтын тухай', en: 'About this site' },
+  helping: { mn: 'Хэрхэн туслах вэ?', en: 'How to help' },
+  researchRecord: { mn: 'Судалгааны эх мэдээлэл', en: 'Original research record' },
+  researchReview: { mn: 'Зөвхөн админд харагдана. Эх мэдээллийг өөрчлөхгүйгээр орчуулга, эх сурвалж, огноог хянаарай.', en: 'Visible only to admins. Review translations, sources and dates against the unchanged original record.' },
+  homeShort: { mn: 'Монгол орны дэмжлэг, хүртээмж, эрхийн мэдээллийг нэг дороос олоорой.', en: 'Find disability support, accessibility and rights information across Mongolia.' },
+  understandCard: { mn: 'Хөгжлийн бэрхшээл, хүндэтгэлтэй харилцаа, түгээмэл ташаа ойлголтын талаар уншаарай.', en: 'Learn about disabilities, respectful language and common misconceptions.' },
+  helpCard: { mn: 'Орон нутгийн байгууллага, тусламжийн зөвлөмж, хэвлэх бэлтгэлийн жагсаалтыг олоорой.', en: 'Find local organisations, practical guidance and printable checklists.' },
+  rightsCard: { mn: 'Эрхийн эх сурвалж болон эрхээ хамгаалах таван алхамтай танилцаарай.', en: 'Explore rights sources and five steps for defending your rights.' },
+  disclaimer: { mn: 'Анхааруулга', en: 'Disclaimer' },
+  reportLink: { mn: 'Алдаа мэдээлэх', en: 'Report an error' },
+  brand: { mn: 'Хүртээмж', en: 'Hurteemj' },
+  understand: { mn: 'Ойлгох', en: 'Understand' }, help: { mn: 'Тусламж', en: 'Help' }, rights: { mn: 'Эрх', en: 'Rights' },
+  directory: { mn: 'Байгууллага хайх', en: 'Find an organisation' },
+  homeTitle: { mn: 'Мэдээлэл хүн бүрд хүртээмжтэй.', en: 'Information within everyone’s reach.' },
+  homeIntro: { mn: 'Монгол орны аль ч газраас дэмжлэг, ойлгомжтой мэдээлэл, эрхийн тухай эх сурвалжийг хайгаарай. Бүртгэл шаардлагагүй.', en: 'Find support, plain-language information and rights sources across Mongolia. No account needed.' },
+  region: { mn: 'Аймаг эсвэл Улаанбаатар', en: 'Aimag or Ulaanbaatar' },
+  allRegions: { mn: 'Бүх бүс нутаг', en: 'All regions' }, area: { mn: 'Дүүрэг эсвэл сум', en: 'District or soum' },
+  areaHint: { mn: 'Сонгосон аймаг, хотын дүүрэг эсвэл сумын нэр', en: 'District or soum name within your selected region' },
+  nationwide: { mn: 'Улс даяар / цахимаар', en: 'Nationwide / online' },
+  search: { mn: 'Хайх', en: 'Search' }, query: { mn: 'Түлхүүр үг', en: 'Keyword' },
+  empty: { mn: 'Энэ бүсэд баталгаажсан байгууллага хараахан бүртгэгдээгүй.', en: 'No verified organisation listed yet for this area.' },
+  nationalOptions: { mn: 'Улс даяарх болон цахим сонголтууд', en: 'National and online options' },
+  suggest: { mn: 'Байгууллага санал болгох', en: 'Suggest an organisation' },
+  source: { mn: 'Эх сурвалж', en: 'Source' }, review: { mn: 'Шалгасан огноо', en: 'Review date' },
+  remote: { mn: 'Зайнаас үйлчилдэг эсэх', en: 'Serves people remotely' },
+  yes: { mn: 'Тийм', en: 'Yes' }, no: { mn: 'Үгүй', en: 'No' }, unknown: { mn: 'Тодорхойгүй', en: 'Unknown' },
+  confirmed: { mn: 'Баталгаажсан', en: 'Confirmed' },
+  guides: { mn: 'Зөвлөмж ба бэлтгэлийн жагсаалт', en: 'Guides and checklists' },
+  askFirst: { mn: 'Туслахын өмнө асуу. Тухайн хүний сонголт, хувийн орон зайг хүндэтгээрэй.', en: 'Ask before helping. Respect the person’s choices and personal space.' },
+  legal: { mn: 'Энэ нь ерөнхий мэдээлэл бөгөөд хууль зүйн зөвлөгөө биш.', en: 'This is general information, not legal advice.' },
+  know: { mn: 'Эрхээ мэдэх', en: 'Know your rights' }, defend: { mn: 'Эрхээ хамгаалах', en: 'Defend your rights' },
+  law: { mn: 'Хуулийн нэр', en: 'Law name' }, article: { mn: 'Зүйл, заалт', en: 'Article number' },
+  revised: { mn: 'Хуулийн шинэчлэлийн төлөв', en: 'Law revision status' },
+  contact: { mn: 'Хэнд хандах вэ?', en: 'Who to contact' },
+  todo: { mn: 'TODO [source needed]', en: 'TODO [source needed]' },
+  report: { mn: 'Асуудал мэдээлэх', en: 'Report a problem' },
+  message: { mn: 'Мэдээлэл эсвэл санал', en: 'Problem or suggestion' },
+  reportHint: { mn: 'Онош, регистрийн дугаар болон эмзэг хувийн мэдээлэл бүү оруулаарай.', en: 'Do not include diagnoses, identity numbers or sensitive personal information.' },
+  send: { mn: 'Илгээх', en: 'Send' }, sent: { mn: 'Мэдээллийг хүлээн авлаа.', en: 'Your report was received.' },
+  failed: { mn: 'Үйлдэл амжилтгүй. Мэдээллээ шалгаад дахин оролдоно уу.', en: 'The action failed. Check your information and try again.' },
+  wait: { mn: 'Түр хүлээгээд дахин оролдоно уу.', en: 'Please wait before trying again.' },
+  print: { mn: 'Хэвлэх', en: 'Print' }, admin: { mn: 'Удирдлага', en: 'Administration' },
+  login: { mn: 'Админ нэвтрэх', en: 'Admin sign in' }, email: { mn: 'Цахим шуудан', en: 'Email' },
+  password: { mn: 'Нууц үг', en: 'Password' }, signOut: { mn: 'Гарах', en: 'Sign out' },
+  resetPassword: { mn: 'Нууц үг тохируулах / сэргээх', en: 'Set or reset password' },
+  resetSent: { mn: 'Бүртгэл байгаа бол сэргээх заавар цахим шуудангаар очно.', en: 'If an account exists, password instructions will be emailed.' },
+  resetCode: { mn: 'Цахим шуудангаар ирсэн код', en: 'Code from your email' },
+  resetCodeHint: { mn: 'Ирсэн шуудан болон спам хавтсаа шалгаад код болон шинэ нууц үгээ оруулна уу. Кодоо бусдад бүү дамжуулаарай.', en: 'Check your inbox and spam folder, then enter the code and a new password. Do not share your code.' },
+  resetFailed: { mn: 'Код илгээж чадсангүй. Цахим шуудангаа шалгаад дахин оролдоно уу.', en: 'Could not send the code. Check your email address and try again.' },
+  passwordHint: { mn: 'Нууц үг хамгийн багадаа 12 тэмдэгт байна.', en: 'Use at least 12 characters.' },
+  ownerOnly: { mn: 'Зөвхөн эзэмшигчийн үүсгэсэн админ бүртгэлээр нэвтэрнэ. Нийтийн бүртгэл байхгүй.', en: 'Only owner-created admin accounts may sign in. There is no public registration.' },
+  denied: { mn: 'Админ эрх шаардлагатай.', en: 'Admin permission is required.' },
+  create: { mn: 'Шинээр үүсгэх', en: 'Create item' }, save: { mn: 'Хадгалах', en: 'Save' },
+  edit: { mn: 'Засах', en: 'Edit' },
+  remove: { mn: 'Устгах', en: 'Delete' }, cancel: { mn: 'Болих', en: 'Cancel' },
+  removeConfirm: { mn: 'Энэ мэдээллийг устгах уу?', en: 'Delete this item?' },
+  title: { mn: 'Гарчиг / нэр', en: 'Title / name' }, body: { mn: 'Тайлбар / агуулга', en: 'Description / content' },
+  organisations: { mn: 'Байгууллагууд', en: 'Organisations' }, reports: { mn: 'Ирсэн мэдээллүүд', en: 'Reports' },
+  draft: { mn: 'Ноорог', en: 'Draft' }, published: { mn: 'Нийтлэгдсэн', en: 'Published' },
+  publishState: { mn: 'Нийтлэх төлөв', en: 'Publish state' }, status: { mn: 'Баталгаажуулалт', en: 'Verification' },
+  resolved: { mn: 'Шийдвэрлэсэн', en: 'Resolved' }, resolve: { mn: 'Шийдвэрлэсэн гэж тэмдэглэх', en: 'Mark resolved' },
+  noItems: { mn: 'Нийтлэгдсэн мэдээлэл хараахан алга.', en: 'No published items yet.' },
+  checklist: { mn: 'Бэлтгэлийн жагсаалт', en: 'Preparation checklist' },
+  unavailable: { mn: 'Мэдээллийг ачаалж чадсангүй. Дараа дахин оролдоно уу.', en: 'Could not load information. Please try again later.' },
+  publicationRule: { mn: 'Нийтлэхэд эх сурвалж, шалгасан огноо шаардлагатай. TODO мэдээллийг нийтлэхгүй.', en: 'Publishing requires a source and review date. TODO content cannot be published.' },
+  textLines: { mn: 'Нэг мөрөнд нэг алхам', en: 'One step per line' },
+  website: { mn: 'Цахим хуудас', en: 'Website' }, phone: { mn: 'Утас', en: 'Phone' },
+} satisfies Record<string, Text>;
+export const n = (lang: Lang, key: keyof typeof copy) => copy[key][lang];
+
+const plain = z.string().trim().max(12000).refine(v => !/[<>\u0000-\u0008\u000b\u000c\u000e-\u001f]/u.test(v), 'Use plain text');
+export const pair = z.object({ mn: plain, en: plain }).strict();
+const url = z.string().trim().max(2000).refine(v => {
+  if (!v) return true;
+  try { const u = new URL(v); return ['https:', 'http:'].includes(u.protocol) && !u.username && !u.password; } catch { return false; }
+}, 'Invalid URL');
+const date = z.string().refine(v => !v || /^\d{4}-\d{2}-\d{2}$/.test(v) && !Number.isNaN(Date.parse(v)) && new Date(v).toISOString().slice(0, 10) === v, 'Invalid date');
+export const itemSchema = z.object({
+  title: pair, body: pair, region: z.enum(['', ...regions.map(r => r.id)]), localArea: pair,
+  nationwide: z.boolean(), remote: z.enum(['yes', 'no', 'unknown']), source: url, reviewDate: date,
+  status: z.enum(['confirmed', 'unknown']), publishState: z.enum(['draft', 'published']),
+  confidence: z.enum(['high','medium','low']).nullable().default(null),
+  lawName: pair, article: pair, revision: pair, checklist: pair, contact: pair,
+  website: url, phone: z.string().trim().max(40).refine(v => !v || /^\+?[\d ()-]{3,30}$/.test(v)),
+  email: z.union([z.literal(''), z.email().max(254)]),
+}).strict().superRefine((v, ctx) => {
+  if (v.publishState === 'published') {
+    if (!v.source || !v.reviewDate) ctx.addIssue({ code: 'custom', message: 'Source and review date required' });
+    for (const text of [v.title, v.body]) if (!text.mn || !text.en || /TODO/i.test(text.mn + text.en)) ctx.addIssue({ code: 'custom', message: 'Both languages and verified content required' });
+  }
+});
+export type ItemInput = z.infer<typeof itemSchema>;
+export type PublicationInfo = {sources:string[];phones:string[];emails:string[];address:Text;hours:Text;eligibility:Text;howToApply:Text;focus:Text;contactTested:boolean;research:boolean};
+export type Item = ItemInput & { id: string; createdAt: string; updatedAt: string; publicationInfo?:PublicationInfo };
+export const kinds = ['organisations', 'rights', 'guides'] as const;
+export type Kind = typeof kinds[number];
+export function isKind(value: string): value is Kind { return (kinds as readonly string[]).includes(value); }
+export function emptyItem(): ItemInput {
+  const p = () => ({ mn: '', en: '' });
+  return { title: p(), body: p(), region: '', localArea: p(), nationwide: false, remote: 'unknown', source: '', reviewDate: '', status: 'unknown', publishState: 'draft', confidence:null, lawName: p(), article: p(), revision: p(), checklist: p(), contact: p(), website: '', phone: '', email: '' };
+}

@@ -1,50 +1,97 @@
-﻿# Хүртээмж
+# Хүртээмж
 
-Local bilingual support directory with three real organisations, based on their own published information. Contact details and source-review dates are available on each listing. These records are source checked, not directly provider confirmed. Unknown costs, requirements, and accessibility remain unknown. No database or account is required. See [SOURCES.md](SOURCES.md) for evidence and limitations.
+Disability support and rights across Mongolia. Mongolian is primary; English is secondary. No visitor account is needed. Public content queries select published items only. Missing legal and contact information remains TODO [source needed].
 
 ## Run
 
-Next.js routes stay in `src/app`. Supporting code uses client/server/shared folders; see [STRUCTURE.md](STRUCTURE.md). Edit interface text in `src/shared/translations.ts`; organisation facts and evidence remain in `src/shared/listings.ts`.
-
-Requires Node.js 20.9+ and npm.
+Use Node.js 24. Keep credentials in the ignored .env file; variable names are in .env.example.
 
 ```sh
-npm install
+npm ci
 npm run dev
+npm run lint
+npm run build
+npm start
 ```
 
-Open http://127.0.0.1:3000. For production locally, run `npm run build` then `npm start`.
+## Data and content
 
-## Validate
+Neon Postgres tables: organisations, rights, guides, reports. Editorial records store paired mn/en title, body, local area, law name, article, revision, checklist and contact text. URLs, identifiers, contact addresses, timestamps and enum values are language-neutral. Reports retain the original message in its submitted-language field; the other language is empty rather than a fabricated translation.
+
+All 21 aimags and Ulaanbaatar remain selectable even with no records. District/soum matching is scoped to the selected region. Nationwide/online options are separate. Remote service is yes/no/unknown. Source and review date are required for publication in validation and database constraints. Rights also require an official HTTPS law source, bilingual law name and article. Unknown contact instructions remain TODO until an admin confirms them.
 
 ```sh
-npm run lint
-npm run typecheck
-npm test
-npm run build
-npm run test:browser
-npm run test:a11y
+npm run db:migrate
+node --env-file=.env scripts/import-existing.mjs
 ```
 
-Browser checks use installed Microsoft Edge through Playwright, including axe accessibility checks. Change the channel in playwright.config.ts and install Chromium with `npx playwright install chromium` if Edge is unavailable. Browser tests require the production build. Automated tests are not a guarantee of WCAG conformance or a substitute for assistive-technology user testing.
+Migrations are versioned under db/. The existing three organisation records were imported as drafts, retaining their original sources/dates and full original record in legacy_record. No claim of direct provider confirmation was added. The original source registries remain available for editorial reference; the directory now reads from Postgres. Import is idempotent and never overwrites existing database records.
 
-See [ACCESSIBILITY_AUDIT.md](ACCESSIBILITY_AUDIT.md) for baseline results, fixes, bilingual audit coverage and explicit limits. The statement retains visible TODOs for its final date, known limits, contact and response target. `test:a11y` runs the focused accessibility suite; `test:browser` includes it along with the existing flows.
+## Public pages
 
-## Content replacement
+The four main pages are Home, Understand, Help and Rights. Help contains the organisation directory, guides, printable checklist and report form. Understand topics open inline. Privacy, disclaimer and accessibility information open within Home. Older public URLs redirect to the matching section; admin/auth and API routes remain separate.
 
-Sourced general-content claims live in `src/shared/claims.ts`, separate from directory records. `CLAIMS_REVIEW.md` explains source checks and why claims 1, 2 and 13 remain TODO-only. Published claims have bilingual attributed text, confidence, per-source title/language/type/access, and an editorial review date. `CONTENT_REVIEW.md` tracks native-speaker, disabled-person and legal/process review; the dates are not legal sign-off. `OUTREACH_LEADS.md` is internal and must not be linked from or imported into the site. No contact details are supplied for those leads.
+After owner approval, 55 research organisations and 11 support guides were translated and published. All 21 aimags have a published branch listing. Twelve incomplete organisation records and twelve law-level records remain private drafts; the three original organisation records were not modified. Source URLs, original review dates, raw records and legacy records were preserved. Published entries show all research source links and distinguish source confidence from direct provider confirmation. Contacts have not been telephone-tested. Rights also shows published support and entitlement guides; incomplete law-level records are not exposed. Admins can review original research through the authenticated admin API.
 
-Edit `src/shared/listings.ts`; types and filtering live in `src/shared/data.ts`. Each listing has bilingual content, contacts, office district, cost, accessibility, sources with field coverage, review dates, and a separate direct-confirmation date. Unknown fields must remain `null`; never convert missing accessibility information to false. A filter only matches features explicitly true. Preserve both languages.
+## Owner-controlled administration
 
-When adding a listing, record its first-party source and the fields it supports. Reading a web page supports `source-checked`; only direct confirmation supports `provider-confirmed` and its date. Do not infer opening hours, eligibility, costs, documents, or accessible features. Guides and contact steps are general advice. District means office location, not service eligibility. Home shows categories with entries; the remaining categories stay searchable as the directory grows. Google Maps links search published names/addresses; they are not verified pins or accessible directions and require no API key.
+/admin/login uses managed Neon Auth. Public email sign-up is disabled at Neon; the default Google sign-up provider is removed. The application proxies only email sign-in, sign-out, session and password reset endpoints. Every admin API read and write checks both a verified Neon session and the database admin_accounts allowlist. A logged-in non-admin has no editorial permission.
 
-## Privacy and feedback
+Create an account as owner using Neon Console, or the authenticated owner CLI:
 
-The main navigation is Find support, Understand, Help and Reach. New general-guidance pages use `src/shared/content-pages.ts`, bilingual keys in `src/shared/translations.ts`, and the reusable server content template. The home audience chooser is ordinary links; no selection is stored. Existing directory and information URLs remain available. See [CONTENT_REVIEW.md](CONTENT_REVIEW.md) for every page awaiting native Mongolian and disabled-person review. All new guidance carries source and review-date TODOs; rights/legal duties await supplied official sources and the voices page awaits consent. Print buttons use browser printing, not whole-site offline caching.
+```sh
+neon neon-auth user create --email YOUR_EMAIL --name OWNER_NAME
+npm run admin:grant -- USER_ID
+```
 
-The footer links to `/how-it-works`, `/privacy`, `/contact`, and `/for-organisations` in both languages. The contact page is the main correction-report destination; the existing about-page form remains available for older links. Contact delivery, multiple directory contact channels and a regular review operation are explicitly not configured. No emergency directory or unverified helpline numbers were added. Offline checklists, system dark-mode support and future rights/easy-read/glossary/sign-language content remain separate follow-up work; this change does not claim them as delivered.
+Then use Set or reset password on /admin/login. No password is embedded in the app. The first owner account has been created and granted admin access. Removing its admin_accounts row revokes editorial access. Account provisioning and permission grants are not exposed through public HTTP APIs.
 
-The public `/accessibility` page describes completed checks and outstanding testing in both languages. Follow [ACCESSIBILITY_TEST_PLAN.md](ACCESSIBILITY_TEST_PLAN.md) for keyboard, NVDA, VoiceOver, real-user sessions, listing review and launch preparation. Correction delivery is intentionally deferred by the owner; no monitored address, reviewer, or response-time commitment has been set. The provider outreach message is only a draft and has not been sent.
+Managed Neon Auth's documented/plugin-supported feature set does not currently include two-factor authentication, so it is not enabled or claimed. Password reset revokes existing sessions. Set APP_ORIGIN to the actual HTTPS origin before hosting. Authentication is managed by Neon; the website itself has not been deployed.
 
-Search and filters are stored in shareable GET URLs. Do not enter sensitive personal information. Feedback is kept only in page memory; the form makes a copyable report and never claims delivery. Clipboard failure offers manual copying. Checklists last while their page is open and can be printed with the browser print dialog. No analytics, external fonts, large assets, login, payment, or public deployment is included.
+## Public reports
+
+The footer opens the report form within Help; /contact redirects there. The form writes to reports. Only admins can read/resolve reports. Protection includes same-origin JSON requests, input limits, plain text, honeypot, signed timed one-use tokens, HTTP-only SameSite cookie, and atomic database limits: three reports per session per 15 minutes and 100 total per hour. The global cap protects against session-cookie resets; it can temporarily limit legitimate reports during abuse. No IP addresses or personal identifiers are collected for throttling. Reports are stored, not sent to an external email service.
+
+## Verification
+
+No test files are retained or created, as requested. The previous test suites, test configuration, dependencies and test workflow were removed. CI now runs lint, type generation, typecheck and build.
+
+Completed inline/manual checks: migration on an isolated expiring Neon branch; missing-source/review publication rejected for all three content tables; empty-region and draft isolation; signed-out admin redirects; public admin reads/writes/deletes denied; signup endpoint blocked; live report persistence, honeypot and rate limiting. Temporary verification rows were removed. Signed-in owner CRUD and report resolution still require owner verification and are not claimed as verified.
+
+The site uses system fonts, no heavy media, and printable guides/checklists. Browser print is local. Native Mongolian wording, real-user accessibility, and factual/legal source confirmation remain editorial review tasks.
+
+## Original organisation evidence
+
+The following source notes are preserved from the earlier directory. Their recorded review dates are historical evidence, not current provider confirmation.
+
+<a id="sources"></a>
+
+## Organisation sources
+
+# Listing sources — reviewed 2026-11-14
+
+The three listings are real organisations, replacing the fictional prototype dataset. The review date records when the online source was read; it is not the date a provider confirmed the facts. No phone calls, emails, site visits, or live appointment checks were made. English summaries and address transliterations are editorial translations. Website pages may be undated or outdated.
+
+| Listing                                                | First-party source                                       | Facts supported                                                                                |
+| ------------------------------------------------------ | -------------------------------------------------------- | ---------------------------------------------------------------------------------------------- |
+| Employment Support Centre for People with Disabilities | https://dmart.mn/contact-us/                             | Name, enquiry route, office district/address, phone, email, published opening hours            |
+| Mongolian National Federation of the Blind             | https://mnfb.mn/mn/about and https://mnfb.mn/mn/programs | Name, purpose/audience, education and accessible-book programmes, office address, phone, email |
+| Association of Parents with Differently-abled Children | https://apdc.mn/байгууллагын-товч-мэдээлэл-4/            | Name, parent information/peer-support focus, office address, phone, email                      |
+
+Some older third-party directories and historical documents contain different addresses or phone numbers. Those were not merged into these records. For APDC, use its organisation-overview page, not the historical address in its 2016 constitution. For MNFB, use its current first-party contact details rather than older directory entries. Prefer direct provider confirmation before relying on a visit.
+
+## Information boundaries
+
+- Costs, document requirements, physical access and dedicated communication accommodations remain unknown. Publishing an email address alone does not confirm an accessibility accommodation.
+- Audience text describes a provider’s focus, not a guaranteed entitlement or verified enrolment rule. General contact steps are advice, not a provider’s official application process.
+- District describes the published office location. It does not restrict eligible residents or claim a service area. The directory is intentionally incomplete.
+- Google Maps links are name/address searches under [Google’s Maps URL documentation](https://developers.google.com/maps/documentation/urls/get-started). No precise pin, accessible route, Places data feed, or Google listing was verified. The website does not load a map or request geolocation.
+
+## Updating
+
+Edit `src/shared/listings.ts`; `Service` and `SourceRecord` types live in `src/shared/data.ts`. Every published fact must have a source record listing the fields it supports and its own review date. Leave absent facts null and missing document lists empty. Use `source-checked` after reading the source. Only use `provider-confirmed` with a recorded direct-confirmation date and evidence; never promote a listing just because it appears on Google Maps. Keep `lastChecked` consistent with the latest full source review. Recheck contact details and page changes manually before updating a date.
+
+
+
+---
 
