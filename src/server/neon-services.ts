@@ -39,10 +39,10 @@ export function getStorage(): S3Client {
 export async function checkNeonServices() {
   const [postgres, objectStorage] = await Promise.allSettled([
     Promise.resolve().then(async () => {
-      const result = await getDatabase().query<{ connected: boolean }>('SELECT 1 = 1 AS connected');
-      if (result.rows[0]?.connected !== true) throw new Error('Database probe failed');
+      // Verify the feed schema as well as the connection, without reading post data.
+      await getDatabase().query('SELECT id FROM home_posts LIMIT 0');
     }),
-    Promise.resolve().then(() => getStorage().send(new HeadBucketCommand({ Bucket: 'assets' }))),
+    Promise.resolve().then(() => getStorage().send(new HeadBucketCommand({ Bucket: 'assets' }), { abortSignal: AbortSignal.timeout(5000) })),
   ]);
   return {
     postgres: postgres.status === 'fulfilled',

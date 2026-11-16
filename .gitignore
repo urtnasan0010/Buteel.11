@@ -11,3 +11,4 @@ coverage/
 reports/
 .stryker-tmp/
 .neon
+artifacts/

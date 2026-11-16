@@ -1,5 +1,0 @@
-import Link from 'next/link';
-import { selectLanguage } from '@/shared/language';
-import { n } from '@/shared/nationwide';
-const text={title:{mn:'Хэрхэн ашиглах вэ?',en:'How it works'},body:{mn:'Аймаг эсвэл Улаанбаатарыг сонгож, дүүрэг эсвэл сумаар хайлтаа нарийсгана. Улс даяар эсвэл цахимаар үйлчилгээ авах сонголтыг мөн шалгаарай. Эх сурвалж, шалгасан огноо, баталгаажуулалтын төлөвийг уншина. Мэдээлэл тодорхойгүй бол баталгаатай гэж бүү үзээрэй.',en:'Choose an aimag or Ulaanbaatar, then narrow your search by district or soum. Check national and online options too. Read the source, review date and verification status. Do not treat unknown information as confirmed.'}};
-export default async function How({searchParams}:{searchParams:Promise<{lang?:string|string[]}>}){const lang=selectLanguage((await searchParams).lang);return <main id="main" className="content page reading"><h1>{text.title[lang]}</h1><p>{text.body[lang]}</p><Link href={`/services?lang=${lang}`}>{n(lang,'directory')}</Link><p>{n(lang,'legal')}</p></main>;}

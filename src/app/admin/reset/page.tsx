@@ -1,4 +1,4 @@
-import { ResetPassword } from '@/client/components/admin-console';
+import { ResetPassword } from '@/client/components/admin-auth';
 import { selectLanguage } from '@/shared/language';
 import { n } from '@/shared/nationwide';
 export default async function Reset({searchParams}:{searchParams:Promise<{lang?:string|string[];token?:string|string[]}>}) {

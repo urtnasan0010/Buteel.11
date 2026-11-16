@@ -1,4 +1,4 @@
-import { AdminLogin } from '@/client/components/admin-console';
+import { AdminLogin } from '@/client/components/admin-auth';
 import { n } from '@/shared/nationwide';
 import { selectLanguage } from '@/shared/language';
 export default async function Login({ searchParams }: { searchParams: Promise<{ lang?: string | string[] }> }) {

@@ -1,5 +1,3 @@
-import { z } from 'zod';
-import { disabilityCategorySchema } from './disability-categories.ts';
 import type { Lang, Text } from './data';
 
 export const regions: { id: string; name: Text }[] = [
@@ -122,36 +120,3 @@ export const copy = {
   website: { mn: 'Цахим хуудас', en: 'Website' }, phone: { mn: 'Утас', en: 'Phone' },
 } satisfies Record<string, Text>;
 export const n = (lang: Lang, key: keyof typeof copy) => copy[key][lang];
-
-const plain = z.string().trim().max(12000).refine(v => !/[<>\u0000-\u0008\u000b\u000c\u000e-\u001f]/u.test(v), 'Use plain text');
-export const pair = z.object({ mn: plain, en: plain }).strict();
-const url = z.string().trim().max(2000).refine(v => {
-  if (!v) return true;
-  try { const u = new URL(v); return ['https:', 'http:'].includes(u.protocol) && !u.username && !u.password; } catch { return false; }
-}, 'Invalid URL');
-const date = z.string().refine(v => !v || /^\d{4}-\d{2}-\d{2}$/.test(v) && !Number.isNaN(Date.parse(v)) && new Date(v).toISOString().slice(0, 10) === v, 'Invalid date');
-export const itemSchema = z.object({
-  title: pair, body: pair, region: z.enum(['', ...regions.map(r => r.id)]), localArea: pair,
-  nationwide: z.boolean(), remote: z.enum(['yes', 'no', 'unknown']), source: url, reviewDate: date,
-  status: z.enum(['confirmed', 'unknown']), publishState: z.enum(['draft', 'published']),
-  confidence: z.enum(['high','medium','low']).nullable().default(null),
-  disabilityCategory:disabilityCategorySchema.nullable().optional(),
-  lawName: pair, article: pair, revision: pair, checklist: pair, contact: pair,
-  website: url, phone: z.string().trim().max(40).refine(v => !v || /^\+?[\d ()-]{3,30}$/.test(v)),
-  email: z.union([z.literal(''), z.email().max(254)]),
-}).strict().superRefine((v, ctx) => {
-  if (v.publishState === 'published') {
-    if (!v.source || !v.reviewDate) ctx.addIssue({ code: 'custom', message: 'Source and review date required' });
-    for (const text of [v.title, v.body]) if (!text.mn || !text.en || /TODO/i.test(text.mn + text.en)) ctx.addIssue({ code: 'custom', message: 'Both languages and verified content required' });
-  }
-});
-export type ItemInput = z.infer<typeof itemSchema>;
-export type PublicationInfo = {sources:string[];phones:string[];emails:string[];address:Text;hours:Text;eligibility:Text;howToApply:Text;focus:Text;contactTested:boolean;research:boolean;category?:string};
-export type Item = ItemInput & { id: string; createdAt: string; updatedAt: string; publicationInfo?:PublicationInfo };
-export const kinds = ['organisations', 'rights', 'guides'] as const;
-export type Kind = typeof kinds[number];
-export function isKind(value: string): value is Kind { return (kinds as readonly string[]).includes(value); }
-export function emptyItem(): ItemInput {
-  const p = () => ({ mn: '', en: '' });
-  return { title: p(), body: p(), region: '', localArea: p(), nationwide: false, remote: 'unknown', source: '', reviewDate: '', status: 'unknown', publishState: 'draft', confidence:null, lawName: p(), article: p(), revision: p(), checklist: p(), contact: p(), website: '', phone: '', email: '' };
-}

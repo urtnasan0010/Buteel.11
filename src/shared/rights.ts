@@ -1,0 +1,295 @@
+import type { Text } from './data';
+
+const text = (mn: string, en: string): Text => ({ mn, en });
+export const rightsAsOf = '2026-11-16';
+export type Verification = 'VERIFIED' | 'UNVERIFIED';
+export type RightsSource = {
+  title: Text; url: string; verification: Verification;
+  checkedOn: string | null; attemptedOn: string;
+  publishedOn: string | null; updatedOn: string | null; scope: Text;
+};
+// A successful check covers the described scope, never the entire amendment history.
+const checked = (title: Text, url: string, scope: Text, publishedOn: string | null = null): RightsSource => ({
+  title, url, scope, verification: 'VERIFIED', checkedOn: rightsAsOf, attemptedOn: rightsAsOf, publishedOn, updatedOn: null,
+});
+const pending = (title: Text, url: string): RightsSource => ({
+  title, url, verification: 'UNVERIFIED', checkedOn: null, attemptedOn: rightsAsOf,
+  publishedOn: null, updatedOn: null,
+  scope: text('Хавсаргасан судалгааны холбоос. Энэ удаа бүрэн эхийг дахин нээж баталгаажуулж чадсангүй.', 'Link from the supplied research. The full text could not be reopened and verified in this check.'),
+});
+export const rightsSources = {
+  disability: pending(text('Хөгжлийн бэрхшээлтэй хүний эрхийн тухай — Legalinfo', 'Law on the Rights of Persons with Disabilities — Legalinfo'), 'https://legalinfo.mn/mn/detail?lawId=11711'),
+  disabilityEnglish: checked(text('Яамны 2019 оны англи эмхэтгэл — хуулийн хавсралт', 'Ministry’s 2019 English white paper — appended law'), 'https://www.mlsp.gov.mn/uploads/files/bc4a1c5724eec9fdea2676f9324ed621ab239435.pdf', text('4, 6 дугаар зүйлийн түүхэн англи хуулбар. 2026 оны нэгтгэсэн хүчинтэй эх гэж үзэхгүй.', 'Historical English copy of articles 4 and 6. Not a consolidated 2026 text.')),
+  disabilityAmendment: checked(text('УИХ — хуулийн өөрчлөлтийн бүртгэл', 'Parliament — disability law amendment listing'), 'https://old.parliament.mn/laws/17328/', text('Өөрчлөлтийн хууль бүртгэгдсэнийг шалгасан. Татах DOCX-ийн агуулга, огноо, бүх өөрчлөлтийн түүхийг батлаагүй.', 'An amendment listing was checked. The downloadable DOCX, its date and the complete amendment history were not verified.')),
+  convention: checked(text('НҮБ — Хөгжлийн бэрхшээлтэй хүмүүсийн эрхийн тухай конвенц', 'UN — Convention on the Rights of Persons with Disabilities'), 'https://treaties.un.org/doc/Publication/CTC/Ch_IV_15.pdf', text('Конвенцийн эрх, холбогдох зүйлүүд. Англи болон бусад НҮБ-ын албан хэлээр.', 'Treaty rights and cited articles, in English and other UN official languages.')),
+  protocol: checked(text('НҮБ — Нэмэлт протокол', 'UN — Optional Protocol'), 'https://treaties.un.org/doc/Publication/CTC/Ch-15-a.pdf', text('1–2 дугаар зүйлийн гомдол хүлээн авах нөхцөл, 13 дугаар зүйлийн хүчин төгөлдөр болох дүрэм.', 'Admissibility under articles 1–2 and entry-into-force rule in article 13.')),
+  accession: checked(text('НҮБ — Монгол Улсын конвенцод нэгдсэн бүртгэл', 'UN — Mongolia’s accession to the Convention'), 'https://treaties-prod.un.org/Pages/showActionDetails.aspx?clang=_en&objid=080000028022ea3d', text('Конвенцод 2009-05-13-нд нэгдсэн бүртгэл.', 'Accession to the Convention on 2009-05-13.')),
+  protocolAccession: checked(text('НҮБ — Нэмэлт протоколын оролцогч улс', 'UN — Optional Protocol participants'), 'https://treaties.un.org/Pages/ViewDetails.aspx?src=TREATY&mtdsg_no=IV-15-a&chapter=4&clang=_en', text('Монгол Улсын нэгдсэн огноо 2009-05-13. Хүчин төгөлдөр болох огноог протоколын 13 дугаар зүйлтэй тулгасан.', 'Mongolia’s accession date is 2009-05-13; entry into force cross-checked with protocol article 13.')),
+  education: checked(text('МУБИС — Боловсролын ерөнхий хуулийн хуулбар', 'MNUE — copy of the General Law on Education'), 'https://www.msue.edu.mn/p/r/6668?lang=mn', text('6.5, 8.3, 10.1.9 дэх заалтууд. Хуулбарын бүх шинэчлэлийг батлаагүй.', 'Provisions 6.5, 8.3 and 10.1.9; completeness of updates to this copy is unverified.')),
+  individualEducation: pending(text('Боловсролын сайдын А/81 тушаал — ганцаарчилсан сургалт', 'Education Minister order A/81 — individual education'), 'https://legalinfo.mn/mn/detail?lawId=17141846058471&showType=1'),
+  employment: checked(text('МУБИС — Хөдөлмөрийн тухай хуулийн хуулбар', 'MNUE — copy of the Labour Law'), 'https://msue.edu.mn/p/r/6681?lang=en', text('85.1.1, 99.4, 144 дүгээр зүйл. lang=en холбоосын хуулийн агуулга монгол хэлээр байна; англи хууль гэж үзэхгүй.', '85.1.1, 99.4 and article 144. Despite lang=en, the law text is Mongolian, not an English translation.')),
+  building: pending(text('Барилгын тухай хууль', 'Law on Construction'), 'https://legalinfo.mn/mn/detail?lawId=11705'),
+  urban: pending(text('Хот байгуулалтын тухай хууль', 'Law on Urban Development'), 'https://legalinfo.mn/mn/detail?lawId=530'),
+  healthInsurance: pending(text('Эрүүл мэндийн даатгалын тухай хууль', 'Law on Health Insurance'), 'https://legalinfo.mn/mn/detail?lawId=10922'),
+  privacy: checked(text('Төрийн байгууллагын хуулбар — Хүний хувийн мэдээлэл хамгаалах тухай', 'Government-hosted copy — Law on Personal Data Protection'), 'https://mohs.go.gov.mn/upload/files/6cb40faf279f11d63d3b433febb8c2e2.pdf', text('4, 8, 9 дүгээр зүйл: эрүүл мэндийн эмзэг мэдээлэл, зөвшөөрөл, хуульд заасан үндэслэл. Бүх өөрчлөлтийн түүх шалгагдаагүй.', 'Articles 4, 8 and 9: sensitive health data, consent and statutory grounds. Full amendment history not checked.')),
+  welfare: pending(text('Нийгмийн халамжийн тухай хууль', 'Law on Social Welfare'), 'https://legalinfo.mn/mn/detail?lawId=393&type=2'),
+  insuranceLaw: pending(text('Нийгмийн даатгалын сангаас олгох тэтгэврийн тухай хууль', 'Law on Pensions Provided by the Social Insurance Fund'), 'https://legalinfo.mn/mn/detail?lawId=16760148505951'),
+  insurance: checked(text('НДЕГ — Тэтгэврийн даатгалын үйлчилгээ', 'Social Insurance General Office — pension services'), 'https://www.ndaatgal.mn/daatgal/тэтгэврийн-даатгал/', text('Хөдөлмөрийн чадвар алдсаны тэтгэврийн шалгуур, шимтгэл, магадлалын тайлбар. Мөнгөн дүнгийн тооцоолуур биш.', 'Disability pension eligibility, contributions and assessment guidance; not a benefit calculator.')),
+  rates: checked(text('Яам — 2026-11-01-нээс олгох халамжийн хэмжээ', 'Ministry — welfare rates from 2026-11-01'), 'https://mlsp.gov.mn/content/detail/4215', text('Дөрвөн төрлийн төлбөрийн сарын хэмжээ, хамрах бүлэг, мөрдөх эхлэх огноо. Мэдээ нь хувь хүний эрх үүссэнийг тогтоох шийдвэр биш.', 'Monthly rates, recipient groups and commencement for four payments. The announcement is not an individual eligibility decision.'), '2026-10-29'),
+  welfareProcedure: pending(text('Халамжийн тэтгэвэр, тэтгэмж олгох журам', 'Procedure for welfare pensions and allowances'), 'https://legalinfo.mn/mn/detail/16389764312311'),
+  aids: checked(text('Яам — тусламж, хөнгөлөлтийн журмын шинэчлэл', 'Ministry — revision to disability assistance procedure'), 'https://mlsp.gov.mn/content/detail/3807', text('Тусламж, хөнгөлөлтийн шинэчлэлийн албан мэдээ. Одоогийн үнэ, олдоцын баталгаа биш.', 'Official revision announcement, not confirmation of current prices or availability.'), '2025-10-02'),
+  aidsProcedure: checked(text('Төрийн мэдээлэл №11 (1406) — 117 дугаар тогтоолын журам', 'State Bulletin No.11 (1406) — procedure under resolution 117'), 'https://legalinfo.mn/storage/uploads/process/202603/file_1774936397527860_15935931200541820.pdf', text('2025-10-01-ний 117 дугаар тогтоолын хавсралт; 1, 2 дахь хэсгийн хамрах хүрээ, хүсэлт. Сэтгүүлийн 2026-03-16 нь журам баталсан огноо биш.', 'Annex to resolution 117 of 2025-10-01; sections 1–2 on scope and applications. Bulletin date 2026-03-16 is not the adoption date.'), '2026-03-16'),
+  transport: pending(text('Нийтийн тээврээр үнэ төлбөргүй зорчих журам', 'Procedure for free public transport'), 'https://legalinfo.mn/mn/detail?lawId=207962'),
+  transportAmendment: pending(text('Нийтийн тээврийн журмын 2024 оны өөрчлөлт', '2024 public transport procedure amendment'), 'https://legalinfo.mn/mn/detail?lawId=17355371750621'),
+  nhrc: checked(text('ХЭҮК — Өргөдөл, гомдол (монгол)', 'NHRC — complaints (Mongolian)'), 'https://2026.nhrcm.gov.mn/complaint', text('7000-0222, info@nhrcm.gov.mn, цахим гомдол, 30 хоног ба сунгалтын тайлбар, 102/103/108.', '7000-0222, info@nhrcm.gov.mn, online complaints, 30-day handling and extension guidance, and 102/103/108.')),
+  nhrcEnglish: checked(text('ХЭҮК — Гомдлын албан англи хуудас', 'NHRC — official English complaints page'), 'https://2026.nhrcm.gov.mn/complaint?lang=en', text('Гомдлын зориулалт, зөвлөгөөний холбоог монгол эхтэй тулгасан.', 'Complaint purpose and contact details cross-checked against the Mongolian page.')),
+  nhrcLaw: pending(text('Монгол Улсын Хүний эрхийн Үндэсний Комиссын тухай хууль', 'Law on the National Human Rights Commission of Mongolia'), 'https://legalinfo.mn/mn/detail/15152'),
+  legalAid: pending(text('Хууль зүйн туслалцааны төв — холбоо барих', 'Legal Aid Centre — contacts'), 'https://lac.gov.mn/contact'),
+  legalAidProcedure: pending(text('Хууль зүйн туслалцаа үзүүлэх журам', 'Procedure for legal aid'), 'https://legalinfo.mn/mn/detail?lawId=16532143313531&showType=1'),
+  insuranceContact: checked(text('НДЕГ — Холбоо барих', 'Social Insurance General Office — contacts'), 'https://www.ndaatgal.mn/contact-us/', text('7777-1289 лавлах, салбарын холбооны хуудас. Хэлмэрч, хүртээмжтэй суваг тус бүрийг батлаагүй.', '7777-1289 and branch contact page. Interpreter or accessible-channel availability not confirmed.')),
+  welfareFuture: pending(text('Халамжийн хуулийн 2026-07-03-ны өөрчлөлт — судалгаанд дурдсан', 'Social welfare amendment of 2026-07-03 — reported in research'), 'https://legalinfo.mn/mn/detail?lawId=17438791319272&showType=1'),
+  insuranceFuture: pending(text('Тэтгэврийн хуулийн 2026-07-02-ны өөрчлөлт — судалгаанд дурдсан', 'Pension amendment of 2026-07-02 — reported in research'), 'https://legalinfo.mn/mn/detail?lawId=17438266985972&showType=1'),
+  educationAmendment: pending(text('Боловсролын хуулийн 2026-07-03-ны өөрчлөлт — судалгаанд олдсон', 'Education amendment found in research, dated 2026-07-03'), 'https://legalinfo.mn/mn/detail?lawId=17438549858602&showType=1'),
+  observations: checked(text('OHCHR — CRPD/C/MNG/CO/2-3 баримтын бүртгэл', 'OHCHR — CRPD/C/MNG/CO/2-3 document listing'), 'https://uhri.ohchr.org/en/document/c9e91697-16c9-4388-bf3a-fe5516691021', text('Баримтын нэр, дугаарыг шалгасан; холбоотой бүрэн тайлан нээгдээгүй. 2026 оны үйлчилгээний аудит гэж үзэхгүй.', 'Document title and identifier checked; linked full report could not be opened. Not a 2026 service audit.')),
+};
+export type RightsSourceId = keyof typeof rightsSources;
+
+export const rightsCopy = {
+  title: text('Монгол Улсад эрхээ эдлэх нь', 'Exercising your rights in Mongolia'),
+  intro: text('Ямар эрхтэй, ямар нөхцөл үйлчлэх, дэмжлэг хүсэх болон зөрчил гарвал хаана хандах талаар сэдвээр нь уншаарай.', 'Explore your rights, applicable conditions, how to request support and where to turn if your rights are violated.'),
+  scope: text('Эрх хуулиар хамгаалагдсан байх нь тухайн үйлчилгээ танай орон нутагт шууд бэлэн гэсэн баталгаа биш. Өөрийн нөхцөлд тохирох эрх, журам, хугацааг холбогдох байгууллагаар тодруулна.', 'A legal right does not guarantee that a service is immediately available locally. Confirm the applicable entitlement, procedure and deadlines for your circumstances.'),
+  advice: text('“Санал болгох алхам” нь хүсэлтээ ойлгомжтой гаргахад туслах зөвлөмж. Бүх алхмыг хуулиар заавал шаардсан гэж ойлгож болохгүй. Англи хувилбар нь тайлбар орчуулга бөгөөд хуулийн албан орчуулгыг орлохгүй.', '“Suggested steps” are practical advice, not a claim that every step is legally mandatory. The English version is explanatory and does not replace an authoritative legal text.'),
+  currency: text('Мэдээллийн огноо', 'Information as of'),
+  search: text('Сэдэв, эрх, байгууллагаар хайх', 'Search topics, rights or organisations'),
+  searchHint: text('Жишээ: сургууль, 600000, тохируулга, гомдол. Монгол эсвэл англи үгээр хайж болно.', 'For example: education, 600000, accommodation or complaint. Search in Mongolian or English.'),
+  filter: text('Сэдвээр шүүх', 'Filter by topic'),
+  all: text('Бүх сэдэв', 'All topics'),
+  status: text('Мэдээллийн төлөв', 'Information status'),
+  reviewOnly: text('Баталгаажуулах зүйлтэй', 'Has items needing verification'),
+  submit: text('Хайж, шүүх', 'Search and filter'),
+  reset: text('Шүүлтүүр арилгах', 'Clear filters'),
+  results: text('Олдсон сэдэв', 'Topics found'),
+  noResults: text('Тохирох сэдэв олдсонгүй. Өөр үг ашиглах эсвэл шүүлтүүрээ арилгана уу.', 'No matching topics. Try another term or clear the filters.'),
+  topics: text('Эрхийн сэдвүүд', 'Rights by topic'),
+  details: text('Нөхцөл, алхам, эх сурвалж', 'Conditions, steps and sources'),
+  entitlement: text('Ямар эрхтэй вэ?', 'What are your rights?'),
+  conditions: text('Нөхцөл, хязгаар', 'Conditions and limits'),
+  steps: text('Санал болгох алхам', 'Suggested steps'),
+  where: text('Хаана хандах вэ?', 'Where to turn'),
+  law: text('Хууль, холбогдох зүйл, заалт', 'Law and relevant provisions'),
+  sources: text('Албан эх сурвалж, шалгалтын хүрээ', 'Official sources and scope of checks'),
+  checked: text('Дахин шалгасан огноо', 'Rechecked on'),
+  unchecked: text('Энэ удаа дахин баталгаажаагүй', 'Not verified in this check'),
+  attempted: text('Нээхийг оролдсон огноо', 'Attempted on'),
+  published: text('Эхийн нийтэлсэн огноо', 'Source publication date'),
+  updated: text('Эхийн шинэчилсэн огноо', 'Source update date'),
+  unknown: text('Тодорхойгүй', 'Unknown'),
+  verified: text('Дурдсан хүрээнд эхийг шалгасан', 'Source checked within stated scope'),
+  unverified: text('Баталгаажуулах шаардлагатай', 'Needs verification'),
+  partialReview: text('Зарим мэдээллийг баталгаажуулах шаардлагатай', 'Some details need verification'),
+  review: text('Баталгаажуулах шаардлагатай мэдээлэл', 'Information requiring verification'),
+  rates: text('Яамны нийтэлсэн сарын хэмжээ', 'Monthly rates published by the ministry'),
+  effective: text('Мөрдөж эхэлсэн огноо', 'Effective from'),
+  eligibility: text('Хамрагдах нөхцөл', 'Eligibility'),
+  perMonth: text('сард', 'per month'),
+  phone: text('Утас', 'Phone'),
+  email: text('И-мэйл', 'Email'),
+  website: text('Албан суваг', 'Official channel'),
+  adopted: text('Баталсан огноо', 'Adopted on'),
+  benefitCaution: text('Эдгээр нь тусдаа төлбөр. Онош дангаараа бүгдийг авах эрх үүсгэхгүй; хүүхдийн дэмжлэг нь нийтлэг хүүхдийн мөнгөтэй ижил биш. Давхар авах боломж, бүрэн материал, хураамжийг баталгаажуулаагүй.', 'These are separate payments. A diagnosis alone does not establish eligibility for all of them; the child support payment is not universal child money. Concurrent eligibility, complete documents and fees are unverified.'),
+  contacts: text('Гомдол, зөвлөгөөний холбоо', 'Complaints and advice contacts'),
+  contactCaution: text('Эдгээр нь яаралтай тусламжийн утас биш. Хүлээн авах цаг, хэлмэрч, хүртээмжтэй холбоо барих аргыг урьдчилан тодруул.', 'These are not emergency numbers. Confirm opening hours, interpreting and accessible contact arrangements.'),
+  emergency: text('Шуурхай аюул, хүүхдийн хамгаалал', 'Immediate danger and child protection'),
+  emergencyIntro: text('Амь нас, эрүүл мэндэд шууд аюултай бол гомдлын шийдвэр хүлээхгүй. Доорх дугааруудыг ХЭҮК-ын албан мэдээллээр шалгасан.', 'For immediate danger to life or health, do not wait for a complaint decision. The numbers below were checked against the NHRC’s official guidance.'),
+  history: text('Хуулийн төлөв ба өөрчлөлтийн огноо', 'Legal status and amendment dates'),
+  historyNote: text('Батлагдсан хууль, хуулийн төсөл, ирээдүйд мөрдөх өөрчлөлт нь өөр төлөвтэй. Олдсон нэг өөрчлөлт нь “хамгийн сүүлийн өөрчлөлт” гэсэн баталгаа биш. Legalinfo-ийн lawId нь мэдээллийн сангийн таних дугаар; хуулийн албан дугаар биш.', 'An enacted law, a bill and a future-effective amendment are different statuses. A found amendment is not proof of the latest amendment. Legalinfo’s lawId is a database identifier, not an official law number.'),
+  foundAmendment: text('Судалгаанд олдсон өөрчлөлтийн огноо', 'Amendment date found in supplied research'),
+  future: text('Ирээдүйд мөрдөхөөр судалгаанд тэмдэглэсэн', 'Reported as future-effective in supplied research'),
+  enacted: text('Батлагдсан хууль', 'Enacted law'),
+  reviewFooter: text('Хуулийн бүрэн өөрчлөлтийн түүх, орон нутгийн үйлчилгээний бэлэн байдал болон монгол–англи нэр томьёог хуульч, хөгжлийн бэрхшээлтэй хүмүүсийн төлөөлөлтэй хамт хянуулах шаардлагатай. Энэ хуудас хувь хүний хэрэгт хууль зүйн дүгнэлт гаргахгүй.', 'Full amendment histories, local service availability and bilingual terminology need review with a lawyer and disability representatives. This page does not determine the legal outcome of an individual case.'),
+} satisfies Record<string, Text>;
+
+type LegalBasis = { name: Text; provisions: Text; sources: RightsSourceId[] };
+export type RightsTopic = {
+  id: string; title: Text; summary: Text; entitlement: Text[]; conditions: Text[];
+  steps: Text[]; where: Text; laws: LegalBasis[]; sources: RightsSourceId[]; unverified: Text[];
+};
+const disabilityLaw = text('Хөгжлийн бэрхшээлтэй хүний эрхийн тухай', 'Law on the Rights of Persons with Disabilities');
+const crpd = text('Хөгжлийн бэрхшээлтэй хүмүүсийн эрхийн тухай конвенц', 'Convention on the Rights of Persons with Disabilities');
+const welfareLaw = text('Нийгмийн халамжийн тухай', 'Law on Social Welfare');
+export const rightsTopics: RightsTopic[] = [
+  {
+    id: 'equality', title: text('Ялгаварлан гадуурхалтаас хамгаалуулах', 'Protection from discrimination'),
+    summary: text('Хөгжлийн бэрхшээлээс шалтгаалан эрх, үйлчилгээний тэгш боломжийг хязгаарлах ёсгүй.', 'Disability must not be a basis for denying equal rights or access to services.'),
+    entitlement: [text('Хуулийн 6 дугаар зүйл ялгаварлахыг хориглоно. Тохирох хэрэглэгдэхүүн нь зөвхөн тоног төхөөрөмж бус, программ, орчин, үйлчилгээний тохируулгыг хамарна.', 'Article 6 prohibits discrimination. Appropriate accommodation includes software, environments and services, not only equipment.')],
+    conditions: [text('Хүсэж буй тохируулга, үүссэн саадыг тухайн үйлчилгээтэй холбон тодорхойл. Тодорхой маргааныг шийдэхэд холбогдох хууль, нөхцөлийг тусад нь үнэлнэ.', 'Describe the barrier and the accommodation in relation to the service. An individual dispute requires assessment under the relevant law and circumstances.')],
+    steps: [text('Юу, хэзээ, хаана болсныг тэмдэглэж, боломжтой баримт болон байгууллагын хариуг хадгалахыг санал болгож байна.', 'Consider recording what happened, when and where, and retaining available evidence and the organisation’s response.'), text('Шаардлагатай тохируулгаа тодорхой хүс. Шийдэгдэхгүй бол ХЭҮК эсвэл хууль зүйн зөвлөгөөний сувгийг ашигла.', 'Describe the accommodation you need. If unresolved, consider the NHRC or legal advice.')],
+    where: text('Үйлчилгээ үзүүлэгчийн удирдлага; хүний эрхийн гомдлоор ХЭҮК.', 'Service provider management; the NHRC for human-rights complaints.'),
+    laws: [{ name: disabilityLaw, provisions: text('4.1.3, 6 дугаар зүйл', '4.1.3 and article 6'), sources: ['disability', 'disabilityEnglish'] }, { name: crpd, provisions: text('5 дугаар зүйл', 'Article 5'), sources: ['convention'] }],
+    sources: ['disability', 'disabilityEnglish', 'convention', 'nhrc'],
+    unverified: [text('Хуулийн 2019 оны англи хуулбартай тулгасан. 2026 оны нэгтгэсэн эх болон бүх өөрчлөлтийн түүхийг баталгаажуулаагүй.', 'Cross-checked with the 2019 English copy. The consolidated 2026 text and complete amendment history are unverified.')],
+  },
+  {
+    id: 'choice', title: text('Өөрөө шийдвэр гаргах, бие даан амьдрах', 'Decision-making and independent living'),
+    summary: text('Өөрийн хүсэл, сонголтоо хүндэтгүүлэх, шийдвэртээ шаардлагатай дэмжлэг авах эрхтэй.', 'Your will and preferences matter, including support to make your own decisions.'),
+    entitlement: [text('Конвенц нь шийдвэр гаргахад дэмжлэг авах, хаана, хэнтэй амьдрахаа сонгох, мэдээллийг сонгосон хэлбэрээр авах эрхийг хамгаална.', 'The Convention protects support for decision-making, choice of where and with whom to live, and access to information in chosen formats.')],
+    conditions: [text('Бие даан амьдрах эрх нь тусламжгүй амьдрах үүрэг гэсэн үг биш. Орон нутгийн дэмжих үйлчилгээ, журам бодитоор бэлэн эсэхийг тусад нь тодруулна.', 'Independent living does not mean an obligation to live without assistance. Confirm which local support arrangements and procedures are actually available.')],
+    steps: [text('Ямар мэдээлэл, харилцааны арга, итгэлтэй хүний дэмжлэг хүсэж байгаагаа хэл. Шийдвэр гаргах ярианд өөрийг тань оролцуулахыг хүс.', 'Explain the information format, communication method or trusted support you want. Ask to be included directly in decisions.')],
+    where: text('Шийдвэр гаргаж буй үйлчилгээний байгууллага; орон нутгийн нийгмийн ажилтан; эрх хязгаарлагдвал ХЭҮК.', 'The service making the decision; a local social worker; the NHRC if rights are restricted.'),
+    laws: [{ name: crpd, provisions: text('12, 19, 21, 23, 29 дүгээр зүйл', 'Articles 12, 19, 21, 23 and 29'), sources: ['convention'] }],
+    sources: ['convention', 'nhrc'],
+    unverified: [text('Дэмжлэгтэй шийдвэр гаргалтын дотоодын одоогийн ажиллагаа, бие даан амьдрах үйлчилгээний орон нутгийн бэлэн байдлыг батлаагүй.', 'Current domestic supported-decision procedures and local independent-living service availability are unverified.')],
+  },
+  {
+    id: 'access', title: text('Барилга, мэдээлэл, үйлчилгээний хүртээмж', 'Accessible buildings, information and services'),
+    summary: text('Орчин, мэдээлэл, үйлчилгээний саадгүй, тэгш хүртээмжийг шаардах эрхийн үндэс бий.', 'You have a basis to request equal access to environments, information and services.'),
+    entitlement: [text('Конвенцийн 9, 21 дүгээр зүйл нь хүртээмж, мэдээлэл авах эрхийг хамгаална. Судалгаанд барилгын зураг төсөл, хот төлөвлөлтөд хүртээмжийн шаардлага дурдсан.', 'Convention articles 9 and 21 protect accessibility and information access. The research also identifies accessibility requirements for building design and urban planning.')],
+    conditions: [text('Техникийн шаардлага болон тухайн барилга, үйлчилгээний нөхцөлийг тусад нь шалгана. Налуу зам байгаа нь бүх үйлчилгээ хүртээмжтэй гэсэн баталгаа биш.', 'Technical requirements and the particular building or service need individual checking. A ramp alone does not establish full accessibility.')],
+    steps: [text('Яг ямар хаалга, зам, ариун цэврийн өрөө, маягт эсвэл харилцааны саад үйлчилгээ авахыг хааж байгааг тайлбарлан өөрчлөлт хүс.', 'Explain which entrance, route, toilet, form or communication barrier prevents access and request a specific change.')],
+    where: text('Барилгын өмчлөгч, үйлчилгээний удирдлага; зөвшөөрөл хариуцсан орон нутгийн байгууллага; ХЭҮК.', 'Building owner or service management; the local permitting authority; the NHRC.'),
+    laws: [{ name: crpd, provisions: text('9, 21 дүгээр зүйл', 'Articles 9 and 21'), sources: ['convention'] }, { name: text('Барилгын тухай; Хот байгуулалтын тухай', 'Law on Construction; Law on Urban Development'), provisions: text('12.1.6; 20 дугаар зүйл — дахин баталгаажуулах шаардлагатай', '12.1.6; article 20 — requires re-verification'), sources: ['building', 'urban'] }],
+    sources: ['convention', 'building', 'urban'],
+    unverified: [text('Барилгын 12.1.6, Хот байгуулалтын 20 дугаар зүйлийн одоогийн бүрэн эх, мөрдөх техникийн стандарт болон шалгалтын орон нутгийн сувгийг дахин баталгаажуулах шаардлагатай.', 'The current text of Construction 12.1.6, Urban Development article 20, applicable technical standards and local inspection contacts need re-verification.')],
+  },
+  {
+    id: 'education', title: text('Боловсрол', 'Education'),
+    summary: text('Бусдын адил боловсрол эзэмших тэгш боломж, тохирох дэмжлэг шаардах эрхтэй.', 'You can request equal educational opportunities and suitable support.'),
+    entitlement: [text('Боловсролын ерөнхий хуулийн 10.1.9 тэгш боломжийг, 6.5 сонсголын бэрхшээлтэй суралцагчийн дохионы хэлээрх сургалт, үйл ажиллагааг зохицуулна. 8.3-т хүсэлт, зөвшөөрлийн дагуу ганцаарчилсан сургалт явуулж болохоор заасан.', 'General Law on Education 10.1.9 addresses equal opportunity; 6.5 addresses sign-language education for deaf learners; 8.3 permits individual education with the specified request and consent.')],
+    conditions: [text('Дэмжлэгийг суралцагчийн хэрэгцээнд тохируулна. Бүх сургуульд нэг маягт, нэг ижил тохируулга хэрэглэдгийг батлаагүй.', 'Support should match the learner’s needs. A universal form or identical adjustment for all schools has not been established.')],
+    steps: [text('Сургуультай ярилцаж, материалын хэлбэр, харилцаа, орчин, үнэлгээний ямар дэмжлэг хүсэж байгаагаа тодорхой бичихийг санал болгож байна. Хэрэгжилт, ахицыг хамт ярилц.', 'Discuss needs with the school. Consider specifying support for materials, communication, the environment and assessment, then reviewing progress together.')],
+    where: text('Сургуулийн удирдлага, багш, орон нутгийн боловсрол хариуцсан байгууллага; ялгаварлалын асуудлаар ХЭҮК.', 'School management, teachers and the local education authority; the NHRC for discrimination concerns.'),
+    laws: [{ name: text('Боловсролын ерөнхий хууль', 'General Law on Education'), provisions: text('6.5, 8.3, 10.1.9', '6.5, 8.3, 10.1.9'), sources: ['education'] }, { name: text('Боловсролын сайдын 2024-09-10-ны А/81 тушаал', 'Education Minister order A/81 dated 2024-09-10'), provisions: text('Ганцаарчилсан сургалтын журам — дахин баталгаажуулаагүй', 'Individual education procedure — not re-verified'), sources: ['individualEducation'] }],
+    sources: ['education', 'individualEducation', 'educationAmendment', 'convention'],
+    unverified: [text('А/81 журмын одоогийн бүрэн эх, сургалтын төлбөрийн дэмжлэг, тэтгэлгийн шалгуур, 2026 оны өөрчлөлтийн нөлөөг баталгаажуулах шаардлагатай.', 'Current order A/81, tuition support, scholarship eligibility and the effect of the 2026 amendment require verification.')],
+  },
+  {
+    id: 'employment', title: text('Ажил эрхлэлт, ажлын тохируулга', 'Employment and workplace accommodation'),
+    summary: text('Тохирох хэрэглэгдэхүүнтэй ажиллах, тэтгэвэр авдгаас болж цалингаа бууруулахгүй байх хамгаалалт бий.', 'Protections cover suitable accommodation and against reducing pay because you receive a pension.'),
+    entitlement: [text('144.1-д тохирох хэрэглэгдэхүүн бүрдүүлэх үүрэгтэй. 25 ба түүнээс дээш ажилтантай байгууллагад 4%-иас доошгүй орон тооны зохицуулалт бий. 144.7-д тэтгэвэр, тэтгэмж авдаг нь цалин бууруулах үндэслэл биш гэж заасан.', '144.1 requires suitable accommodation. Organisations with 25 or more employees have a quota of at least 4%. Under 144.7, pensions or allowances do not justify reducing pay.'), text('99.4-т ээлжийн үндсэн амралтыг ажлын 20 өдөр; 85.1.1-д магадлалын зөвлөлийн шийдвэрээр ажлын цаг богиносгохоор заасан.', '99.4 provides 20 working days of basic annual leave; 85.1.1 addresses reduced hours following an assessment council decision.')],
+    conditions: [text('Квот нь хувь хүнд тодорхой ажил автоматаар олгох баталгаа биш. Бүх ажилтанд 36 цагийн долоо хоног үйлчилнэ гэж бүү ойлго; цаг богиносгох үндэслэлийг тусад нь шалгана.', 'A quota is not a guarantee of a particular job. Do not assume a universal 36-hour week; the basis for reduced hours must be checked individually.')],
+    steps: [text('Ажил үүрэгт саад болж буй зүйл, хүссэн хэрэглэгдэхүүн, орчин эсвэл ажлын зохицуулалтаа ажил олгогчтой тодорхой ярилц. Хариуг хадгалахыг санал болгож байна.', 'Discuss the task barrier and the equipment, environment or work arrangement needed with the employer. Consider retaining the response.')],
+    where: text('Ажил олгогч, хүний нөөц; холбогдох хөдөлмөрийн маргаан шийдвэрлэх байгууллагыг тодруулах хууль зүйн зөвлөгөө; ялгаварлалын асуудлаар ХЭҮК.', 'Employer or HR; legal advice to identify the appropriate labour-dispute route; the NHRC for discrimination concerns.'),
+    laws: [{ name: text('Хөдөлмөрийн тухай /Шинэчилсэн найруулга/', 'Labour Law /Revised/'), provisions: text('85.1.1, 99.4, 144.1–144.8', '85.1.1, 99.4, 144.1–144.8'), sources: ['employment'] }],
+    sources: ['employment'],
+    unverified: [text('Хуулийн бүх өөрчлөлтийн түүх, таны маргаанд үйлчлэх харьяалал, гомдлын тусгай хугацааг бүрэн баталгаажуулаагүй. ХЭҮК-ын хугацааг хөдөлмөрийн бүх маргаанд шууд хэрэглэж болохгүй.', 'Complete amendment history, jurisdiction and case-specific deadlines are unverified. NHRC deadlines must not be applied automatically to all labour disputes.')],
+  },
+  {
+    id: 'health', title: text('Эрүүл мэнд, зөвшөөрөл, хувийн нууц', 'Healthcare, consent and privacy'),
+    summary: text('Ялгаварлалгүй тусламж, ойлгомжтой мэдээлэл, зөвшөөрөл болон эрүүл мэндийн мэдээллээ хамгаалуулах эрхтэй.', 'Rights include non-discriminatory care, understandable information, consent and protection of health data.'),
+    entitlement: [text('Конвенцийн 25 дугаар зүйл чөлөөтэй, мэдээлэлтэй зөвшөөрөлд тулгуурласан тусламжийг хамгаална. Хувийн мэдээллийн хуулиар бие, сэтгэцийн эрүүл мэнд, эмчилгээний мэдээлэл эмзэг мэдээлэлд хамаарна.', 'Convention article 25 protects care based on free and informed consent. Physical and mental health and treatment information are sensitive data under the personal data law.')],
+    conditions: [text('Мэдээлэл ашиглахад зөвшөөрөл эсвэл хуульд заасан үндэслэл шаардагдана; бүх нөхцөлд зөвшөөрөл цорын ганц үндэслэл биш. Даатгалын хамрагдалт, төсвөөс шимтгэл төлөх ангиллыг хувь хүнээр шалгана.', 'Processing requires consent or a statutory ground; consent is not the only possible legal basis in every circumstance. Insurance coverage and state-funded contribution eligibility require individual checking.')],
+    steps: [text('Ойлгох хэлбэрээр тайлбар, сонголт, зөвшөөрлийн мэдээлэл хүс. Хувийн мэдээллийг хэн, ямар зорилгоор ашиглахыг асууж, зөрчил байвал байгууллагад нь гомдол гарга.', 'Ask for explanations, choices and consent information in an accessible format. Ask who will use your data and why; complain to the organisation if concerned.')],
+    where: text('Эмнэлгийн удирдлага, мэдээлэл хариуцагч; даатгалын байгууллага; хүний эрхийн асуудлаар ХЭҮК.', 'Hospital management or the data controller; the health insurer; the NHRC for human-rights concerns.'),
+    laws: [{ name: crpd, provisions: text('22, 25 дугаар зүйл', 'Articles 22 and 25'), sources: ['convention'] }, { name: text('Хүний хувийн мэдээлэл хамгаалах тухай', 'Law on Personal Data Protection'), provisions: text('4, 8, 9 дүгээр зүйл', 'Articles 4, 8 and 9'), sources: ['privacy'] }, { name: text('Эрүүл мэндийн даатгалын тухай', 'Law on Health Insurance'), provisions: text('Холбогдох заалтыг дахин баталгаажуулах шаардлагатай', 'Relevant provisions require re-verification'), sources: ['healthInsurance'] }],
+    sources: ['convention', 'privacy', 'healthInsurance'],
+    unverified: [text('Даатгалын яг аль ангилалд хамрагдах, төлбөрийн нөхцөл болон мэдээллийн хуулийн бүх өөрчлөлтийг дахин тодруулна.', 'Confirm the specific insurance category, payment conditions and complete data-law amendment history.')],
+  },
+  {
+    id: 'benefits', title: text('Даатгалын болон халамжийн тэтгэвэр, тэтгэмж', 'Insurance pensions and welfare payments'),
+    summary: text('Даатгалын тэтгэвэр, халамжийн тэтгэвэр, хүүхдийн дэмжлэг, асрагчийн тэтгэмж нь тусдаа шалгууртай.', 'Insurance pensions, welfare pensions, child support and caregiver allowances have separate eligibility rules.'),
+    entitlement: [text('Халамжийн тэтгэврийн судалгаанд 16 нас хүрсэн, хөдөлмөрийн чадвар алдалт 50%-иас доошгүй, даатгалын бүрэн болон хувь тэнцүүлсэн тэтгэврийн эрх үүсээгүй байх нөхцөл дурдсан.', 'The research identifies welfare pension conditions of age 16+, at least 50% loss of capacity, and no entitlement to a full or pro-rata insurance pension.'), text('НДЕГ-ын тайлбараар ердийн өвчин, ахуйн ослын даатгалын тэтгэвэрт чадвар алдалт ба шимтгэлийн хугацаа хамаарна. Үйлдвэрлэлийн ослын нөхцөл тусдаа; тогтмол нэг мөнгөн дүнгээр бодохгүй.', 'SIGO guidance links ordinary-illness and domestic-accident pensions to assessed loss of capacity and contributions. Occupational accidents have separate rules; there is no single flat amount here.')],
+    conditions: [text('Халамжийн эрхийн бүх шалгуур, даатгалын эрх үүссэн эсэхийг байгууллагаар тогтоолгоно. Хүүхдийн магадлалын 18 нас, халамжийн 16 насны босгын уялдаа, ялангуяа 16–17 насыг тусад нь шалгуул.', 'Have the authority confirm all welfare conditions and insurance entitlement. The interaction between the reported assessment age of 18 and welfare age of 16, especially ages 16–17, needs individual verification.')],
+    steps: [text('Шимтгэлийн түүх, магадлалын шийдвэр болон аль төлбөр хүсэж байгаагаа тодруул. Цахим хүсэлт боломжгүй бол сум, хорооны нийгмийн ажилтнаас одоогийн хүсэлтийн аргыг асуу.', 'Clarify contribution history, assessment decision and which payment you seek. If online application is not possible, ask the soum or khoroo social worker about the current route.')],
+    where: text('Даатгалын тэтгэврээр НДЕГ, салбар; халамж, хүүхэд, асрагчийн дэмжлэгээр сум, хорооны нийгмийн ажилтан, халамжийн байгууллага.', 'SIGO or its branches for insurance pensions; local social workers or welfare authorities for welfare, child and caregiver payments.'),
+    laws: [{ name: welfareLaw, provisions: text('12.1.3 — судалгаанд дурдсан; одоогийн нэгтгэсэн эхийг дахин нягтална', '12.1.3 — reported in research; current consolidated text needs checking'), sources: ['welfare'] }, { name: text('Нийгмийн даатгалын сангаас олгох тэтгэврийн тухай', 'Law on Pensions Provided by the Social Insurance Fund'), provisions: text('Хөдөлмөрийн чадвар алдсаны тэтгэврийн холбогдох зүйл — дугаарыг дахин баталгаажуулна', 'Disability pension provisions — article numbering requires verification'), sources: ['insuranceLaw', 'insurance'] }],
+    sources: ['rates', 'welfare', 'insurance', 'insuranceLaw', 'welfareProcedure'],
+    unverified: [text('Халамжийн бүрэн ба хувь тэнцүүлсэн тэтгэвэртэй давхцахгүй байх нөхцөлийн одоогийн бүрэн эх; давхар олголт; бүх материал, хураамж; 16–17 настны ажиллагаа; асаргааны нарийвчилсан шалгуур.', 'Current full text of the exclusion where insurance pension rights exist; concurrent payments; complete documents and fees; procedures for ages 16–17; detailed care eligibility.')],
+  },
+  {
+    id: 'aids-transport', title: text('Туслах хэрэгсэл, нийтийн тээвэр', 'Assistive devices and public transport'),
+    summary: text('Туслах хэрэгслийн дэмжлэг, нийтийн тээврийн хөнгөлөлтөд нөхцөл, журам үйлчилнэ.', 'Assistive-device support and public transport concessions are subject to conditions and procedures.'),
+    entitlement: [text('Тусламжийн журам нь хуулийн 26.1.1–26.1.6 дахь хөнгөлөлтийг хамарна. Протез, ортопед, тэргэнцрийн дэмжлэг нь жагсаалт, жишиг үнэ, нас, давтамж, даатгалын нөхцөлтэй.', 'The assistance procedure covers concessions under law provisions 26.1.1–26.1.6. Device support depends on lists, reference prices, age, frequency and insurance rules.'), text('Судалгаанд нийслэл, аймгийн төвийн таксинаас бусад нийтийн тээврээр үнэ төлбөргүй зорчих зохицуулалт дурдсан; одоогийн журмыг дахин баталгаажуулах шаардлагатай.', 'The research reports free non-taxi public transport in the capital and aimag centres; the current procedure needs re-verification.')],
+    conditions: [text('Бүх хэрэгсэл бүх хүнд, бүх үед үнэ төлбөргүй гэсэн үг биш. Картын олголт, хэрэгслийн бодит олдоц, хугацааг урьдчилан тодруул.', 'This does not mean all devices are free for everyone at any time. Confirm card issuance, actual device availability and waiting times.')],
+    steps: [text('Хүссэн хэрэгслийн төрөл, жишиг үнэ, нас, солих давтамж, даатгалын нөхцөлийг асуу. 117 дугаар тогтоолын журмаар цахимаар эсвэл сум, хорооны нийгмийн ажилтнаар хүсэлт гаргах боломжийг тодруул.', 'Ask about device type, reference price, age, replacement interval and insurance conditions. Check the online or local-social-worker application route under resolution 117.')],
+    where: text('Халамжийн байгууллага, сум/хорооны нийгмийн ажилтан; тээврийн картын одоогийн сувгийг орон нутгийн тээвэр хариуцсан байгууллагаас тодруул.', 'Welfare authority or soum/khoroo social worker; ask the local transport authority for current card arrangements.'),
+    laws: [{ name: disabilityLaw, provisions: text('26.1.1–26.1.6; Засгийн газрын 2025-10-01-ний 117 дугаар тогтоолын журам, 1–2 дахь хэсэг', '26.1.1–26.1.6; procedure under Government resolution 117 of 2025-10-01, sections 1–2'), sources: ['aidsProcedure'] }, { name: text('Нийтийн тээврийн үнэ төлбөргүй зорчих журам', 'Free public transport procedure'), provisions: text('Одоогийн холбогдох заалт — баталгаажуулах шаардлагатай', 'Current relevant provisions — needs verification'), sources: ['transport', 'transportAmendment'] }],
+    sources: ['aids', 'aidsProcedure', 'transport', 'transportAmendment'],
+    unverified: [text('Одоогийн хэрэгслийн жагсаалт, жишиг үнэ, карт авах цэг, материал, хураамж, хүлээлгийн хугацаа болон тээврийн журмын хүчинтэй өөрчлөлт.', 'Current device lists and prices, card locations, documents, fees, waiting times and operative transport amendments.')],
+  },
+  {
+    id: 'children-women', title: text('Хүүхэд, эмэгтэйчүүдийн эрх', 'Rights of children and women'),
+    summary: text('Хүүхэд, эмэгтэйчүүдийн тэгш оролцоо, аюулгүй байдал, өөрийн санал бодлоо илэрхийлэх эрхийг хамгаална.', 'Children and women have rights to equal participation, safety and having their views heard.'),
+    entitlement: [text('Конвенцийн 6, 7 дугаар зүйл эмэгтэйчүүд, хүүхдийн тэгш эрх, хүүхдийн ашиг сонирхол, насанд нь тохирсон дэмжлэгтэйгээр үзэл бодлоо илэрхийлэхийг хамгаална. 16 дугаар зүйл хүчирхийлэл, мөлжлөгөөс хамгаалах тухай.', 'Convention articles 6 and 7 protect equal rights, children’s best interests and expression of views with age-appropriate support. Article 16 concerns protection from violence and exploitation.')],
+    conditions: [text('Хүүхэд, асрагчийн төлбөрийг хооронд нь бүү холь. Хүүхдийн хамгааллын яаралтай эрсдэлд ердийн гомдлын шийдвэр хүлээхгүй.', 'Keep child and caregiver payments distinct. Do not wait for an ordinary complaint decision when child protection is urgent.')],
+    steps: [text('Өөрийн эсвэл хүүхдийн хүссэн харилцааны дэмжлэгийг хэлж, санал бодлыг нь шууд сонсохыг хүс. Аюултай нөхцөлд шуурхай хамгааллын дугаарт ханд.', 'Explain the communication support you or the child need and ask for views to be heard directly. Use the urgent protection numbers when danger is immediate.')],
+    where: text('Хүүхдийн хамгааллын байгууллага, ХЭҮК; хүүхдийн тусламж 108; шууд аюулд 102/103.', 'Child protection authorities or the NHRC; child assistance 108; 102/103 for immediate danger.'),
+    laws: [{ name: crpd, provisions: text('6, 7, 16, 23 дугаар зүйл', 'Articles 6, 7, 16 and 23'), sources: ['convention'] }],
+    sources: ['convention', 'nhrc'],
+    unverified: [text('Хүүхдийн магадлал, халамжийн насны босгын уялдаа; бүх аймаг, дүүргийн хүртээмжтэй хамгаалал, хэлмэрчийн бодит бэлэн байдал.', 'Interaction of assessment and welfare age thresholds; accessible protection and interpreter availability in every aimag and district.')],
+  },
+  {
+    id: 'complaints', title: text('Гомдол, хууль зүйн туслалцаа', 'Complaints and legal aid'),
+    summary: text('Зөрчлийг тайлбарлан гомдол гаргах, тохирох хууль зүйн зөвлөгөөний сувгаа тодруулах боломжтой.', 'You can describe a violation, make a complaint and identify an appropriate legal-advice route.'),
+    entitlement: [text('ХЭҮК хүний эрхийн гомдол хүлээн авдаг. Албан үйлчилгээний тайлбарт гомдлыг 30 хоногт, шаардлагатай бол 30 хүртэл хоногоор нэг удаа сунгахыг дурдсан.', 'The NHRC receives human-rights complaints. Its service guidance states 30 days for complaints, with one extension of up to 30 days when needed.'), text('Судалгаанд ерөнхий хууль зүйн зөвлөгөө болон хэрэгт үнэгүй өмгөөлөгчөөр оролцуулахыг ялгасан. Үнэгүй өмгөөлөлд тусгай шалгууртай; бүх хүнд автоматаар олгогдохгүй.', 'The research distinguishes general legal advice from free representation. Free representation has specific eligibility and is not automatic for everyone.')],
+    conditions: [text('ХЭҮК-ын харьяалал, шүүх/мөрдөн шалгах ажиллагаатай давхцах хязгаарыг өөрийн хэргийн нөхцөлөөр тодруул. Судалгаанд 23.1-ийн хоёр жилийн хугацаа дурдсан ч одоогийн хуулийн эхийг дахин баталгаажуулаагүй.', 'Confirm NHRC jurisdiction and limits involving court or investigative proceedings for your case. The research cites a two-year limit under 23.1, but the current law text was not re-verified.')],
+    steps: [text('Болсон үйл явдал, огноо, газар, холбогдох байгууллага, зөрчигдсөн эрх, хүсэж буй шийдлээ тодорхойл. Боломжтой нотлох баримт хавсаргаж, бүртгэлийн дугаараа хадгал.', 'Describe the events, dates, place, organisation, affected right and requested remedy. Attach available evidence and retain the registration number.'), text('Хувийн болон эрүүл мэндийн баримтаа зөвхөн шаардлагатай хэмжээнд албан сувгаар өг. Хугацаа ойр бол хууль зүйн зөвлөгөөг хойшлуулахгүй.', 'Share only necessary personal or health documents through official channels. Do not delay legal advice when a deadline may be near.')],
+    where: text('ХЭҮК-ын 7000-0222, info@nhrcm.gov.mn, албан цахим гомдол. Хууль зүйн туслалцааны төвийн холбоог доор баталгаажаагүй гэж тэмдэглэсэн.', 'NHRC: 7000-0222, info@nhrcm.gov.mn and its official complaint form. Legal Aid Centre contacts below are marked unverified.'),
+    laws: [{ name: text('Монгол Улсын Хүний эрхийн Үндэсний Комиссын тухай', 'Law on the National Human Rights Commission of Mongolia'), provisions: text('23.1–23.2 — хуулийн одоогийн эхийг дахин нягтална', '23.1–23.2 — current law text needs checking'), sources: ['nhrcLaw'] }, { name: text('Хууль зүйн туслалцаа үзүүлэх журам', 'Procedure for legal aid'), provisions: text('2.2, 3.1 — судалгаанд дурдсан; дахин баталгаажуулаагүй', '2.2, 3.1 — cited in research; not re-verified'), sources: ['legalAidProcedure'] }],
+    sources: ['nhrc', 'nhrcEnglish', 'nhrcLaw', 'legalAid', 'legalAidProcedure'],
+    unverified: [text('Хоёр жилийн хуулийн хугацаа, нарийвчилсан харьяалал, бүх хүнд үнэ төлбөргүй ерөнхий зөвлөгөөний одоогийн журам, үнэгүй өмгөөллийн шалгуур, Хууль зүйн туслалцааны төвийн холбоо.', 'Statutory two-year limit, detailed jurisdiction, current universal free-advice rule, representation eligibility and Legal Aid Centre contacts.'), text('Судалгаа 23 дугаар зүйл, ХЭҮК-ын цахим маягт 13, 16 дугаар зүйл гэж өөрөөр эшилсэн. Хуулийн одоогийн эх нээгдээгүй тул зүйл, заалтын энэ зөрүүг хуульчаар нягтлуулах шаардлагатай.', 'The research cites article 23 while the NHRC form cites articles 13 and 16. As the current law text could not be opened, a legal reviewer must resolve this citation discrepancy.')],
+  },
+  {
+    id: 'convention', title: text('НҮБ-ын конвенц, нэмэлт протокол', 'UN Convention and Optional Protocol'),
+    summary: text('Монгол Улс 2009-05-13-нд нэгдсэн; конвенц, протокол 2009-06-12-нд Монгол Улсад хүчин төгөлдөр болсон.', 'Mongolia acceded on 2009-05-13; the Convention and Protocol entered into force for Mongolia on 2009-06-12.'),
+    entitlement: [text('Нэмэлт протокол нь хувь хүн, бүлгийн гомдлыг НҮБ-ын Хороонд хүргэх боломжтой. Энэ нь дотоодын бүх маргааныг шууд, автоматаар шийдэх арга биш.', 'The Optional Protocol enables individual or group communications to the UN Committee. It is not an automatic route to resolve every domestic dispute.')],
+    conditions: [text('Дотоодын боломжтой хамгаалалтын арга замыг ашигласан байх болон бусад хүлээн авах шалгууртай. Үндэслэлгүй удаашрал, үр дүнгүй арга замын онцгой нөхцөл протоколд бий.', 'Available domestic remedies generally must be exhausted and other admissibility rules apply. The Protocol includes exceptions for unreasonable delay or unlikely effective relief.')],
+    steps: [text('Өмнө гаргасан хүсэлт, шийдвэр, хугацааны баримтаа нэгтгэж, протоколын 1–2 дугаар зүйлийн нөхцөл болон одоогийн илгээх сувгийг хууль зүйн зөвлөхтэй нягтал.', 'Organise previous applications, decisions and dates. Review articles 1–2 and the current submission channel with a legal adviser.')],
+    where: text('НҮБ-ын Хөгжлийн бэрхшээлтэй хүмүүсийн эрхийн хороо; хүлээн авах нөхцөлийг нягтлах хууль зүйн зөвлөх.', 'UN Committee on the Rights of Persons with Disabilities; a legal adviser to assess admissibility.'),
+    laws: [{ name: crpd, provisions: text('45.2 — хүчин төгөлдөр болох', '45.2 — entry into force'), sources: ['convention', 'accession'] }, { name: text('Конвенцийн нэмэлт протокол', 'Optional Protocol to the Convention'), provisions: text('1–2, 13.2 дугаар зүйл', 'Articles 1–2 and 13.2'), sources: ['protocol', 'protocolAccession'] }],
+    sources: ['convention', 'protocol', 'accession', 'protocolAccession', 'observations'],
+    unverified: [text('Гомдлын одоогийн илгээх хаяг, маягт болон хувь хэргийн хүлээн авах нөхцөлийг тусад нь шалгана. 2023 оны CRPD/C/MNG/CO/2-3 нь 2026 оны үйлчилгээний аудит биш; бүрэн тайланг энэ удаа нээж чадсангүй.', 'Verify the current submission address, form and case-specific admissibility separately. The 2023 CRPD/C/MNG/CO/2-3 is not a 2026 service audit; its full report could not be opened in this check.')],
+  },
+];
+
+export const rightsBenefits = [
+  { id: 'welfare-pension', amount: 600000, effectiveFrom: '2026-11-01', source: 'rates' as const,
+    title: text('Хөгжлийн бэрхшээлтэй хүний халамжийн тэтгэвэр', 'Disability welfare pension'),
+    eligibility: text('16 нас хүрсэн, хөдөлмөрийн чадвараа 50 ба түүнээс дээш хувиар алдсан хүн. Судалгаанд дурдсан даатгалын тэтгэврийн эрх үүсээгүй байх нэмэлт нөхцөлийг байгууллагаар баталгаажуулна.', 'Age 16+, with at least 50% assessed loss of capacity. Confirm the additional research-reported condition concerning absence of insurance pension entitlement with the authority.') },
+  { id: 'child-support', amount: 600000, effectiveFrom: '2026-11-01', source: 'rates' as const,
+    title: text('Хүүхдийн амьжиргааг дэмжих мөнгөн тэтгэмж', 'Child livelihood support payment'),
+    eligibility: text('Байнгын асаргаа шаардлагатай 16 хүртэлх насны хөгжлийн бэрхшээлтэй хүүхэд. Нийтлэг хүүхдийн мөнгө, асрагчид олгох тэтгэмжээс өөр.', 'A child with a disability under 16 requiring permanent care. Distinct from universal child money and the caregiver’s allowance.') },
+  { id: 'caregiver', amount: 370000, effectiveFrom: '2026-11-01', source: 'rates' as const,
+    title: text('Асаргааны тэтгэмж', 'Caregiver allowance'),
+    eligibility: text('Асаргааны тэтгэмжийн эрх үүссэн асрагч. Байнгын асаргаа болон асрагчийн бүртгэлийн нарийвчилсан нөхцөлийг халамжийн байгууллагаар шалгуулна; бүх асрагч автоматаар хамрагдахгүй.', 'A caregiver who meets the care-allowance rules. Confirm permanent-care and caregiver registration criteria with the welfare authority; not every caregiver is automatically eligible.') },
+  { id: 'severe-child-caregiver', amount: 524000, effectiveFrom: '2026-11-01', source: 'rates' as const,
+    title: text('Хүнд хэлбэрийн бэрхшээлтэй хүүхдийн асрагчийн тэтгэмж', 'Allowance for a caregiver of a child with severe disability'),
+    eligibility: text('Байнгын асаргаа шаардлагатай хүнд хэлбэрийн хөгжлийн бэрхшээлтэй хүүхдийг асарч буй, тэтгэмжийн эрх нь тогтоогдсон иргэн. Бусад төлбөртэй давхар авах боломжийг тусад нь тодруулна.', 'An eligible person caring for a child with severe disability requiring permanent care. Confirm separately whether other payments may be received concurrently.') },
+];
+
+export const rightsContacts = [
+  { id: 'nhrc', title: text('Хүний эрхийн Үндэсний Комисс', 'National Human Rights Commission'), phone: '7000-0222', email: 'info@nhrcm.gov.mn', url: 'https://2026.nhrcm.gov.mn/complaint/send?lang=mn', source: 'nhrc' as const, verification: 'VERIFIED' as Verification, purpose: text('Хүний эрхийн гомдол; цахим гомдлын эхлэх холбоос.', 'Human-rights complaints; link to start an online complaint.') },
+  { id: 'legal-aid', title: text('Хууль зүйн туслалцааны төв', 'Legal Aid Centre'), phone: '7700-1982', email: 'info@lac.gov.mn', url: 'https://lac.gov.mn/contact', source: 'legalAid' as const, verification: 'UNVERIFIED' as Verification, purpose: text('Судалгаанд дурдсан зөвлөгөө, өмгөөллийн шалгуур тодруулах холбоо. Энэ удаа дахин баталгаажаагүй.', 'Research-reported contact for advice and representation eligibility; not verified in this check.') },
+  { id: 'insurance', title: text('Нийгмийн даатгалын ерөнхий газар', 'Social Insurance General Office'), phone: '7777-1289', email: null, url: 'https://www.ndaatgal.mn/contact-us/', source: 'insuranceContact' as const, verification: 'VERIFIED' as Verification, purpose: text('Даатгалын тэтгэвэр, магадлалын мэдээлэл болон салбарын холбоо.', 'Insurance pensions, assessment information and branch contacts.') },
+];
+export const rightsEmergency = [
+  { number: '102', title: text('Цагдаа', 'Police') },
+  { number: '103', title: text('Эмнэлгийн түргэн тусламж', 'Medical ambulance') },
+  { number: '108', title: text('Хүүхдийн тусламж, хамгаалал', 'Child assistance and protection') },
+];
+
+export const rightsHistory = [
+  { kind: 'ENACTED' as const, title: disabilityLaw, date: '2016-02-05', source: 'disabilityEnglish' as const,
+    note: text('Түүхэн хуулбарт батлагдсан огноо. Судалгаанд олдсон өөрчлөлтийн огноо: 2025-07-09 — DOCX бүрэн эхийг дахин баталгаажуулаагүй. Хамгийн сүүлийн өөрчлөлт гэж үзэхгүй.', 'Adoption date in the historical copy. Research-reported amendment date: 2025-07-09 — DOCX text not re-verified. Not claimed to be the latest amendment.'), unverified: true },
+  { kind: 'FOUND_AMENDMENT' as const, title: text('Боловсролын ерөнхий хуулийн өөрчлөлт', 'General Law on Education amendment'), date: '2026-07-03', source: 'educationAmendment' as const,
+    note: text('Хавсралтад олдсон огноо; одоогийн бүрэн эх болон бүх түүхийг баталгаажуулаагүй.', 'Date found in the supplied research; full text and complete history are unverified.'), unverified: true },
+  { kind: 'FUTURE_CHANGE' as const, title: text('Нийгмийн халамжийн хуулийн зарим өөрчлөлт', 'Certain Social Welfare Law amendments'), date: '2027-01-01', source: 'welfareFuture' as const,
+    note: text('Судалгаанд 2026-07-03-нд баталж, 2027-01-01-нээс мөрдөхөөр дурдсан. Дахин нээгдээгүй; өнөөдрийн хүчинтэй нөхцөлд оруулаагүй.', 'Reported adopted on 2026-07-03 and effective from 2027-01-01. Not reopened; not applied as current rules.'), unverified: true },
+  { kind: 'FUTURE_CHANGE' as const, title: text('Даатгалын тэтгэврийн хуулийн зарим өөрчлөлт', 'Certain insurance pension law amendments'), date: '2027-01-01', source: 'insuranceFuture' as const,
+    note: text('Судалгаанд 2026-07-02-нд баталж, 2027-01-01-нээс мөрдөхөөр дурдсан. Дахин нээгдээгүй; өнөөдрийн хүчинтэй нөхцөлд оруулаагүй.', 'Reported adopted on 2026-07-02 and effective from 2027-01-01. Not reopened; not applied as current rules.'), unverified: true },
+];
+
+export function filterRightsTopics(query: string, topicId: string, reviewOnly: boolean) {
+  const normalize = (value: string) => value.normalize('NFKC').toLocaleLowerCase()
+    .replace(/(\d)[,\u00a0\u202f ](?=\d{3}(?:\D|$))/gu, '$1');
+  const terms = normalize(query).trim().split(/\s+/u).filter(Boolean);
+  return rightsTopics.filter(topic => {
+    if (topicId && topic.id !== topicId) return false;
+    if (reviewOnly && !topic.unverified.length) return false;
+    const fields = [topic.title, topic.summary, topic.where, ...topic.entitlement, ...topic.conditions,
+      ...topic.steps, ...topic.unverified, ...topic.laws.flatMap(law => [law.name, law.provisions])];
+    const extra = topic.id === 'benefits' ? rightsBenefits.flatMap(item => [item.title.mn, item.title.en,
+      item.eligibility.mn, item.eligibility.en, String(item.amount), item.effectiveFrom]) : [];
+    const searchable = normalize([...fields.flatMap(field => [field.mn, field.en]), ...extra].join(' '));
+    return terms.every(term => searchable.includes(term));
+  });
+}

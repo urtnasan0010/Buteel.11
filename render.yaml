@@ -10,7 +10,7 @@ services:
     autoDeployTrigger: off
     buildCommand: npm ci --include=dev && npm run build
     startCommand: npm start -- --port $PORT
-    healthCheckPath: /
+    healthCheckPath: /api/health
     envVars:
       - key: NODE_VERSION
         value: 24.14.1
@@ -20,7 +20,13 @@ services:
         sync: false
       - key: NEON_AUTH_COOKIE_SECRET
         sync: false
-      - key: REPORT_SECRET
-        sync: false
       - key: APP_ORIGIN
+        sync: false
+      - key: AWS_ENDPOINT_URL_S3
+        sync: false
+      - key: AWS_REGION
+        sync: false
+      - key: AWS_ACCESS_KEY_ID
+        sync: false
+      - key: AWS_SECRET_ACCESS_KEY
         sync: false

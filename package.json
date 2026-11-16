@@ -8,6 +8,7 @@
     "start": "next start --hostname 0.0.0.0",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
+    "source:zip": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/package-source.ps1",
     "db:migrate": "node --env-file=.env scripts/migrate.mjs",
     "admin:grant": "node --env-file=.env scripts/grant-admin.mjs"
   },

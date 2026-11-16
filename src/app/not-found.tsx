@@ -8,7 +8,7 @@ export default async function NotFound() {
   return (
     <main id="main" className="content page">
       <h1>{t(lang, "page_not_found")}</h1>
-      <Link className="text-link" href={`/services?lang=${lang}`}>{t(lang, "service_directory")}</Link>
+      <Link className="text-link" href={`/?lang=${lang}`}>{t(lang, "home")}</Link>
     </main>
   );
 }
