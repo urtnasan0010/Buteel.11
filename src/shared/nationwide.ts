@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { disabilityCategorySchema } from './disability-categories.ts';
 import type { Lang, Text } from './data';
 
 export const regions: { id: string; name: Text }[] = [
@@ -27,6 +28,21 @@ export const regions: { id: string; name: Text }[] = [
 ];
 
 export const copy = {
+  clearFocus:{mn:'Хамрах хүрээний шүүлтүүрийг арилгах',en:'Clear focus filter'},
+  disabilityTypes:{mn:'Хөгжлийн бэрхшээлийн төрлүүд',en:'Types of disability'},
+  categorySummary:{mn:'Товч тайлбар',en:'Short description'},
+  categoryMeaning:{mn:'Юуг ойлгох вэ?',en:'What it means'},
+  categoryBarriers:{mn:'Тулгарч болох саад',en:'Common barriers'},
+  categoryDo:{mn:'Хэрхэн харилцаж, туслах вэ?',en:'How to communicate and offer help'},
+  categoryAvoid:{mn:'Юунаас зайлсхийх вэ?',en:'What to avoid'},
+  categoryLanguage:{mn:'Хүндэтгэлтэй хэллэг',en:'Respectful language'},
+  categorySupport:{mn:'Дэмжлэг хаанаас хайх вэ?',en:'Where to find support'},
+  nativeReview:{mn:'Монгол хэллэгийг монгол хэлтэй хүн болон хөгжлийн бэрхшээлтэй хүмүүсийн төлөөллийн байгууллагаар хянуулах шаардлагатай.',en:'Mongolian wording needs native-speaker and DPO review.'},
+  experienceReview:{mn:'Энэ туршлагатай хүн хараахан хянаагүй.',en:'Not yet reviewed by a person with this lived experience.'},
+  experienceReviewed:{mn:'Энэ туршлагатай хүн хянасан.',en:'Reviewed by a person with this lived experience.'},
+  categoryTopics:{mn:'Эдгээр нь мэдээлэл олоход зориулсан сэдэв. Хөгжлийн бэрхшээлийг албан ёсоор тогтоох ангилал биш.',en:'These are navigation topics, not statutory assessment categories.'},
+  categoryReviewLabel:{mn:'Энэ туршлагатай хүн хянасан гэж тэмдэглэх',en:'Mark as reviewed by a person with this lived experience'},
+  categoryNativeLabel:{mn:'Монгол хэл, төлөөллийн байгууллагын хяналт шаардлагатай',en:'Native-language and DPO review still needed'},
   evidenceExplanation: {mn:'Нотолгооны түвшин нь нийтэлсэн эх сурвалжийн мэдээлэлд хамаарна. «Баталгаажуулалт: Тодорхойгүй» гэдэг нь байгууллагатай шууд холбогдож үйлчилгээ, холбоо барих мэдээллийг баталгаажуулаагүй гэсэн үг.',en:'Evidence confidence describes the published sources. “Verification: Unknown” means the service and contact details have not been confirmed directly with the provider.'},
   contactRightsHelp: {mn:'Хүний эрхийн гомдол, хууль зүйн тусламжийн байгууллагын мэдээллийг доороос үзнэ үү. Эрх хэмжээ, үнэ төлбөргүй тусламжийн шалгуурыг тухайн эх сурвалжаас шалгаарай.',en:'Find human-rights complaints and legal-assistance organisations below. Check their remit and eligibility for free assistance using the linked sources.'},
   sources: {mn:'Эх сурвалжууд',en:'Sources'},
@@ -119,6 +135,7 @@ export const itemSchema = z.object({
   nationwide: z.boolean(), remote: z.enum(['yes', 'no', 'unknown']), source: url, reviewDate: date,
   status: z.enum(['confirmed', 'unknown']), publishState: z.enum(['draft', 'published']),
   confidence: z.enum(['high','medium','low']).nullable().default(null),
+  disabilityCategory:disabilityCategorySchema.nullable().optional(),
   lawName: pair, article: pair, revision: pair, checklist: pair, contact: pair,
   website: url, phone: z.string().trim().max(40).refine(v => !v || /^\+?[\d ()-]{3,30}$/.test(v)),
   email: z.union([z.literal(''), z.email().max(254)]),

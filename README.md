@@ -50,6 +50,10 @@ After owner approval, 55 research organisations and 11 support guides were trans
 
 ## Owner-controlled administration
 
+Disability-category drafts live in the existing guides table, with structured sections/citations in raw_record (type=disability-category). No new table or migration is required. The owner can review them in Admin -> Guides. /understand/disabilities and its category URLs show only published, complete bilingual category guides; the Understand link stays hidden until one is published. They are excluded from the general Help/Rights guide lists. Category publication also rejects incomplete sections, unknown citation IDs and facts whose sources have not been directly reviewed. Review flags distinguish native/DPO review from lived-experience review; all seeded flags start unreviewed. No diagnosis or assessment procedure is provided by these navigation topics.
+
+`node --env-file=.env scripts/seed-disability-categories.mjs` performs a dry run; `--apply` inserts only missing draft IDs and never overwrites existing content. The nine seeded topics are physical/mobility, visual, hearing, speech/communication, intellectual, psychosocial, autism/neurodevelopmental, multiple/deafblind and long-term health. Unverified Mongolian category names, definitions and translations remain empty for human review. Legalinfo and some UN documents were available only as indexed excerpts or failed direct access; current assessment-rule amendments still need official-source verification. Public support links filter recorded organisational focus where matching is supported, without inferring eligibility or diagnoses.
+
 /admin/login uses managed Neon Auth. Public email sign-up is disabled at Neon; the default Google sign-up provider is removed. The application proxies only email sign-in, sign-out, session and password reset endpoints. Every admin API read and write checks both a verified Neon session and the database admin_accounts allowlist. A logged-in non-admin has no editorial permission.
 
 Create an account as owner using Neon Console, or the authenticated owner CLI:

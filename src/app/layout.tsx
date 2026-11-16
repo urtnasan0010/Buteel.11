@@ -8,6 +8,7 @@ import LanguageSwitch, { Navigation } from "@/client/components/language-switch"
 import { Icon, } from "@/shared/ui";
 import "@/client/styles/globals.css";
 import { n } from '@/shared/nationwide';
+import {publishedDisabilityCategories} from '@/server/components/disability-categories';
 export async function generateMetadata():Promise<Metadata> {
   const h=await headers();
   const lang=selectLanguage(h.get('x-language'));
@@ -15,7 +16,13 @@ export async function generateMetadata():Promise<Metadata> {
   const admin=path==='/admin'||path.startsWith('/admin/');
   const info=new URLSearchParams(h.get('x-query')||'').get('info');
   const infoTitle=info==='privacy'?t(lang,'privacy'):info==='disclaimer'?n(lang,'disclaimer'):info==='accessibility'?t(lang,'accessibility_statement'):info?n(lang,'siteInfo'):'';
-  const title=path==='/admin/login'?n(lang,'login'):path==='/admin/reset'?n(lang,'resetPassword'):admin?n(lang,'admin'):path.startsWith('/rights')?n(lang,'rights'):path.startsWith('/help')?n(lang,'help'):path.startsWith('/understand')?n(lang,'understand'):infoTitle||t(lang,'home');
+  let categoryTitle='';
+  if(path==='/understand/disabilities')categoryTitle=n(lang,'disabilityTypes');
+  else if(path.startsWith('/understand/disabilities/')){
+    const slug=path.slice('/understand/disabilities/'.length);
+    categoryTitle=(await publishedDisabilityCategories()).find(entry=>entry.category.slug===slug)?.item.title[lang]||n(lang,'disabilityTypes');
+  }
+  const title=categoryTitle||(path==='/admin/login'?n(lang,'login'):path==='/admin/reset'?n(lang,'resetPassword'):admin?n(lang,'admin'):path.startsWith('/rights')?n(lang,'rights'):path.startsWith('/help')?n(lang,'help'):path.startsWith('/understand')?n(lang,'understand'):infoTitle||t(lang,'home'));
   return {
     title:{default:`${title} | ${n(lang,'brand')}`,template:`%s | ${n(lang,'brand')}`},
     description:n(lang,'homeShort'),

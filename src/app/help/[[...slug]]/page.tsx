@@ -27,14 +27,15 @@ export default async function Help({ params, searchParams }: {
   const region = scalar('region');
   const area = region ? scalar('area').slice(0,150) : '';
   const q = scalar('q').slice(0,300);
+  const focus=scalar('focus');
   const nationwide = scalar('nationwide') === '1';
   const organisation = scalar('organisation').slice(0,150);
   const reportPage = scalar('service').slice(0,500) || '/help';
   let items: Item[] = [], national: Item[] = [], guides: Item[] = [];
   let failed = false, guidesFailed = false;
   try {
-    items = await listContent('organisations', { region, area, nationwide, q });
-    if (region && !nationwide && !items.some(item => item.status === 'confirmed')) national = await listContent('organisations', { nationwide: true });
+    items = await listContent('organisations', { region, area, nationwide, q,focus });
+    if (region && !nationwide && !items.some(item => item.status === 'confirmed')) national = await listContent('organisations', { nationwide: true,focus });
     if (organisation) {
       const selected = await publicItem('organisations', organisation);
       if (selected && !items.some(item => item.id === selected.id)) items.unshift(selected);
@@ -51,11 +52,13 @@ export default async function Help({ params, searchParams }: {
       <h2 id="organisations-title">{n(lang,'directory')}</h2>
       <form action="/help#organisations" className="region-filters">
         <input type="hidden" name="lang" value={lang}/>
+        {focus&&<input type="hidden" name="focus" value={focus}/>}
         <label>{n(lang,'region')}<select name="region" defaultValue={region}><option value="">{n(lang,'allRegions')}</option>{regions.map(region=><option key={region.id} value={region.id}>{region.name[lang]}</option>)}</select></label>
         <label>{n(lang,'area')}<input name="area" defaultValue={area} maxLength={150} placeholder={n(lang,'areaHint')}/></label>
         <label>{n(lang,'query')}<input name="q" defaultValue={q} maxLength={300}/></label>
         <label className="check"><input type="checkbox" name="nationwide" value="1" defaultChecked={nationwide}/>{n(lang,'nationwide')}</label><button>{n(lang,'search')}</button>
       </form>
+      {focus&&<Link className="text-link" href={`/help?lang=${lang}#organisations`}>{n(lang,'clearFocus')}</Link>}
       {failed ? <p role="alert">{n(lang,'unavailable')}</p> : <>
         {noVerified && <div className="empty-region"><p>{n(lang,'empty')}</p><Link href={`/help?lang=${lang}&report=1&service=${encodeURIComponent(region || '/help')}#report-problem`}>{n(lang,'suggest')}</Link></div>}
         {items.map(item=><PublishedItem key={item.id} item={item} lang={lang} kind="organisations" expanded={item.id===organisation}/>)}

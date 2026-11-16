@@ -7,6 +7,8 @@ import ClaimList from './claim-list';
 import {redirect} from 'next/navigation';
 import type {ContentPage} from '@/shared/content-pages';
 import {publicText} from '@/shared/public-content';
+import Link from 'next/link';
+import {n} from '@/shared/nationwide';
 
 export function TopicDetails({page,lang,open=false}:{page:ContentPage;lang:Lang;open?:boolean}) {
  const id=page.path.split('/').pop()!;
@@ -19,7 +21,7 @@ export function TopicDetails({page,lang,open=false}:{page:ContentPage;lang:Lang;
   {publicText(t(lang,'editorial_note'))&&<p className="meta">{t(lang,'editorial_note')}</p>}
  </details>;
 }
-export default function SectionContent({path,lang,topic:selectedTopic}:{path:string;lang:Lang;topic?:string}) {
+export default function SectionContent({path,lang,topic:selectedTopic,hasDisabilityCategories=false}:{path:string;lang:Lang;topic?:string;hasDisabilityCategories?:boolean}) {
  if(path==='/understand/rights')redirect(`/rights?lang=${lang}`);
  const page=contentPages.find(page=>page.path===path);
  if(!page)notFound();
@@ -29,5 +31,5 @@ export default function SectionContent({path,lang,topic:selectedTopic}:{path:str
   redirect(`/${page.section==='help'?'help':'understand'}?lang=${lang}&topic=${encodeURIComponent(topic)}#${topic}`);
  }
  const topics=contentPages.filter(page=>(page.section==='understand'||page.section==='reach')&&page.path.split('/').length>2&&page.path!=='/understand/rights');
- return <main id="main" className="content page reading"><h1>{t(lang,page.title)}</h1><p className="intro">{t(lang,page.summary)}</p>{topics.map(topic=><TopicDetails key={topic.path} page={topic} lang={lang} open={selectedTopic===topic.path.split('/').pop()}/>)}<PrintButton lang={lang}/></main>;
+ return <main id="main" className="content page reading"><h1>{t(lang,page.title)}</h1><p className="intro">{t(lang,page.summary)}</p>{hasDisabilityCategories&&<p><Link className="text-link" href={`/understand/disabilities?lang=${lang}`}>{n(lang,'disabilityTypes')}</Link></p>}{topics.map(topic=><TopicDetails key={topic.path} page={topic} lang={lang} open={selectedTopic===topic.path.split('/').pop()}/>)}<PrintButton lang={lang}/></main>;
 }
