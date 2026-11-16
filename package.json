@@ -8,6 +8,8 @@
     "start": "next start --hostname 0.0.0.0",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
+    "test": "node scripts/test-public.cjs",
+    "test:browser": "node scripts/check-public.cjs && node scripts/check-rights.cjs && node scripts/check-understand.cjs && node scripts/check-help.cjs && node scripts/check-admin.cjs",
     "source:zip": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/package-source.ps1",
     "db:migrate": "node --env-file=.env scripts/migrate.mjs",
     "admin:grant": "node --env-file=.env scripts/grant-admin.mjs"

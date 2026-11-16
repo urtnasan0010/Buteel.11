@@ -1,8 +1,7 @@
 import { z } from 'zod';
 import type { Lang, Text } from './data';
 
-// Keep existing storage identifiers so changing the destinations does not rewrite records.
-// announcement -> Home, event -> Understand, warning -> Help.
+// Categories retain existing storage identifiers. Every category appears on Home only.
 export const postTypes = ['announcement', 'event', 'warning'] as const;
 export const MAX_POST_IMAGES = 70;
 export const MAX_IMAGE_BYTES = 5 * 1024 * 1024;
@@ -30,7 +29,9 @@ export type Post = Omit<PostInput, 'images'> & { images: PostImage[] };
 export type PostPage = { posts: Post[]; page: number; hasMore: boolean };
 export const postsCopy = {
   heading: { mn: 'Мэдээ, мэдээлэл', en: 'News and updates' },
-  all: { mn: 'Бүгд', en: 'All' }, event: { mn: 'Ойлгох', en: 'Understand' }, announcement: { mn: 'Нүүр', en: 'Home' }, warning: { mn: 'Тусламж', en: 'Help' },
+  all: { mn: 'Бүгд', en: 'All' }, event: { mn: 'Үйл явдал', en: 'Event' }, announcement: { mn: 'Зарлал', en: 'Announcement' }, warning: { mn: 'Сэрэмжлүүлэг', en: 'Notice' },
+  homeOnly: { mn: 'Бүх нийтлэл зөвхөн Нүүр хуудсанд гарна. Төрөл нь нийтлэлийн ангилал юм.', en: 'All posts appear on Home only. Type is a content category.' },
+  draftRestored: { mn: 'Хадгалаагүй нийтлэлийг сэргээсэн. Энэ цонхонд Удирдлага руу буцаж ирэхэд бичвэр, сонгосон зураг сэргээгдэнэ. Цонхыг хаах эсвэл дахин ачаалах үед хадгалагдахгүй.', en: 'Unsaved post restored. Text and selected images survive returning to Administration in this tab. They do not survive closing or reloading the tab.' },
   empty: { mn: 'Нийтлэгдсэн мэдээ хараахан алга.', en: 'No published posts yet.' },
   noMatch: { mn: 'Энэ төрөлд нийтлэл алга.', en: 'No posts in this category.' },
   unavailable: { mn: 'Мэдээг ачаалж чадсангүй. Дахин оролдоно уу.', en: 'Posts could not load. Please try again.' },

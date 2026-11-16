@@ -15,4 +15,32 @@ jobs:
       - run: npm run lint
       - run: npx next typegen
       - run: npm run typecheck
+      - run: npm test
       - run: npm run build
+      - name: Install isolated browser tools
+        run: |
+          mkdir -p "$RUNNER_TEMP/browser-tools"
+          npm install --prefix "$RUNNER_TEMP/browser-tools" playwright@1.65.1 @axe-core/playwright@4.14.0
+          "$RUNNER_TEMP/browser-tools/node_modules/.bin/playwright" install --with-deps chromium
+      - name: Browser regression checks
+        env:
+          PUBLIC_BROWSER_TOOLS: ${{ runner.temp }}/browser-tools
+          RIGHTS_BROWSER_TOOLS: ${{ runner.temp }}/browser-tools
+          UNDERSTAND_BROWSER_TOOLS: ${{ runner.temp }}/browser-tools
+          BROWSER_CHANNEL: chromium
+          DATABASE_URL: postgresql://test@127.0.0.1:55436/test?sslmode=disable
+          APP_ORIGIN: http://127.0.0.1:3216
+        run: |
+          npm run start -- --port 3216 > "$RUNNER_TEMP/preview.log" 2>&1 &
+          preview_pid=$!
+          trap 'kill "$preview_pid" || true' EXIT
+          for attempt in $(seq 1 30); do
+            if curl -fsS http://127.0.0.1:3216/admin/login > /dev/null; then break; fi
+            sleep 1
+          done
+          npm run test:browser
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: browser-results
+          path: artifacts/

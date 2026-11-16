@@ -7,23 +7,29 @@ import { useRouter } from 'next/navigation';
 const authClient = createAuthClient();
 
 export function AdminLogin({ lang }: { lang: Lang }) {
-  const router = useRouter();
   const [busy, setBusy] = useState(false); const [message, setMessage] = useState('');
   const [resetEmail, setResetEmail] = useState('');
   if (resetEmail) return <><p role="status">{n(lang,'resetCodeHint')}</p><ResetPassword lang={lang} token="" email={resetEmail} /><button className="secondary" onClick={() => { setResetEmail(''); setMessage(''); }}>{n(lang,'cancel')}</button></>;
   return <form className="admin-login" onSubmit={async e => {
     e.preventDefault(); setBusy(true); setMessage(''); const data = new FormData(e.currentTarget);
-    try { const result = await authClient.signIn.email({ email: String(data.get('email')), password: String(data.get('password')) }); if (result.error) throw new Error('Invalid'); router.push(`/admin?lang=${lang}`); router.refresh(); }
+    try {
+      const result = await authClient.signIn.email({ email: String(data.get('email')), password: String(data.get('password')) });
+      if (result.error) throw new Error('Invalid');
+      // A fresh document reads the new session cookie and discards stale auth layouts.
+      // eslint-disable-next-line @next/next/no-location-assign-relative-destination
+      window.location.assign('/admin?lang=mn');
+    }
     catch { setMessage(n(lang, 'failed')); setBusy(false); }
   }}><label>{n(lang, 'email')}<input type="email" name="email" autoComplete="username" required /></label><label>{n(lang, 'password')}<input type="password" name="password" autoComplete="current-password" required /></label><button disabled={busy}>{n(lang, 'login')}</button>
   <button type="button" className="secondary" disabled={busy} onClick={async event => {
     const email = event.currentTarget.form?.querySelector<HTMLInputElement>('input[name="email"]');
     if (!email?.reportValidity()) return;
+    const requestedEmail = email.value.trim();
     setBusy(true);
     try {
-      const result = await authClient.emailOtp.sendVerificationOtp({ email: email.value.trim(), type: 'forget-password' });
+      const result = await authClient.emailOtp.sendVerificationOtp({ email: requestedEmail, type: 'forget-password' });
       if (result.error) throw new Error('Reset unavailable');
-      setResetEmail(email.value.trim());
+      setResetEmail(requestedEmail);
     } catch { setMessage(n(lang, 'resetFailed')); } finally { setBusy(false); }
   }}>{n(lang,'resetPassword')}</button><p role="alert">{message}</p></form>;
 }

@@ -7,7 +7,8 @@ $archivePath = Join-Path $archiveDirectory 'hurteemj-source.zip'
 # Deliberately list source/configuration entries instead of archiving the workspace.
 $entries = @('src','db','scripts','.github','.env.example','.gitignore','.node-version',
   'package.json','package-lock.json','tsconfig.json','next-env.d.ts','next.config.ts',
-  'postcss.config.mjs','eslint.config.mjs','neon.ts','render.yaml','README.md','HOME_POSTS.md','review-flags.txt')
+  'postcss.config.mjs','eslint.config.mjs','neon.ts','render.yaml','README.md','HOME_POSTS.md','review-flags.txt',
+  'HELP_REVIEW.md','RIGHTS_REVIEW.md','UNDERSTAND_REVIEW.md','PUBLIC_REVIEW.md','HOME_ONLY_POSTS.md')
 New-Item -ItemType Directory -Path $stageRoot | Out-Null
 try {
   foreach ($entry in $entries) {

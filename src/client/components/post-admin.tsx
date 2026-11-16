@@ -6,6 +6,7 @@ import type { Lang } from '@/shared/data';
 import { MAX_IMAGE_BYTES, MAX_POST_BYTES, MAX_POST_IMAGES, pc, postDate, postInputSchema, postTypes, todayInMongolia, type Post, type PostPage } from '@/shared/posts';
 import PostArticle from './post-article';
 import { useUnsavedChanges } from './use-unsaved-changes';
+import { clearPostDraft, readPostDraft, rememberPostDraft } from './post-draft';
 
 function emptyPost(): Post {
   return { id:crypto.randomUUID(),version:0,title:{ mn:'',en:'' },body:{ mn:'',en:'' },type:'announcement',
@@ -22,23 +23,32 @@ function messageFor(error: unknown, lang: Lang) {
 }
 export default function PostAdmin({ lang }: { lang: Lang }) {
   const router = useRouter();
+  const [recovery] = useState(readPostDraft);
   const [data,setData] = useState<PostPage>({ posts:[],page:1,hasMore:false });
-  const [editor,setEditor] = useState<Post | null>(null);
-  const [baseline,setBaseline] = useState('');
+  const [editor,setEditor] = useState<Post | null>(recovery?.post ?? null);
+  const [baseline,setBaseline] = useState(recovery?.baseline ?? '');
   const [preview,setPreview] = useState(false);
   const [busy,setBusy] = useState(false);
   const [loading,setLoading] = useState(true);
   const [loadFailed,setLoadFailed] = useState(false);
-  const [message,setMessage] = useState('');
-  const files = useRef(new Map<string,File>());
-  const urls = useRef(new Map<string,string>());
+  const [message,setMessage] = useState(recovery ? pc(lang,'draftRestored') : '');
+  const files = useRef(new Map<string,File>(recovery?.files));
+  const urls = useRef(new Map<string,string>(recovery?.post.images.filter(image => recovery.files.has(image.id)).map(image => [image.id, image.url])));
   const titleInput = useRef<HTMLTextAreaElement>(null);
   const newButton = useRef<HTMLButtonElement>(null);
   const busyRef = useRef(false);
   function releaseImages() { urls.current.forEach(url => URL.revokeObjectURL(url)); urls.current.clear(); files.current.clear(); }
-  useEffect(() => { const currentUrls = urls.current; return () => currentUrls.forEach(url => URL.revokeObjectURL(url)); },[]);
+  useEffect(() => {
+    const currentUrls = urls.current;
+    return () => { if (!readPostDraft()) currentUrls.forEach(url => URL.revokeObjectURL(url)); };
+  },[]);
   const dirty = Boolean(editor && JSON.stringify(editor) !== baseline);
   useUnsavedChanges(dirty,busy,pc(lang,'discardConfirm'));
+  useEffect(() => { rememberPostDraft(editor, baseline, files.current); }, [editor, baseline]);
+  useEffect(() => {
+    window.addEventListener('staff-discard-draft', clearPostDraft);
+    return () => window.removeEventListener('staff-discard-draft', clearPostDraft);
+  }, []);
   const activeId = editor?.id;
   useEffect(() => { if (activeId) titleInput.current?.focus(); },[activeId]);
   async function load(page: number) {
@@ -54,7 +64,7 @@ export default function PostAdmin({ lang }: { lang: Lang }) {
     }).finally(() => { if (!controller.signal.aborted) setLoading(false); });
     return () => controller.abort();
   },[lang]);
-  function closeEditor() { releaseImages(); setEditor(null); setPreview(false); newButton.current?.focus(); }
+  function closeEditor() { clearPostDraft(); releaseImages(); setEditor(null); setPreview(false); newButton.current?.focus(); }
   function openEditor(post: Post) { releaseImages(); setBaseline(JSON.stringify(post)); setEditor(post); setPreview(false); setMessage(''); }
   function cancelEditor() { if (!dirty || window.confirm(pc(lang,'discardConfirm'))) closeEditor(); }
   async function save(state: Post['publishState']) {
@@ -92,6 +102,7 @@ export default function PostAdmin({ lang }: { lang: Lang }) {
     setEditor({ ...editor,images:[...editor.images,...additions] }); setMessage('');
   }
   return <>
+    <p className="note">{pc(lang,'homeOnly')}</p>
     <div className="admin-toolbar"><button ref={newButton} disabled={busy || Boolean(editor)} onClick={() => openEditor(emptyPost())}>{pc(lang,'create')}</button></div>
     <p role="status" aria-live="polite" className="post-status">{message}</p>
     {editor && <form className="post-editor" onSubmit={event => { event.preventDefault(); void save(editor.publishState); }}>

@@ -19,7 +19,7 @@ assert.equal(new Set(rightsTopics.map(topic => topic.id)).size, 11);
 for (const topic of rightsTopics) {
   for (const value of [topic.title, topic.summary, topic.where, ...topic.entitlement,
     ...topic.conditions, ...topic.steps, ...topic.unverified, ...topic.laws.flatMap(law => [law.name, law.provisions])]) {
-    for (const lang of ['mn', 'en']) assert.ok(value[lang] && !/\uFFFD|\?{3}/.test(value[lang]));
+    for (const lang of ['mn']) assert.ok(value[lang] && !/\uFFFD|\?{3}/.test(value[lang]));
   }
   assert.ok(topic.sources.length && topic.laws.length && topic.steps.length);
   for (const id of [...topic.sources, ...topic.laws.flatMap(law => law.sources)]) assert.ok(rightsSources[id]);
@@ -48,13 +48,13 @@ assert.equal(filterRightsTopics('600000', 'education', false).length, 0);
 assert.equal(filterRightsTopics('no-such-topic-xyz', '', false).length, 0);
 
 (async () => {
-  const browser = await chromium.launch({ channel: 'msedge', headless: true });
+  const browser = await chromium.launch({ channel: process.env.BROWSER_CHANNEL || 'msedge', headless: true });
   const base = process.env.RIGHTS_BASE_URL || 'http://127.0.0.1:3216';
   const output = path.resolve('artifacts/rights');
   fs.mkdirSync(output, { recursive: true });
   const results = [];
   try {
-    for (const width of [375, 768, 1440]) for (const lang of ['mn', 'en']) {
+    for (const width of [375, 768, 1440]) for (const lang of ['mn']) {
       const context = await browser.newContext({ viewport: { width, height: 900 }, reducedMotion: 'reduce' });
       const page = await context.newPage();
       const errors = [];
@@ -65,6 +65,8 @@ assert.equal(filterRightsTopics('no-such-topic-xyz', '', false).length, 0);
       assert.equal(await page.locator('.rights-card').count(), 11);
       for (const number of ['102', '103', '108']) assert.equal(await page.locator(`.rights-emergency a[href="tel:${number}"]`).count(), 1);
       assert.equal(await page.locator('[data-contact="legal-aid"] a[href^="tel:"]').count(), 0);
+      assert.ok(!(await page.locator('main').innerText()).includes('7700-1982'));
+      assert.ok(!(await page.locator('main').innerText()).includes('info@lac.gov.mn'));
       await page.keyboard.press('Tab');
       assert.equal(await page.evaluate(() => document.activeElement.className), 'skip');
       await page.keyboard.press('Enter');
@@ -100,10 +102,8 @@ assert.equal(filterRightsTopics('no-such-topic-xyz', '', false).length, 0);
       await page.screenshot({ path: path.join(output, `${lang}-${width}.png`) });
       await page.locator('#right-benefits').scrollIntoViewIfNeeded();
       await page.screenshot({ path: path.join(output, `${lang}-${width}-benefits.png`) });
-      const other = lang === 'mn' ? 'en' : 'mn';
-      await page.locator(`.site-header a[hreflang="${other}"]`).click();
-      await page.waitForURL(`**/rights?lang=${other}`);
-      assert.equal(await page.locator('html').getAttribute('lang'), other);
+      await page.goto(`${base}/rights?lang=en`);
+      assert.equal(await page.locator('html').getAttribute('lang'), 'mn');
       await page.goto(`${base}/rights?lang=${lang}`);
       await page.locator('#rights-query').fill('600000');
       await page.locator('#rights-query').press('Enter');
@@ -124,12 +124,12 @@ assert.equal(filterRightsTopics('no-such-topic-xyz', '', false).length, 0);
       assert.equal(await page.locator('#right-employment').count(), 1);
       assert.equal(await page.locator('.rights-card').count(), 1);
       assert.deepEqual(errors, []);
-      results.push({ width, lang, keyboard: 'pass', axeCollapsedAndExpanded: 'pass', searchAndCombinedFilters: 'pass', languageSwitch: 'pass' });
+      results.push({ width, lang, keyboard: 'pass', axeCollapsedAndExpanded: 'pass', searchAndCombinedFilters: 'pass', mongolianOnly: 'pass' });
       await context.close();
     }
     const context = await browser.newContext({ viewport: { width: 320, height: 800 }, javaScriptEnabled: false });
     const page = await context.newPage();
-    for (const lang of ['mn', 'en']) {
+    for (const lang of ['mn']) {
       await page.goto(`${base}/rights?lang=${lang}`);
       await page.locator('#rights-query').fill('600000');
       await page.locator('#rights-query').press('Enter');

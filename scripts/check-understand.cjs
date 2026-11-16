@@ -15,23 +15,31 @@ const compiled = ts.transpileModule(fs.readFileSync('src/shared/understand.ts', 
 }).outputText;
 const dataModule = { exports: {} };
 new Function('exports', compiled)(dataModule.exports);
-const { disabilityTopics, seizureFirstAid, sharedSupportTips, understandCopy, understandSources } = dataModule.exports;
+const { disabilityTopics, seizureFirstAid, sharedSupportTips, sourceDisplayDate, understandCopy, understandSources } = dataModule.exports;
 assert.equal(disabilityTopics.length, 12);
 assert.equal(new Set(disabilityTopics.map(topic => topic.id)).size, 12);
 for (const topic of disabilityTopics) {
   for (const value of [topic.title, topic.explanation, topic.experiences, topic.misunderstanding,
     topic.dailyLife, topic.educationWork, topic.digitalAccess, ...topic.furtherDetails, ...topic.tips]) {
-    for (const lang of ['mn', 'en']) assert.ok(value[lang] && !/TODO|\uFFFD|\?{3}/.test(value[lang]));
+    for (const lang of ['mn']) assert.ok(value[lang] && !/TODO|\uFFFD|\?{3}/.test(value[lang]));
   }
   assert.ok(topic.sources.length);
+  assert.ok(topic.tips.length >= 2);
   for (const id of topic.sources) {
     const source = understandSources[id];
     assert.ok(source && new URL(source.url).protocol === 'https:');
     assert.equal(source.checkedOn, '2026-11-16');
   }
 }
+for (const item of Object.values(understandSources)) {
+  assert.equal(item.reviewed_by, null);
+  assert.equal(item.reviewed_at, null);
+  assert.equal(sourceDisplayDate(item).kind, 'added');
+}
+assert.equal(sourceDisplayDate({ added_at: '2026-11-16', reviewed_by: null, reviewed_at: '2026-11-17' }).kind, 'added');
+assert.equal(sourceDisplayDate({ added_at: '2026-11-16', reviewed_by: 'Test reviewer', reviewed_at: '2026-11-17' }).kind, 'reviewed');
 for (const value of [...seizureFirstAid, ...sharedSupportTips, ...Object.values(understandCopy)]) {
-  for (const lang of ['mn', 'en']) assert.ok(value[lang] && !/TODO|\uFFFD|\?{3}/.test(value[lang]));
+  for (const lang of ['mn']) assert.ok(value[lang] && !/TODO|\uFFFD|\?{3}/.test(value[lang]));
 }
 assert.match(understandCopy.emergencyText.en, /at 5 minutes or longer/);
 assert.match(understandCopy.emergencyText.en, /Do not wait 5 minutes/);
@@ -39,13 +47,13 @@ assert.match(seizureFirstAid[3].en, /After convulsions stop/);
 assert.match(seizureFirstAid[4].en, /wheelchair/);
 
 (async () => {
-  const browser = await chromium.launch({ channel: 'msedge', headless: true });
+  const browser = await chromium.launch({ channel: process.env.BROWSER_CHANNEL || 'msedge', headless: true });
   const base = process.env.UNDERSTAND_BASE_URL || 'http://127.0.0.1:3216';
   const output = path.resolve('artifacts/understand');
   fs.mkdirSync(output, { recursive: true });
   const results = [];
   try {
-    for (const width of [375, 768, 1440]) for (const lang of ['mn', 'en']) {
+    for (const width of [360, 375, 768, 1440]) for (const lang of ['mn']) {
       const context = await browser.newContext({ viewport: { width, height: 900 }, reducedMotion: 'reduce' });
       const page = await context.newPage();
       const errors = [];
@@ -56,7 +64,12 @@ assert.match(seizureFirstAid[4].en, /wheelchair/);
       assert.equal(await page.locator('main').count(), 1);
       assert.equal(await page.locator('.understand-card').count(), 12);
       assert.equal(await page.locator('.understand-card details[open]').count(), 0);
-      assert.ok(await page.locator('#posts').count(), 'Existing post feed remains');
+      assert.equal(await page.locator('.topic-index a').count(), 12);
+      for (const topic of disabilityTopics) assert.equal(await page.locator(`.topic-index a[href="#${topic.id}"]`).count(), 1);
+      assert.ok(await page.locator('#seizure-first-aid .medical-review-note').isVisible());
+      assert.ok(!(await page.locator('main').innerText()).includes(understandCopy.reviewed[lang]));
+      const feed = page.locator('#posts');
+      if (await feed.count()) assert.ok(await feed.locator('.home-post').count(), 'Related posts appear only with content');
       assert.ok(await page.locator('a[href="tel:103"]').count());
       assert.ok(!(await page.locator('main').innerText()).includes(lang === 'en' ? 'Хөгжлийн бэрхшээлийг ойлгох' : 'Understanding disability'));
       // Tab through the real page, including the skip link and each disclosure.
@@ -98,27 +111,31 @@ assert.match(seizureFirstAid[4].en, /wheelchair/);
         assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), 'No horizontal overflow');
       }
       const columns = await page.locator('.understand-grid').evaluate(el => getComputedStyle(el).gridTemplateColumns.split(' ').length);
-      assert.equal(columns, width === 375 ? 1 : 2);
+      assert.equal(columns, width <= 375 ? 1 : 2);
       await page.evaluate(() => scrollTo(0, 0));
       await page.screenshot({ path: path.join(output, `${lang}-${width}.png`) });
+      await page.locator('.topic-index').evaluate(el => el.scrollIntoView({ block: 'start' }));
+      await page.screenshot({ path: path.join(output, `${lang}-${width}-index.png`) });
       await page.locator('.understand-grid').scrollIntoViewIfNeeded();
       await page.screenshot({ path: path.join(output, `${lang}-${width}-cards.png`) });
       await page.locator('#epilepsy').scrollIntoViewIfNeeded();
       await page.screenshot({ path: path.join(output, `${lang}-${width}-details.png`) });
-      await page.locator('#seizure-first-aid').scrollIntoViewIfNeeded();
+      await page.locator('#seizure-first-aid').evaluate(el => el.scrollIntoView({ block: 'start' }));
       await page.screenshot({ path: path.join(output, `${lang}-${width}-first-aid.png`) });
-      const other = lang === 'mn' ? 'en' : 'mn';
-      await page.locator(`.site-header a[hreflang="${other}"]`).click();
-      await page.waitForURL(`**/understand?lang=${other}`);
-      await page.waitForFunction(expected => document.documentElement.lang === expected, other);
+      await page.locator('.topic-index a[href="#epilepsy"]').click();
+      assert.equal(await page.evaluate(() => location.hash), '#epilepsy');
+      await page.keyboard.press('Tab');
+      assert.ok(await page.locator('#epilepsy summary').evaluate(el => el === document.activeElement));
+      await page.goto(`${base}/understand?lang=en`);
+      assert.equal(await page.locator('html').getAttribute('lang'), 'mn');
       assert.equal(await page.locator('.understand-card').count(), 12);
       assert.deepEqual(errors, []);
-      results.push({ width, lang, topics: 12, keyboard: 'pass', collapsedAndExpandedAxe: 'pass', languageSwitch: 'pass' });
+      results.push({ width, lang, topics: 12, keyboard: 'pass', collapsedAndExpandedAxe: 'pass', mongolianOnly: 'pass' });
       await context.close();
     }
     // Reflow at 320 CSS pixels approximates a desktop viewport at 400% zoom.
     const page = await browser.newPage({ viewport: { width: 320, height: 800 } });
-    for (const lang of ['mn', 'en']) {
+    for (const lang of ['mn']) {
       await page.goto(`${base}/understand?lang=${lang}`);
       await page.locator('.understand-card summary').evaluateAll(items => items.forEach(item => item.click()));
       assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth));

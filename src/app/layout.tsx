@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { headers } from 'next/headers';
 import Link from 'next/link';
-import { LanguageSwitch, Navigation } from '@/client/components/language-switch';
+import { Navigation } from '@/client/components/language-switch';
 import { selectLanguage } from '@/shared/language';
 import { t } from '@/shared/translations';
 import { n } from '@/shared/nationwide';
@@ -23,22 +23,24 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function Layout({ children }: { children: React.ReactNode }) {
-  const lang = selectLanguage((await headers()).get('x-language'));
+  const requestHeaders = await headers();
+  const lang = selectLanguage(requestHeaders.get('x-language'));
+  const path = requestHeaders.get('x-page') || '/';
+  const adminPage = path === '/admin' || path.startsWith('/admin/');
   let signedIn = false;
-  try { signedIn = Boolean(await currentAdmin()); } catch { /* Public navigation remains available if auth is unavailable. */ }
+  if (adminPage) try { signedIn = Boolean(await currentAdmin()); } catch { /* Authentication fails closed. */ }
   return <html lang={lang}><body>
     <a className="skip" href="#main">{t(lang, 'skip_to_main_content')}</a>
     <header className="site-header">
-      <Link className="brand" href={`/?lang=${lang}`}>
-        <span className="brand-icon"><Icon kind="brand" /></span>{n('mn', 'brand')}
+      <Link className="brand" href={`/?lang=${lang}`} aria-label="Нүүр хуудас">
+        <span className="brand-icon" aria-hidden="true"><Icon kind="brand" /></span>
       </Link>
       {!signedIn && <Navigation lang={lang} />}
-      <div className="staff-header-actions"><LanguageSwitch lang={lang} />
-        {signedIn ? <><Link className="language" href={`/?lang=${lang}`}>{t(lang,'home')}</Link><StaffSignOut /></>
-          : <Link className="language" href={`/admin/login?lang=${lang}`}>Staff</Link>}
+      <div className="staff-header-actions"><a className="button secondary staff-entry" href="/admin?lang=mn">{signedIn ? 'Удирдлага' : 'Ажилтан'}</a>
+        {signedIn && <><Link className="language" href={`/?lang=${lang}`}>{t(lang,'home')}</Link><StaffSignOut /></>}
       </div>
     </header>
     {children}
-    <footer className="compact-footer"><Link className="text-link" href={`/admin?lang=${lang}`}>{pc(lang,'admin')}</Link></footer>
+    {path !== '/' && <footer className="compact-footer"><p>{n(lang,'brand')}</p></footer>}
   </body></html>;
 }

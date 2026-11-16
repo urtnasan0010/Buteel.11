@@ -1,5 +1,15 @@
 # /understand content review
 
+## Human review dates
+
+Historical `checkedOn` values document automated source checks, not human
+editorial sign-off. Public sources now display `added_at` unless both
+`reviewed_by` and a valid `reviewed_at` have been explicitly recorded. All human
+review fields are currently null. Do not fill them from automation dates. The
+medical-review warning is next to seizure first aid. A second recovery/communication
+tip follows the already cited NHS/CDC instructions. Mongolian glosses for
+meltdown, shutdown and masking remain subject to native-speaker review.
+
 Source verification: 2026-11-16 (Asia/Ulaanbaatar). Each source in
 `src/shared/understand.ts` was opened and the relevant content inspected on this
 date. Dates describe this check, not the publisher's review or publication date.

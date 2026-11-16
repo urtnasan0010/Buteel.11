@@ -6,6 +6,7 @@ export default function ErrorPage({ reset }: { reset: () => void }) {
       <h1>{t('mn','load_error')}</h1>
       <p>{t('mn','please_retry')}</p>
       <button onClick={reset}>{t('mn','retry')}</button>
+      <a className="text-link" href="/rights?lang=mn#rights-contacts">Зөвлөгөө авах холбоо</a>
     </main>
   );
 }

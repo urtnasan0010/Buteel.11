@@ -1,6 +1,6 @@
 # Hurteemj
 
-Mongolian-only website with Home, Understand, Help and Rights pages. Home shows published posts; the other three page bodies are currently blank. The header includes Home and the three section links, plus Staff linking to login. Administration is directly accessible from the footer or `/admin`.
+Mongolian-only website with Home, Understand, Help and Rights pages. Home includes bundled guidance and all published posts. Understand, Help and Rights contain educational guides without post feeds. Essential information does not require a seeded database. The visible Ажилтан header button opens `/admin`; anonymous visitors must sign in. There is no language switch, and legacy `?lang=en` URLs serve Mongolian. Stored English fields remain intact for compatibility. See [HOME_ONLY_POSTS.md](HOME_ONLY_POSTS.md) for the current publication model; this supersedes older cleanup notes below.
 
 ## Run locally
 
@@ -17,7 +17,7 @@ npm start
 
 ## Home posts and administration
 
-See [HOME_POSTS.md](HOME_POSTS.md) for editor behavior, image limits, storage, verification and recovery notes. Admins can save drafts, preview, edit, publish, move posts back to draft and delete posts. Visitors see published posts with expandable descriptions, galleries and pagination. An empty feed shows no introductory text or category filters.
+See [HOME_POSTS.md](HOME_POSTS.md) for editor behavior, image limits, storage, verification and recovery notes. Admins can save drafts, preview, edit, publish, move posts back to draft and delete posts. Visitors see published posts with expandable descriptions, galleries and pagination. Empty/unavailable feeds retain the bundled guide and show a clear message.
 
 The existing managed Neon Auth email login and password-reset flows remain available. Every admin page and post API checks the session and `admin_accounts` allowlist. Signup and social-account creation endpoints are not exposed. Admin pages use noindex.
 

@@ -1,8 +1,17 @@
 import type { Text } from './data';
 
-// Dates record when the linked page was opened and its relevant claims checked.
-// Do not advance these dates without checking the source again.
-const source = (url: string, mn: string, en: string) => ({ url, title: { mn, en }, checkedOn: '2026-11-16' });
+type HumanReview = { reviewed_by: string | null; reviewed_at: string | null };
+// checkedOn retains the historical automated source check. It is not a human
+// review date. Only a named person's explicit review may fill the review fields.
+const source = (url: string, mn: string, en: string, review: HumanReview = { reviewed_by: null, reviewed_at: null }) => ({
+  url, title: { mn, en }, checkedOn: '2026-11-16', added_at: '2026-11-16', ...review,
+});
+export function sourceDisplayDate(item: HumanReview & { added_at: string }) {
+  return item.reviewed_by?.trim() && item.reviewed_at && /^\d{4}-\d{2}-\d{2}$/.test(item.reviewed_at)
+    && Number.isFinite(Date.parse(item.reviewed_at))
+    ? { kind: 'reviewed' as const, date: item.reviewed_at, reviewer: item.reviewed_by }
+    : { kind: 'added' as const, date: item.added_at, reviewer: null };
+}
 export const understandSources = {
   who: source('https://www.who.int/news-room/fact-sheets/detail/disability-and-health', 'ДЭМБ — Хөгжлийн бэрхшээл', 'WHO — Disability'),
   spinal: source('https://unitedspinal.org/top-10-disability-etiquette/', 'United Spinal — Хүндэтгэлтэй харилцах', 'United Spinal — Disability etiquette'),
@@ -88,6 +97,11 @@ export const understandCopy = {
   readingNote: text('Боловсролын яамны JICA START 2 танилцуулга нь 2021–2022 оны бичил төслүүдийн хараа, сонсгол болон бусад бэрхшээлтэй хүүхдийн боловсролын хэрэглэгдэхүүний холбоосуудтай. Энэ түүхэн материал нь өнөөгийн үйлчилгээний хүртээмжийг батлахгүй.', 'The Ministry of Education’s JICA START 2 overview links to educational materials from 2021–2022 projects for children with sight, hearing and other disabilities. This historical resource does not establish current service availability.'),
   sources: text('Эх сурвалж', 'Sources'),
   checked: text('Шалгасан огноо', 'Checked on'),
+  added: text('Эх сурвалж нэмсэн огноо', 'Source added on'),
+  reviewed: text('Хүн хянасан огноо', 'Reviewed by a person on'),
+  topicIndex: text('Сэдвээ сонгох', 'Choose a topic'),
+  glossary: text('Нэр томьёоны товч тайлбар', 'Terms in brief'),
+  medicalReview: text('Таталтын анхны тусламжийн монгол орчуулгыг эмнэлгийн мэргэжилтэн хараахан хянаагүй.', 'A medical professional has not yet reviewed the Mongolian seizure first-aid translation.'),
   sourceLanguage: text('Эх сурвалжууд ихэвчлэн англи хэлээр байна.', 'Most sources are in English.'),
   firstAid: text('Таталтын үед туслах', 'Helping during a seizure'),
   emergency: text('Хэзээ түргэн тусламж дуудах вэ?', 'When to call an ambulance'),
@@ -184,7 +198,7 @@ const topicSummaries: DisabilityTopic[] = [
     explanation: text('Эпилепси нь давтан таталт үүсгэдэг тархины архаг эмгэг. Бүх насанд тохиолдож болно.', 'Epilepsy is a chronic brain condition involving recurrent seizures. It can affect people of any age.'),
     experiences: text('Таталт нь гөлөрч харах, орчноо мэдрэхгүй болох эсвэл бие чичрэх зэрэг өөр хэлбэртэй. Дэмжлэгийн төлөвлөгөө хүн бүрд өөр.', 'Seizures may involve staring, altered awareness or shaking. Support plans differ between people.'),
     misunderstanding: text('Таталт бүр унаж, бүх бие чичрэх байдлаар илрэхгүй. Эпилепси халдварладаггүй.', 'Not every seizure involves falling and shaking. Epilepsy is not contagious.'),
-    tips: [text('Тухайн хүн хүсвэл эмчтэйгээ тохирсон таталтын үеийн төлөвлөгөөг урьдчилан ярилц.', 'If the person wishes, discuss their agreed seizure care plan in advance.')],
+    tips: [text('Тухайн хүн хүсвэл эмчтэйгээ тохирсон таталтын үеийн төлөвлөгөөг урьдчилан ярилц.', 'If the person wishes, discuss their agreed seizure care plan in advance.'), text('Таталтын дараа сэргэтэл нь хамт байж, юу болсныг тайван тайлбарла.', 'Stay with the person until they recover and calmly explain what happened afterwards.')],
     sources: ['epilepsy', 'seizure', 'seizureNhs', 'ambulance'],
   },
   {
@@ -308,6 +322,12 @@ export const sharedSupportTips: Text[] = [
   text('Эдгээрийг тухайн хүний сонголтоор тохируул. W3C-ийн алхамчилсан зааврын хуудас нь нэмэлт зөвлөмж бөгөөд тусдаа заавал биелүүлэх шалгуур биш.', 'Adapt these ideas to the person’s preferences. W3C’s step-by-step pattern is supplemental guidance, not a separate mandatory criterion.'),
 ];
 export const sharedSupportSources: UnderstandSourceId[] = ['steps', 'time', 'speechWeb', 'visualWeb', 'auditoryWeb', 'captions', 'flashes'];
+
+export const autismGlossary = [
+  { term: 'meltdown', meaning: text('Хэт ачааллаас үүдэн зовнил гадагш илрэх', 'Outward distress caused by overload') },
+  { term: 'shutdown', meaning: text('Хэт ачааллын үед ярих, хариулах нь багасах', 'Reduced speech or responses during overload') },
+  { term: 'masking', meaning: text('Бусдын хүлээлтэд нийцүүлэхийн тулд онцлогоо далдлах', 'Hiding traits to meet others’ expectations') },
+];
 
 // Kept separately so the safety-critical sequence can be reviewed as a whole.
 export const seizureFirstAid: Text[] = [

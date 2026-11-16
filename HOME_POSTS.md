@@ -1,14 +1,14 @@
 # Home posts
 
-The Home feed adapts Nytheria's news-post flow to Hurteemj's existing Next.js app and cream/green design. Understand, Help and Rights keep their blank bodies.
+The post feed uses Hurteemj's existing cream/green design. Home and Help include bundled guide content independent of post storage. All published posts appear on Home only; Understand and Help have no post feeds. Rights has a separate bilingual guide. Current behaviour supersedes the historical implementation notes below; see PUBLIC_REVIEW.md.
 
 ## Use
 
-- Open Administration in the footer, or `/admin?lang=mn`. Existing Neon sign-in and the `admin_accounts` allowlist protect the editor and every post API request. No public signup endpoint is enabled.
+- Open `/admin/login?lang=mn` directly. Public pages do not link to administration. Existing Neon sign-in and the `admin_accounts` allowlist protect the editor and every post API request. No public signup endpoint is enabled.
 - Create a post with a Mongolian title, description, type (event, announcement or warning), publication date, and pictures. Drafts can be incomplete. Publishing requires Mongolian text and image descriptions, without TODO placeholders. English fields and event start/end controls are not shown.
 - Save drafts, preview in the selected language, edit, publish, move back to draft, or delete. Deleting hides a post while retaining its database record and images for recovery. No other content editor was restored.
 - Changed fields or pictures trigger a discard confirmation for header/footer navigation, language changes, Cancel and sign-out. Unchanged records can close directly; reload/close retains the browser's native warning. Navigation is blocked while a save is pending.
-- Visitors see published posts only, newest post date first. Pagination works without JavaScript. The Home heading, category filters and empty-feed message are intentionally hidden. Long descriptions expand with native keyboard-accessible disclosures. Galleries support horizontal scrolling.
+- Visitors see published posts only, newest post date first. Pagination works without JavaScript. Home and Help have a heading and useful guide content even with no posts. Long descriptions expand with native keyboard-accessible disclosures. Galleries support horizontal scrolling.
 
 ## Storage
 
@@ -33,4 +33,4 @@ Use `git diff` and selective `git checkout -p -- <file>` to undo source changes 
 
 ## Post destinations
 
-The Type selector now chooses ???? (`/`), ?????? (`/understand`) or ??????? (`/help`). Each destination lists only its assigned published posts. Existing storage IDs remain `announcement`, `event` and `warning`, respectively, to avoid rewriting stored records. Existing posts follow that same mapping; no migration or publication change is performed. Rights remains blank.
+The Type selector chooses a content category only. All categories (`announcement`, `event`, `warning`) appear on Home. Understand, Help and Rights display educational content without post feeds. No database rewrite is required.

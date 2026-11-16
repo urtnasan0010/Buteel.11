@@ -1,5 +1,16 @@
 # Mongolia disability rights guide — 2026-11-16
 
+## Current publication policy
+
+Visitor rendering now uses `rights-public.ts`, which excludes internal evidence
+notes, failed-fetch dates, citation conflicts and unconfirmed contact values.
+The detailed records below remain internal and are available through the
+authenticated `/admin/verification` route. `rights-publication.ts` has explicit,
+audited per-item publication flags; none are enabled. This supersedes the earlier
+statement that unconfirmed phone/email text is visible but not clickable.
+Public upcoming-change notes retain their dates/sources and calm unconfirmed
+status; raw amendment-history research remains in the admin view.
+
 ## Input and scope
 
 The attachment provided `Pasted text.txt`, a Mongolian research narrative linking

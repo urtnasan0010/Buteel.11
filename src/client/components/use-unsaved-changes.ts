@@ -5,7 +5,10 @@ export function useUnsavedChanges(dirty: boolean, busy: boolean, message: string
   useEffect(() => {
     if (!dirty && !busy) return;
     function warn(event: BeforeUnloadEvent) { event.preventDefault(); event.returnValue = ''; }
-    function signOut(event: Event) { if (busy || (dirty && !window.confirm(message))) event.preventDefault(); }
+    function signOut(event: Event) {
+      if (busy || (dirty && !window.confirm(message))) event.preventDefault();
+      else window.dispatchEvent(new Event('staff-discard-draft'));
+    }
     function navigate(event: MouseEvent) {
       if (event.defaultPrevented || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
       const anchor = event.target instanceof Element ? event.target.closest('a[href]') : null;
@@ -16,6 +19,7 @@ export function useUnsavedChanges(dirty: boolean, busy: boolean, message: string
       // Run before Next's client-side Link handler can unmount the editor.
       event.preventDefault(); event.stopPropagation();
       if (busy || !window.confirm(message)) return;
+      window.dispatchEvent(new Event('staff-discard-draft'));
       window.removeEventListener('beforeunload',warn);
       // Confirmed navigation uses a full load to avoid a second unload prompt.
       window.location.assign(destination.href);

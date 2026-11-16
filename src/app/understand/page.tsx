@@ -1,13 +1,13 @@
-import { PostsPage } from '@/server/components/posts-page';
 import { selectLanguage } from '@/shared/language';
 import type { Lang } from '@/shared/data';
-import { disabilityTopics, seizureFirstAid, sharedSupportSources, sharedSupportTips, understandCopy as copy, understandSources, type UnderstandSourceId } from '@/shared/understand';
+import { autismGlossary, disabilityTopics, seizureFirstAid, sharedSupportSources, sharedSupportTips, sourceDisplayDate, understandCopy as copy, understandSources, type UnderstandSourceId } from '@/shared/understand';
 
 function Sources({ ids, lang }: { ids: UnderstandSourceId[]; lang: Lang }) {
   return <ul className="source-links understand-sources">{ids.map(id => {
     const item = understandSources[id];
+    const displayed = sourceDisplayDate(item);
     return <li key={id}><a href={item.url}>{item.title[lang]}</a>
-      <small>{copy.checked[lang]}: <time dateTime={item.checkedOn}>{item.checkedOn}</time></small>
+      <small>{copy[displayed.kind][lang]}: <time dateTime={displayed.date}>{displayed.date}</time>{displayed.reviewer && <> — {displayed.reviewer}</>}</small>
     </li>;
   })}</ul>;
 }
@@ -23,6 +23,9 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ l
       <p>{copy.respect[lang]}</p>
       <Sources ids={['who', 'spinal']} lang={lang} />
     </header>
+    <nav className="topic-index" aria-label={copy.topicIndex[lang]}>
+      {disabilityTopics.map(topic => <a key={topic.id} href={`#${topic.id}`}>{topic.title[lang]}</a>)}
+    </nav>
     <section aria-labelledby="topics-heading">
       <h2 id="topics-heading">{copy.topics[lang]}</h2>
       <p className="meta">{copy.sourceLanguage[lang]}</p>
@@ -39,6 +42,7 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ l
             <h4>{copy.educationWork[lang]}</h4><p>{topic.educationWork[lang]}</p>
             <h4>{copy.digitalAccess[lang]}</h4><p>{topic.digitalAccess[lang]}</p>
             <h4>{copy.furtherDetails[lang]}</h4>{topic.furtherDetails.map((detail, i) => <p key={i}>{detail[lang]}</p>)}
+            {topic.id === 'autism' && <><h4>{copy.glossary[lang]}</h4><ul>{autismGlossary.map(item => <li key={item.term}>{item.meaning[lang]} (<span lang="en">{item.term}</span>)</li>)}</ul></>}
             {topic.id === 'epilepsy' && <a className="text-link" href="#seizure-first-aid">{copy.firstAid[lang]}</a>}
             <h4>{copy.sources[lang]}</h4><Sources ids={topic.sources} lang={lang} />
           </div>
@@ -47,6 +51,7 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ l
     </section>
     <section className="understand-first-aid" id="seizure-first-aid" aria-labelledby="first-aid-heading">
       <h2 id="first-aid-heading">{copy.firstAid[lang]}</h2>
+      <p className="note medical-review-note">{copy.medicalReview[lang]}</p>
       <ol>{seizureFirstAid.map((step, i) => <li key={i}>{step[lang]}</li>)}</ol>
       <h3>{copy.emergency[lang]}</h3><p>{copy.emergencyText[lang]}</p>
       <a className="text-link" href="tel:103">{lang === 'mn' ? 'Түргэн тусламж: 103 (Монгол)' : 'Ambulance: 103 (Mongolia)'}</a>
@@ -65,8 +70,5 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ l
     <aside className="note understand-review" aria-labelledby="review-heading">
       <h2 id="review-heading">{copy.review[lang]}</h2><p>{copy.reviewText[lang]}</p>
     </aside>
-    <section aria-labelledby="related-posts-heading"><h2 id="related-posts-heading">{copy.posts[lang]}</h2>
-      <PostsPage searchParams={searchParams} destination="event" path="/understand" embedded />
-    </section>
   </main>;
 }
