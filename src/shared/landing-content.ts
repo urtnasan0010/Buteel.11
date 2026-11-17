@@ -4,7 +4,7 @@ import type { Text } from './data';
 // Do not turn these navigation guides into published database posts.
 export const landingContent = {
   home: {
-    title: { mn: 'Хүртээмж — ойлголцож, эрхээ эдэлье', en: 'Hurteemj — understanding and equal participation' },
+    title: { mn: "Хүртээмж - ойлголцож, эрхээ эдэлье", en: "Hurteemj - understanding and equal participation" },
     intro: { mn: 'Хөгжлийн бэрхшээлийн талаар ойлгох, хэрэгтэй дэмжлэгээ тодруулах, Монгол Улсад эрхээ эдлэх мэдээллийг эндээс уншаарай.', en: 'Learn about disability, identify support needs and explore how to exercise your rights in Mongolia.' },
   },
   help: {
@@ -14,7 +14,6 @@ export const landingContent = {
   links: [
     { path: '/understand', title: { mn: 'Хөгжлийн бэрхшээлийг ойлгох', en: 'Understand disability' }, body: { mn: 'Хүн бүрийн туршлага, харилцааны арга, дэмжлэгийн хэрэгцээний талаар унших.', en: 'Explore different experiences, communication preferences and support needs.' } },
     { path: '/rights', title: { mn: 'Эрх, үйлчилгээний нөхцөл', en: 'Rights and service conditions' }, body: { mn: 'Боловсрол, ажил, эрүүл мэнд, тэтгэвэр, тэтгэмжийн нөхцөлийг сэдвээр нь унших.', en: 'Read about education, work, healthcare, pensions and allowances by topic.' } },
-    { path: '/rights#rights-contacts', title: { mn: 'Гомдол, зөвлөгөөний холбоо', en: 'Complaints and advice contacts' }, body: { mn: 'Эрх зөрчигдсөн гэж үзвэл хаана хандахыг тодруулах.', en: 'Find where to turn if you believe your rights have been violated.' } },
   ],
   stepsTitle: { mn: 'Дэмжлэг хүсэхдээ', en: 'When requesting support' },
   steps: [

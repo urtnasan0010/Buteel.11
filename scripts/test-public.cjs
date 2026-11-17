@@ -5,15 +5,9 @@ const { renderToStaticMarkup } = require('react-dom/server');
 const { createLoader } = require('./test-loader.cjs');
 const Link = ({ children, ...props }) => React.createElement('a', props, children);
 (async () => {
-  const guideData = createLoader()('src/shared/help-guides.ts');
-  const learning = guideData.helpGuides.find(guide => guide.id === 'learning');
-  for (const query of ['impulse', 'ADHD', 'Залхуу', 'тус тусад нь']) assert.ok(guideData.matchesHelp(learning, query, ''), query);
-  const epilepsy = guideData.helpGuides.find(guide => guide.id === 'epilepsy');
-  assert.ok(guideData.matchesHelp(epilepsy, 'pregnant', 'emergency'));
-  assert.equal(guideData.matchesHelp(learning, 'impulse', 'emergency'), false);
   const language = createLoader()('src/shared/language.ts');
   for (const value of [undefined, 'mn', 'en', ['en']]) assert.equal(language.selectLanguage(value), 'mn');
-  console.log('Mongolian-only selection and detailed Help search passed.');
+  console.log('Mongolian-only selection passed.');
   for (const failure of [false, true]) for (const route of ['/']) for (const lang of ['mn']) {
     const load = createLoader({
       'next/link': { default: Link, __esModule: true },
@@ -51,10 +45,10 @@ const Link = ({ children, ...props }) => React.createElement('a', props, childre
   assert.equal(new URL(postgresUrl('postgresql://127.0.0.1/db?sslmode=disable')).searchParams.get('sslmode'), 'disable');
   const load = createLoader();
   const Rights = load('src/app/rights/page.tsx').default;
-  for (const lang of ['mn']) {
-    const html = renderToStaticMarkup(await Rights({ searchParams: Promise.resolve({ lang }) }));
+  {
+    const html = renderToStaticMarkup(await Rights());
     for (const phrase of ['судалгаанд олдсон', 'Хавсаргасан судалгааны холбоос', 'Энэ удаа дахин', 'Нээхийг оролдсон огноо', 'DOCX', 'research-reported', 'Research-reported', '23 дугаар зүйл, ХЭҮК']) assert.ok(!html.includes(phrase), phrase);
-    assert.ok(html.includes(lang === 'mn' ? 'Албан эх сурвалжаар шалгасан' : 'Checked against an official source'));
+    assert.ok(!html.includes("source-links"));
     const { rightsContacts, rightsSources } = load('src/shared/rights.ts');
     for (const contact of rightsContacts.filter(item => rightsSources[item.source].verification === 'UNVERIFIED')) {
       assert.ok(!html.includes(contact.phone), `Unverified phone ${contact.id}`);

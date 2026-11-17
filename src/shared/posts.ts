@@ -50,14 +50,14 @@ export const postsCopy = {
   removeConfirm: { mn: 'Энэ нийтлэлийг сайтаас устгах уу?', en: 'Remove this post from the site?' },
   cancel: { mn: 'Болих', en: 'Cancel' }, preview: { mn: 'Урьдчилан харах', en: 'Preview' },
   discardConfirm: { mn: 'Хадгалаагүй өөрчлөлтийг орхих уу?', en: 'Discard unsaved changes?' },
-  saving: { mn: 'Хадгалж байна…', en: 'Saving…' }, saved: { mn: 'Хадгаллаа.', en: 'Saved.' },
+  saving: { mn: "Хадгалж байна...", en: "Saving..." }, saved: { mn: 'Хадгаллаа.', en: 'Saved.' },
   savedRefresh: { mn: 'Хадгаллаа. Жагсаалтыг шинэчлэхийн тулд дахин ачаална уу.', en: 'Saved. Reload to refresh the list.' },
   deleted: { mn: 'Нийтлэлийг устгалаа.', en: 'Post removed.' },
   failed: { mn: 'Хадгалж чадсангүй. Оруулсан мэдээллээ шалгаад дахин оролдоно уу.', en: 'Could not save. Check the fields and try again.' },
   conflict: { mn: 'Нийтлэл өөрчлөгдсөн байна. Дахин ачаалж, шинэ хувилбарыг нээнэ үү.', en: 'This post changed. Reload and open the latest version.' },
   denied: { mn: 'Нэвтрэх эрхийг шалгахын тулд дахин нэвтэрнэ үү.', en: 'Please sign in again to verify your access.' },
   fileError: { mn: 'Зургийн төрөл, хэмжээ болон нийт тоог шалгана уу.', en: 'Check image types, sizes and total count.' },
-  loading: { mn: 'Нийтлэл ачаалж байна…', en: 'Loading posts…' },
+  loading: { mn: "Нийтлэл ачаалж байна...", en: "Loading posts..." },
   setup: { mn: 'Нийтлэл хадгалах санг тохируулах шаардлагатай.', en: 'Post storage needs to be set up.' },
 } satisfies Record<string, Text>;
 export const pc = (lang: Lang, key: keyof typeof postsCopy) => postsCopy[key][lang];

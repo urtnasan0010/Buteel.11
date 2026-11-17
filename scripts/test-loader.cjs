@@ -15,6 +15,7 @@ exports.createLoader = function createLoader(mocks = {}) {
     function localRequire(name) {
       if (name in mocks) return mocks[name];
       if (name === 'server-only') return {};
+      if (name === 'next/font/google') return { Noto_Serif: () => ({ variable: 'test-serif' }) };
       if (name.startsWith('@/') || name.startsWith('.')) {
         const base = name.startsWith('@/') ? path.resolve('src', name.slice(2)) : path.resolve(path.dirname(absolute), name);
         const found = [base, `${base}.ts`, `${base}.tsx`, `${base}.js`].find(candidate => fs.existsSync(candidate) && fs.statSync(candidate).isFile());

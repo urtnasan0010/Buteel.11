@@ -1,5 +1,5 @@
 import type { Text } from './data';
-import { disabilityTopics, seizureFirstAid, understandCopy } from './understand';
+import { disabilityTopics } from './understand';
 import researchLinks from './help-research-links.json';
 
 const t = (mn: string, en: string): Text => ({ mn, en });
@@ -31,14 +31,14 @@ const extras: Extra[] = [
 ];
 const avoid: Record<string, Text> = {
   mobility: t('Зөвшөөрөлгүй түлхэх, өргөх, шилжүүлэх, таяг эсвэл тэргэнцэрт нь тулахгүй.', 'Do not push, lift, transfer or lean on walking aids or wheelchairs without permission.'),
-  vision: t('Гараас нь гэнэт татахгүй. “Тэнд” гэх мэт тодорхойгүй чиглэл өгөхгүй.', 'Do not suddenly pull an arm or give vague directions such as “over there”.'),
+  vision: t("Гараас нь гэнэт татахгүй. \"Тэнд\" гэх мэт тодорхойгүй чиглэл өгөхгүй.", "Do not suddenly pull an arm or give vague directions such as \"over there\"."),
   hearing: t('Хашхирах, нүүрээ буруулж ярих, бүх хүн уруул уншдаг гэж үзэхээс зайлсхий.', 'Avoid shouting, turning away while speaking or assuming everyone lipreads.'),
   deafblind: t('Мэндлэх аргаа тохиролцолгүй гэнэт хүрэхгүй. Бичвэр, аудио ганцаараа хүрэлцэнэ гэж бүү үз.', 'Do not touch unexpectedly without an agreed greeting. Do not assume text or audio alone is sufficient.'),
   communication: t('Үгийг нь өмнөөс нь дуусгахгүй, харилцааны хэрэгслийг нь хураахгүй. Яриагаар нь ойлгох чадварыг дүгнэхгүй.', 'Do not finish messages for the person or remove communication tools. Speech does not establish understanding.'),
-  intellectual: t('Хүүхэдчилж ярих, ойлгосон эсэхийг зөвхөн “ойлгов уу?” гэж шалгах, сонголтыг нь өмнөөс нь хийхээс зайлсхий.', 'Avoid childish speech, relying only on “do you understand?”, or making choices for the person.'),
+  intellectual: t("Хүүхэдчилж ярих, ойлгосон эсэхийг зөвхөн \"ойлгов уу?\" гэж шалгах, сонголтыг нь өмнөөс нь хийхээс зайлсхий.", "Avoid childish speech, relying only on \"do you understand?\", or making choices for the person."),
   autism: t('Нүд рүү харах, хүрэлцэхийг хүчлэхгүй; хэт ачааллыг сахилгагүйтэл гэж шийтгэхгүй.', 'Do not force eye contact or touch, or punish overload as misbehaviour.'),
   learning: t('Залхуу, хичээгээгүй гэж дүгнэхгүй. Унших хурд, зөв бичих байдлаар хүний ухааныг хэмжихгүй.', 'Do not label someone lazy or judge intelligence by reading speed or spelling.'),
-  psychosocial: t('“Зүгээр л эергээр бод” гэж шахахгүй. Хувийн мэдээллийг зөвшөөрөлгүй түгээхгүй.', 'Avoid pressure to “just think positively”. Do not share private information without consent.'),
+  psychosocial: t("\"Зүгээр л эергээр бод\" гэж шахахгүй. Хувийн мэдээллийг зөвшөөрөлгүй түгээхгүй.", "Avoid pressure to \"just think positively\". Do not share private information without consent."),
   chronic: t('Харагдахгүй шинжийг үгүйсгэхгүй, хүчээр ачаалал нэмэхгүй, бүх өдөр ижил боломж шаардахгүй.', 'Do not dismiss invisible symptoms, push increased activity or expect identical capacity every day.'),
   epilepsy: t('Хүчээр барихгүй, аманд нь юм хийхгүй, бүрэн сэргэхээс өмнө хоол, ус өгөхгүй.', 'Do not restrain, place objects in the mouth or offer food or water before full recovery.'),
 };
@@ -51,19 +51,11 @@ export const helpGuides = extras.map(extra => {
 });
 export const dementiaGuide = {
   id: 'dementia', title: t('Деменци, танин мэдэхүйн олдмол хүндрэл', 'Dementia and acquired cognitive difficulties'), needs: ['communication', 'reading'] as HelpNeed[],
-  explanation: t('Ой тогтоолт, ойлголт, харилцаанд өөрчлөлт гарч болно. Хүний сонголт, амьдралын туршлагыг хүндэтгэж, тохирох хугацаа өг.', 'Memory, understanding and communication can change. Respect the person’s choices and life experience and allow time.'),
+  explanation: t('Ой тогтоолт, ойлголт, харилцаанд өөрчлөлт гарч болно. Хүний сонголт, амьдралын туршлагыг хүндэтгэж, тохирох хугацаа өг.', "Memory, understanding and communication can change. Respect the person's choices and life experience and allow time."),
   ask: t('Тантай хэрхэн ярилцвал тухтай вэ? Нэг санааг нэг удаад ярилцах уу?', 'How would you prefer us to talk? Shall we discuss one idea at a time?'),
   tips: [t('Анхаарал сарниулах зүйлсийг багасгаж, тайван, энгийн өгүүлбэрээр ярь. Хариулах хугацаа өг.', 'Reduce distractions, speak calmly in simple sentences and allow time to respond.')],
   misunderstanding: t('Ой санамжийг нь шалгаж, алдааг нь байнга засаж ичээхээс зайлсхий. Хүүхэд мэт бүү ярь.', 'Avoid quizzing memory, repeated correction or embarrassment. Do not use childish speech.'),
   professional: t('Шинэ эсвэл нэмэгдэж буй танин мэдэхүйн өөрчлөлтийг эмчид үнэлүүл. Энэ хэсэг онош тогтоохгүй; бүх олдмол хүндрэлийг деменци гэж үзэхгүй.', 'Ask a clinician to assess new or increasing cognitive changes. This section does not diagnose; acquired difficulties are not all dementia.'),
   examples: [t('Гэр: танил зурагтай ярилцах.', 'Home: talk with familiar photographs.'), t('Сургалт: нэг зааврыг нэг удаад өгөх.', 'Learning: give one instruction at a time.'), t('Ажил: тохирсон бичгэн сануулга ашиглах.', 'Work: use agreed written reminders.'), t('Олон нийт: чимээг багасгаж, хариулахыг хүлээх.', 'Public: reduce noise and wait for a response.')], rights: 'health',
-  source: { title: 'Alzheimer Society of Canada — Communicating with people living with dementia', url: 'https://alzheimer.ca/en/help-information/i-have-friend-or-family-member-who-lives-dementia/communicating-people-living', rechecked: '2026-11-16' },
+  source: { title: "Alzheimer Society of Canada - Communicating with people living with dementia", url: 'https://alzheimer.ca/en/help-information/i-have-friend-or-family-member-who-lives-dementia/communicating-people-living', rechecked: '2026-11-16' },
 };
-export function matchesHelp(guide: { id: string; title: Text; explanation: Text; needs: HelpNeed[]; ask: Text; tips: Text[]; examples: Text[]; professional: Text; misunderstanding: Text; avoid?: Text; additional?: Text[] }, q: string, need: string) {
-  const searchable = [guide.title, guide.explanation, guide.ask, guide.professional,
-    guide.avoid ?? guide.misunderstanding, ...guide.tips, ...guide.examples,
-    ...(guide.additional ?? []), ...guide.needs.map(id => helpNeeds[id]),
-    ...(guide.id === 'epilepsy' ? [...seizureFirstAid, understandCopy.emergencyText] : [])]
-    .flatMap(value => [value.mn, value.en]).join(' ').toLocaleLowerCase();
-  return (!need || guide.needs.includes(need as HelpNeed)) && q.toLocaleLowerCase().split(/\s+/).filter(Boolean).every(word => searchable.includes(word));
-}

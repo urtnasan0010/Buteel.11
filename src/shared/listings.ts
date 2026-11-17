@@ -46,8 +46,8 @@ export const services: Service[] = [
       en: "Employment Support Centre for People with Disabilities, 7th khoroo, Sukhbaatar district, Ulaanbaatar.",
     },
     hours: {
-      mn: "Даваа–Баасан 08:30–17:30; Бямба, Ням амарна. Очихын өмнө лавлаарай.",
-      en: "Monday–Friday 08:30–17:30; closed Saturday and Sunday. Confirm before visiting.",
+      mn: "Даваа-Баасан 08:30-17:30; Бямба, Ням амарна. Очихын өмнө лавлаарай.",
+      en: "Monday-Friday 08:30-17:30; closed Saturday and Sunday. Confirm before visiting.",
     },
     phone: "77550099",
     email: "info@jobs-pwd.gov.mn",
@@ -96,7 +96,7 @@ export const services: Service[] = [
     email: "info@mnfb.mn",
     audience: {
       mn: "Хараагүй, сул хараатай хүмүүс. Тухайн хөтөлбөрт хамрагдах нөхцөлийг холбооноос асуугаарай.",
-      en: "Blind and partially sighted people. Ask the federation about each programme’s eligibility.",
+      en: "Blind and partially sighted people. Ask the federation about each programme's eligibility.",
     },
     sourceUrl: "https://mnfb.mn/mn/about",
     sources: [
@@ -134,7 +134,7 @@ export const services: Service[] = [
     },
     description: {
       mn: "Хүүхдийн эрхийг хамгаалах, эцэг эхийг мэдээллээр хангах, харилцан дэмжих чиглэлээр ажилладаг холбоо. Зөвлөх эцэг эхийн хөтөлбөрийн талаар лавлаарай.",
-      en: "The association works on children’s rights, parent information, and peer support. Ask about its parent-to-parent support programme.",
+      en: "The association works on children's rights, parent information, and peer support. Ask about its parent-to-parent support programme.",
     },
     category: 7,
     district: "Баянгол",

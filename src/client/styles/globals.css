@@ -572,15 +572,15 @@ button:disabled{opacity:.65;cursor:wait}
 .post-filters a:hover{background:var(--soft)}.post-filters a[aria-current=page]{background:var(--accent);border-color:var(--accent);color:white}
 .home-hero{position:relative;isolation:isolate;text-align:center;margin-bottom:clamp(2rem,5vw,4rem);animation:home-hero-enter .8s ease-out both}
 .home-hero::before{content:"";position:absolute;z-index:-1;pointer-events:none;inset:-2rem 0;background:radial-gradient(ellipse at center,rgba(47,168,138,.1),transparent 68%)}
-.posts-page .home-title{max-width:none;text-align:center;font-family:var(--hero-serif),Georgia,serif;font-size:clamp(3rem,8vw,6rem);font-weight:700;line-height:1.05;letter-spacing:-.02em;margin:0;color:#0f5c4d;text-wrap:balance}
+:is(.posts-page,.guide-hero) .home-title{max-width:none;text-align:center;font-family:var(--hero-serif),Georgia,serif;font-size:clamp(3rem,8vw,6rem);font-weight:700;line-height:1.05;letter-spacing:-.02em;margin:0;color:#0f5c4d;text-wrap:balance}
 /* Oversize the gradient so its brightest endpoint stays outside the glyphs,
    keeping the rendered large text above 3:1 against the light hero surface. */
-@supports(background-clip:text){.posts-page .home-title{background-image:linear-gradient(110deg,#0f5c4d,#2fa88a);background-size:140% 100%;background-repeat:no-repeat;background-clip:text;-webkit-background-clip:text;color:transparent}}
-.posts-page .home-title::after{content:"";display:block;width:96px;height:4px;margin:1.25rem auto 0;background:linear-gradient(90deg,#0f5c4d,#2fa88a);border-radius:999px}
+@supports(background-clip:text){:is(.posts-page,.guide-hero) .home-title{background-image:linear-gradient(110deg,#0f5c4d,#2fa88a);background-size:140% 100%;background-repeat:no-repeat;background-clip:text;-webkit-background-clip:text;color:transparent}}
+:is(.posts-page,.guide-hero) .home-title::after{content:"";display:block;width:96px;height:4px;margin:1.25rem auto 0;background:linear-gradient(90deg,#0f5c4d,#2fa88a);border-radius:999px}
 .home-subtitle{max-width:560px;margin:1.25rem auto 0;font-size:1.25rem;line-height:1.6;color:var(--muted);text-wrap:pretty}
 @keyframes home-hero-enter{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
 @media(prefers-reduced-motion:reduce){.home-hero{animation:none;transform:none}}
-@media(forced-colors:active){.posts-page .home-title{background:none;color:CanvasText}.home-hero::before{display:none}.posts-page .home-title::after{background:CanvasText}}
+@media(forced-colors:active){:is(.posts-page,.guide-hero) .home-title{background:none;color:CanvasText}.home-hero::before{display:none}:is(.posts-page,.guide-hero) .home-title::after{background:CanvasText}}
 .home-post{padding-block:32px;border-bottom:1px solid var(--line);min-width:0;overflow-wrap:anywhere}
 .home-post:first-child{padding-top:8px}.home-post h2{font-size:clamp(1.4rem,3vw,2rem);line-height:1.3;margin:16px 0}
 .post-meta{display:flex;align-items:center;gap:16px;flex-wrap:wrap;color:var(--muted);font-size:.875rem;font-variant-numeric:tabular-nums}
@@ -630,9 +630,7 @@ button:disabled{opacity:.65;cursor:wait}
 @media print{.understand-grid{display:block}.understand-card{margin-bottom:1rem;break-inside:avoid}.understand-card details::details-content{display:block;content-visibility:visible}.understand-detail-content{display:block!important}.understand-first-aid{background:white;border:1px solid #777}}
 
 /* Rights guide shares the educational cards and native disclosures. */
-.rights-filters{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr);gap:1rem;align-items:start;margin-block:1.5rem}
-.rights-filters>*{min-width:0}.rights-filters button{justify-self:start}.rights-filters .meta{margin:.5rem 0 0}
-.rights-result-count,#rights-contacts{scroll-margin-top:1.5rem}
+#rights-contacts{scroll-margin-top:1.5rem}
 .rights-emergency{max-width:75ch;font-size:1rem}.rights-emergency h2{font-size:1.3rem}
 .rights-emergency>ul{list-style:none;padding:0;display:flex;flex-wrap:wrap;gap:.5rem 2rem}
 .rights-emergency p{margin-bottom:1rem}.rights-review-label{display:block;font-size:.9rem;font-weight:600;line-height:1.6;color:var(--ink)}
@@ -644,22 +642,160 @@ button:disabled{opacity:.65;cursor:wait}
 .rights-benefits small{display:block;color:var(--muted);font-size:.85rem}
 .rights-amount{font-size:1.2rem;font-weight:700;font-variant-numeric:tabular-nums}
 .rights-contacts dd>p{margin-bottom:.5rem}.rights-review{margin-top:1.5rem}
-@media(max-width:700px){.rights-filters{grid-template-columns:1fr}.rights-filters button{width:100%}.rights-emergency>ul{display:block}}
-@media print{.rights-filters{display:none}.rights-card .rights-review-label{color:black}}
+@media(max-width:700px){.rights-emergency>ul{display:block}}
 
 .topic-index{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.5rem 1.5rem;margin:0 0 2.5rem;padding:0;max-width:75ch}
 .topic-index a{display:flex;align-items:center;min-height:44px;text-decoration:underline;font-size:1rem;line-height:1.6;padding-block:.25rem}
 .medical-review-note{font-weight:600;background:var(--surface)}
 @media(max-width:650px){.topic-index{grid-template-columns:1fr;gap:.25rem}}
-/* Practical help uses native HTML rather than client scripting. */
-.help-filters { display: grid; gap: .65rem; max-width: 42rem; margin: 2rem 0; }
-.help-filters input, .help-filters select { width: 100%; min-width: 0; font: inherit; padding: .7rem; color: #172b24; background: #fff; border: 1px solid #687469; border-radius: .4rem; }
-.help-filters button { justify-self: start; min-height: 44px; padding: .65rem 1.3rem; }
-.help-page .source-links { overflow-wrap: anywhere; }
 @media print {
-  .help-filters, .help-page .topic-index, .help-page .section-links { display: none; }
+  .help-page .topic-index, .help-page .section-links { display: none; }
   .help-page .understand-grid { display: block; }
   .help-page .understand-card { break-inside: auto; border: 0; }
   .help-page details::details-content { display: block; content-visibility: visible; }
   .help-page details > .understand-detail-content { display: block !important; }
 }
+
+/* Shared educational-page headers and quiet disclosure grids. */
+.guide-hero{margin-bottom:2.5rem}.guide-hero .home-title{font-size:clamp(2.5rem,6vw,5rem)}
+.guide-intro{max-width:72ch;margin:0 auto 2.5rem;font-size:1rem}
+.understand-page .understand-detail-content{font-size:1rem;line-height:1.75}
+.understand-page .understand-card p,.understand-page .understand-card li{font-size:1rem}
+.understand-page .understand-grid{gap:1.5rem}
+.understand-page .understand-card{animation:guide-card-enter .8s ease-out both}
+@keyframes guide-card-enter{from{opacity:.94}to{opacity:1}}
+@media(min-width:1440px){.understand-page .understand-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(prefers-reduced-motion:reduce){.understand-page .understand-card{animation:none}}
+
+/* ===== UPGRADE ===== */
+:root {
+  --radius: 14px;
+  --shadow-sm: 0 1px 2px rgba(23,61,58,.06), 0 2px 8px rgba(23,61,58,.06);
+  --shadow-md: 0 4px 12px rgba(23,61,58,.10), 0 12px 32px rgba(23,61,58,.08);
+  --accent-soft: #e3f1ec;
+}
+body {
+  background:
+    radial-gradient(900px 400px at 50% -100px, #e3f1ec 0%, transparent 70%),
+    var(--paper);
+  line-height: 1.7;
+}
+.guide-hero { padding-block: 3rem 1.5rem; }
+.guide-intro {
+  max-width: 68ch;
+  margin: 0 auto 2rem;
+  padding: 1.25rem 1.5rem;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-left: 5px solid var(--accent);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+  font-size: 1.1rem;
+  line-height: 1.75;
+}
+.section-links > a {
+  background: var(--surface);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+}
+.topic-index {
+  max-width: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: .6rem;
+}
+.topic-index a {
+  min-height: 44px;
+  padding: .5rem 1rem;
+  background: var(--accent-soft);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: background .2s ease, color .2s ease;
+}
+.topic-index a:hover { background: var(--accent); color: #fff; }
+.topic-index a:focus-visible { outline: 3px solid var(--focus); outline-offset: 3px; }
+.understand-grid { gap: 1.5rem; }
+@media (min-width: 1100px) {
+  .understand-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+.understand-card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-top: 4px solid var(--accent);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+  padding: 1.5rem;
+}
+.understand-card h2, .understand-card h3 { color: var(--accent); line-height: 1.3; }
+.understand-card summary { font-weight: 700; }
+.understand-card summary::marker { color: var(--accent); }
+.understand-card details[open] > summary { color: var(--accent); }
+.understand-card h4 {
+  margin: 1.25rem 0 .35rem;
+  font-size: 1rem;
+  color: var(--accent);
+  text-transform: none;
+}
+.understand-card p, .understand-card li { font-size: 1rem; line-height: 1.75; max-width: 65ch; }
+.understand-card ul { padding-left: 1.25rem; }
+.understand-card li + li { margin-top: .4rem; }
+.understand-first-aid {
+  background: #fff8ec;
+  border: 1px solid #e8cf9f;
+  border-left: 6px solid var(--focus);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-md);
+  padding: 1.75rem;
+  margin-block: 2.5rem;
+}
+.understand-first-aid ol { padding-left: 1.4rem; }
+.understand-first-aid li { margin-bottom: .6rem; }
+.medical-review-note {
+  background: var(--notice);
+  border-radius: 10px;
+  padding: .85rem 1rem;
+}
+a.button[href^="tel:"] {
+  font-size: 1.1rem;
+  min-height: 52px;
+  border-radius: 12px;
+  box-shadow: var(--shadow-sm);
+}
+.rights-card, .rights-emergency, .rights-benefits {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+}
+.rights-emergency { border-left: 6px solid var(--focus); }
+.rights-card h2, .rights-card h3 { color: var(--accent); }
+.help-reading, .reading-list { max-width: 68ch; }
+html { scroll-behavior: smooth; }
+:target { scroll-margin-top: 1.5rem; }
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .topic-index a { transition: none; }
+}
+@media (max-width: 650px) {
+  .guide-hero { padding-block: 2rem 1rem; }
+  .understand-card, .understand-first-aid { padding: 1.1rem; }
+  .guide-intro { padding: 1rem; font-size: 1rem; }
+}
+@media print {
+  body { background: #fff; }
+  .understand-card, .understand-first-aid, .rights-card { box-shadow: none; }
+}
+/* ===== END UPGRADE ===== */
+
+.help-page .understand-card ol {
+  background: #fff8ec;
+  border: 1px solid #e8cf9f;
+  border-left: 6px solid var(--focus);
+  border-radius: 12px;
+  padding: 1rem 1rem 1rem 2.25rem;
+  margin-block: 1rem;
+}
+.help-page .understand-card ol li { margin-bottom: .6rem; }
+.help-page .understand-card a.button[href^="tel:"] { margin-top: .5rem; }

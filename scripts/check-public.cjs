@@ -44,11 +44,14 @@ const base = process.env.PUBLIC_BASE_URL || 'http://127.0.0.1:3216';
         const html = await page.content();
         for (const value of ['7700-1982', 'info@lac.gov.mn', 'Хавсаргасан судалгааны холбоос', 'Нээхийг оролдсон огноо', 'DOCX']) assert.ok(!html.includes(value), `${route}: ${value}`);
         assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth));
-        if (route === '/') {
+        if (route === '/' || route === '/help') {
           const scan = await new AxeBuilder({ page }).withTags(['wcag2a','wcag2aa','wcag21aa']).analyze();
           assert.deepEqual(scan.violations.map(item => item.id), []);
         }
         if (route === '/help') {
+          assert.equal(await page.locator('.section-links').count(), 0, 'Removed Help navigation stays absent');
+        }
+        if (await page.locator('.section-links > a').count()) {
           const scan = await new AxeBuilder({ page }).withTags(['wcag2a','wcag2aa','wcag21aa']).analyze();
           assert.deepEqual(scan.violations.map(item => ({ id: item.id, targets: item.nodes.map(node => node.target) })), []);
           assert.ok(await page.locator('.section-links a').count() >= 3);
@@ -98,13 +101,11 @@ const base = process.env.PUBLIC_BASE_URL || 'http://127.0.0.1:3216';
           const titleBox = await first.locator('h3').boundingBox();
           await page.mouse.click(titleBox.x + titleBox.width / 2, titleBox.y + titleBox.height / 2);
           assert.ok(await first.locator(':scope > details').evaluate(el => el.open));
-          const source = first.locator('.source-links a').first();
-          await source.scrollIntoViewIfNeeded();
-          assert.ok(await source.evaluate(el => {
-            const rect = el.getBoundingClientRect();
-            return document.elementFromPoint(rect.left + 2, rect.top + 2)?.closest('a') === el;
-          }), 'Expanded card source links are not covered by the stretched disclosure');
-          assert.equal(await source.evaluate(el => getComputedStyle(el).textDecorationLine), 'underline');
+          const source = first.locator('.understand-detail-content a').first();
+          if (await source.count()) {
+            await source.scrollIntoViewIfNeeded();
+            assert.ok(await source.evaluate(el => { const rect = el.getBoundingClientRect(); return document.elementFromPoint(rect.left + 2, rect.top + 2)?.closest('a') === el; }));
+          }
           await page.keyboard.press('Tab');
           for (const card of await guideCards.all()) {
             await card.locator(':scope > details > summary').focus();

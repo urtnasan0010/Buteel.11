@@ -16,7 +16,7 @@ export function Navigation({ lang }: { lang: Lang }) {
       ].map(([href, key]) => (
         <Link
           key={href}
-          href={`${href}?lang=${lang}`}
+          href={href}
           aria-current={(path === href || (href !== '/' && path.startsWith(`${href}/`))) ? "page" : undefined}
         >
           {key === 'home' ? t(lang,'home') : n(lang,key as 'understand' | 'help' | 'rights')}

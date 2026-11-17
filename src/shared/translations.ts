@@ -3,7 +3,7 @@ import type { Lang, Text, Feature } from './data';
 export const translations = {
   msl_title: {mn:"Монгол дохионы хэлний видео",en:"Mongolian Sign Language video"},
   msl_soon: {mn:"Монгол дохионы хэлний видео: удахгүй",en:"Mongolian Sign Language video: coming soon"},
-  msl_native: {mn:"Монгол бичвэрийн ноорог — төрөлх хэлтэй хүн хянана.",en:"Mongolian text is a draft awaiting native review."},
+  msl_native: {mn:"Монгол бичвэрийн ноорог - төрөлх хэлтэй хүн хянана.",en:"Mongolian text is a draft awaiting native review."},
   msl_text: {mn:"Бүрэн бичвэр",en:"Full text / transcript"},
   deaf_title: {"mn": "Сонсголгүй болон сонсголын бэрхшээлтэй хүмүүст", "en": "For deaf and hard-of-hearing people"},
   deaf_summary: {"mn": "Огноо, эх сурвалжтай мэдээлэл. Бусад мэдээллийг нягтлах шаардлагатай.", "en": "Dated, attributed information. Other information remains to be verified."},
@@ -21,14 +21,14 @@ export const translations = {
   pending_benefits: {mn:"Тэтгэвэр, тэтгэмжийн хэмжээ, хамрагдах нөхцөл, хүсэлтийн журам: TODO [official source needed]",en:"Benefit amounts, eligibility and application rules: TODO [official source needed]"},
   pending_population: {mn:"Хөгжлийн бэрхшээлтэй хүний тоо: TODO [choose one official figure with year]",en:"Number of people with disabilities: TODO [choose one official figure with year]"},
   pending_ratification: {mn:"НҮБ-ын конвенцыг соёрхон баталсан огноо: TODO [verify]",en:"UN Convention ratification date: TODO [verify]"},
-  pending_terminology: {mn:"Хуулийн нэрийн “хөгжлийн бэрхшээлтэй хүн” гэсэн нэр томьёоноос бусад хүндэтгэлтэй хэллэг: TODO [consult disabled people's organisations and a native speaker]",en:"Respectful Mongolian terminology beyond the law’s own term: TODO [consult disabled people's organisations and a native speaker]"},
+  pending_terminology: {mn:"Хуулийн нэрийн \"хөгжлийн бэрхшээлтэй хүн\" гэсэн нэр томьёоноос бусад хүндэтгэлтэй хэллэг: TODO [consult disabled people's organisations and a native speaker]",en:"Respectful Mongolian terminology beyond the law's own term: TODO [consult disabled people's organisations and a native speaker]"},
   claims_review_note: {mn:"Огноо нь редакцын хяналтыг заана; одоогийн хууль, үйлчилгээ эсвэл орчуулгыг мэргэжлийн хүн баталгаажуулсан гэсэн үг биш.",en:"The date records editorial review, not professional confirmation of current law, services or translation."},
   source_unavailable: {mn:"Энэ холбоосыг одоогоор нээж шалгаж чадаагүй.",en:"This link could not be reopened during this review."},
   understand: {mn:"Ойлгох",en:"Understand"},
   help: {mn:"Дэмжих",en:"Help"},
   reach: {mn:"Харилцах",en:"Reach"},
   find_support_nav: {mn:"Тусламж хайх",en:"Find support"},
-  understand_summary: {mn:"Хүмүүсийн хэрэгцээ, сонголтыг ойлгож, хүндэтгэлтэй харилцаарай.",en:"Understand people’s needs and choices, and communicate respectfully."},
+  understand_summary: {mn:"Хүмүүсийн хэрэгцээ, сонголтыг ойлгож, хүндэтгэлтэй харилцаарай.",en:"Understand people's needs and choices, and communicate respectfully."},
   help_summary: {mn:"Хүнээс өөрөөс нь асууж, хүссэн дэмжлэгийг нь үзүүлээрэй.",en:"Ask the person and offer the support they choose."},
   reach_summary: {mn:"Мэдээлэл, харилцааг олон хэлбэрээр хүргэхийг төлөвлөөрэй.",en:"Plan different ways to share information and communicate."},
   key_points: {mn:"Гол санаа",en:"Key points"},
@@ -49,22 +49,22 @@ export const translations = {
   language_three: {mn:"Хувийн мэдээллийг бусдад хэлэхээс өмнө зөвшөөрөл аваарай.",en:"Ask permission before sharing personal information."},
   myths_title: {mn:"Таамаг ба бодит хэрэгцээ",en:"Myths and facts"},
   myths_summary: {mn:"Хүнийг бүлгийн тухай таамгаар бус, өөрийнх нь хэлсэн зүйлээр ойлгоорой.",en:"Understand the person through what they tell you, not assumptions about a group."},
-  myths_one: {mn:"“Бүгдэд ижил тусламж хэрэгтэй” гэж бүү таамагла. Тухайн хүнд юу тохирохыг асуу.",en:"Instead of assuming everyone needs the same help, ask what works for this person."},
-  myths_two: {mn:"“Дуугүй байвал зөвшөөрсөн” гэж бүү үз. Зөвшөөрлийг нь асууж, хариулах хугацаа өг.",en:"Do not treat silence as consent. Ask and allow time for an answer."},
-  myths_three: {mn:"“Туслахаар ирсэн тул шууд хийж болно” гэж бүү үз. Эхлээд асуу.",en:"An offer to help is not permission to act. Ask first."},
+  myths_one: {mn:"\"Бүгдэд ижил тусламж хэрэгтэй\" гэж бүү таамагла. Тухайн хүнд юу тохирохыг асуу.",en:"Instead of assuming everyone needs the same help, ask what works for this person."},
+  myths_two: {mn:"\"Дуугүй байвал зөвшөөрсөн\" гэж бүү үз. Зөвшөөрлийг нь асууж, хариулах хугацаа өг.",en:"Do not treat silence as consent. Ask and allow time for an answer."},
+  myths_three: {mn:"\"Туслахаар ирсэн тул шууд хийж болно\" гэж бүү үз. Эхлээд асуу.",en:"An offer to help is not permission to act. Ask first."},
   rights_title: {mn:"Эрх ба хууль",en:"Rights and laws"},
   voices_title: {mn:"Хөгжлийн бэрхшээлтэй хүмүүсийн дуу хоолой",en:"Voices of disabled people"},
   voices_summary: {mn:"Хүмүүсийн өөрсдөө хуваалцахыг сонгосон туршлагад зориулсан орон зай.",en:"A space for experiences people choose to share in their own words."},
-  voices_one: {mn:"TODO [consent needed] — оролцогчийн зөвшөөрөлтэй агуулга шаардлагатай. Одоогоор түүх, эшлэл нийтлээгүй.",en:"TODO [consent needed] — content requires the contributor’s consent. No stories or quotes are published yet."},
+  voices_one: {mn:"TODO [consent needed] - оролцогчийн зөвшөөрөлтэй агуулга шаардлагатай. Одоогоор түүх, эшлэл нийтлээгүй.",en:"TODO [consent needed] - content requires the contributor's consent. No stories or quotes are published yet."},
   voices_two: {mn:"Нэрээ нийтлэх эсэх, агуулгын хэлбэр, засвар болон зөвшөөрлөө буцаах үйл явцыг оролцогчтой тохирно.",en:"Agree attribution, format, edits, and a withdrawal process with each contributor."},
   families_title: {mn:"Гэр бүл, асран хамгаалагчдад",en:"For families and carers"},
-  families_summary: {mn:"Хамт төлөвлөхдөө тухайн хүний сонголтыг эхэнд тавиарай.",en:"Plan together with the person’s choices at the centre."},
+  families_summary: {mn:"Хамт төлөвлөхдөө тухайн хүний сонголтыг эхэнд тавиарай.",en:"Plan together with the person's choices at the centre."},
   families_one: {mn:"Юуг өөрөө хийх, юунд дэмжлэг авахыг хүсэж байгааг нь асуу.",en:"Ask what they want to do themselves and where they want support."},
   families_two: {mn:"Байгууллагатай холбогдохын өмнө асуултаа хамт бэлд. Мэдээлэл хуваалцах зөвшөөрөл ав.",en:"Prepare questions together before contacting a provider. Ask permission to share information."},
   families_three: {mn:"Одоо байгаа бэлтгэлийн хөтөч, жагсаалтыг ашиглаж болно.",en:"Use the existing preparation guide and checklist if helpful."},
   friends_title: {mn:"Найз, хөрш, сайн дурынханд",en:"For friends, neighbours and volunteers"},
   friends_summary: {mn:"Туслахаасаа өмнө асуу. Тухайн хүний хэлснийг дага.",en:"Ask before helping. Follow what the person says."},
-  friends_one: {mn:"“Туслах уу? Яаж туслах вэ?” гэж асуу. Татгалзвал хүндэтгэ.",en:"Ask “Would you like help? How?” Respect a refusal."},
+  friends_one: {mn:"\"Туслах уу? Яаж туслах вэ?\" гэж асуу. Татгалзвал хүндэтгэ.",en:"Ask \"Would you like help? How?\" Respect a refusal."},
   friends_two: {mn:"Биед нь болон туслах хэрэгсэлд нь хүрэхээс өмнө зөвшөөрөл ав.",en:"Get permission before touching the person or their equipment."},
   friends_three: {mn:"Хурдыг нь дага. Тодорхойгүй бол дахин асуу.",en:"Follow their pace. Ask again if unsure."},
   employers_title: {mn:"Ажил олгогч, сургууль, бизнест",en:"For employers, schools and businesses"},
@@ -96,13 +96,13 @@ export const translations = {
   contact_page: {mn:"Холбоо барих / алдаа мэдэгдэх",en:"Contact / report a problem"},
   for_organisations: {mn:"Байгууллагуудад",en:"For organisations"},
   listing_request: {mn:"Бүртгэл нэмэх, засах хүсэлт",en:"Request a listing or correction"},
-  listing_request_text: {mn:"Байгууллагын нэр, нийтэд нээлттэй эх сурвалжийн холбоос, үзүүлдэг үйлчилгээ, нийтэлж болох холбоо барих мэдээллээ бэлдээрэй. Зардал, шаардлага, хүртээмжийн мэдээллийг тус тусад нь нотлох эх сурвалжтай өгнө үү. Хувь хүний онош, баримт бүү явуулаарай.",en:"Prepare the organisation’s name, public source link, services, and contacts approved for publication. Provide separate evidence for costs, requirements, and accessibility. Do not include anyone’s diagnosis or personal records."},
+  listing_request_text: {mn:"Байгууллагын нэр, нийтэд нээлттэй эх сурвалжийн холбоос, үзүүлдэг үйлчилгээ, нийтэлж болох холбоо барих мэдээллээ бэлдээрэй. Зардал, шаардлага, хүртээмжийн мэдээллийг тус тусад нь нотлох эх сурвалжтай өгнө үү. Хувь хүний онош, баримт бүү явуулаарай.",en:"Prepare the organisation's name, public source link, services, and contacts approved for publication. Provide separate evidence for costs, requirements, and accessibility. Do not include anyone's diagnosis or personal records."},
   listing_review: {mn:"Хүсэлтийг хэрхэн хянах вэ?",en:"How requests will be reviewed"},
   listing_review_text: {mn:"???????? ?????? ????? ???????? ?????? ?????. ?????????? ???? ?? ???????, ?????? ??????, ??????????? ???????? ??????????? ?????? ???????. ???????? ????? ?? ???????, ??????? ????? ??? ???????? ??????????? ????? ?? ???.",en:"Submit requests through the contact page. Before adding information, sources and dates must be checked and unsupported fields left unknown. A listing does not imply partnership, endorsement, or confirmation of every detail."},
   main_navigation: {mn:"Үндсэн цэс",en:"Main navigation"},
   language_name: {mn:"Монгол",en:"English"},
   brand: {mn:"Хүртээмж",en:"Хүртээмж"},
-  loading: {mn:"Уншиж байна…",en:"Loading…"},
+  loading: {mn:"Уншиж байна...",en:"Loading..."},
   load_error: {mn:"Хуудсыг ачаалж чадсангүй",en:"Unable to load page"},
   please_retry: {mn:"Дахин оролдоно уу.",en:"Please try again."},
   retry: {mn:"Дахин оролдох",en:"Try again"},
@@ -128,11 +128,11 @@ export const translations = {
   },
   "headless_edge_checks_cover_both_languages_main_pages_semantic_str": {
     "mn": "Headless Edge хөтөч дээр хоёр хэлний гол хуудсуудын семантик бүтэц, гарын товчлуурын урсгал, маягтын алдаа болон хэвлэх загварыг автоматаар шалгасан.",
-    "en": "Headless Edge checks cover both languages’ main pages, semantic structure, keyboard flows, form errors, and print styles."
+    "en": "Headless Edge checks cover both languages' main pages, semantic structure, keyboard flows, form errors, and print styles."
   },
   "main_pages_were_checked_at_320_375_768_and_1440_css_pixels_both_l": {
     "mn": "Гол хуудсуудыг 320, 375, 768, 1440 пикселийн өргөнд шалгасан. Хоёр хэлний гол хуудсуудыг 320 пикселийн өргөнд бичвэрийн хэмжээг 200% болгож шалгасан.",
-    "en": "Main pages were checked at 320, 375, 768, and 1440 CSS pixels. Both languages’ main pages were also checked at 320px with text enlarged to 200%."
+    "en": "Main pages were checked at 320, 375, 768, and 1440 CSS pixels. Both languages' main pages were also checked at 320px with text enlarged to 200%."
   },
   "axe_detected_no_wcag_a_aa_violations_on_the_tested_pages_this_doe": {
     "mn": "Шалгасан хуудсуудад axe автомат хэрэгслээр WCAG A/AA зөрчил илрээгүй. Энэ нь бүх саадыг илрүүлсэн гэсэн баталгаа биш.",
@@ -160,11 +160,11 @@ export const translations = {
   },
   "about_the_organisations_accessibility": {
     "mn": "Байгууллагын хүртээмжийн тухай",
-    "en": "About the organisations’ accessibility"
+    "en": "About the organisations' accessibility"
   },
   "a_listing_marked_source_checked_has_not_been_confirmed_directly_w": {
-    "mn": "Лавлахын “Цахим эх сурвалж шалгасан” төлөв нь байгууллагаас шууд баталгаажуулсан гэсэн үг биш. Орц, лифт, ариун цэврийн өрөө болон харилцааны дэмжлэг тодорхойгүй байж болно. Очихын өмнө байгууллагаас лавлаарай.",
-    "en": "A listing marked “Source checked” has not been confirmed directly with the organisation. Entrances, lifts, toilets, and communication support may be unknown. Contact the organisation before visiting."
+    "mn": "Лавлахын \"Цахим эх сурвалж шалгасан\" төлөв нь байгууллагаас шууд баталгаажуулсан гэсэн үг биш. Орц, лифт, ариун цэврийн өрөө болон харилцааны дэмжлэг тодорхойгүй байж болно. Очихын өмнө байгууллагаас лавлаарай.",
+    "en": "A listing marked \"Source checked\" has not been confirmed directly with the organisation. Entrances, lifts, toilets, and communication support may be unknown. Contact the organisation before visiting."
   },
   "reporting_a_barrier": {
     "mn": "Саад, алдааг мэдэгдэх",
@@ -276,15 +276,15 @@ export const translations = {
   },
   "do_not_include_diagnoses_medical_records_identity_numbers_or_othe": {
     "mn": "Онош, эмнэлгийн баримт, регистрийн дугаар болон бусдын хувийн мэдээлэл бүү оруулаарай.",
-    "en": "Do not include diagnoses, medical records, identity numbers, or other people’s personal information."
+    "en": "Do not include diagnoses, medical records, identity numbers, or other people's personal information."
   },
   "please_describe_your_correction_or_suggestion": {
     "mn": "Засах мэдээлэл эсвэл саналаа бичнэ үү.",
     "en": "Please describe your correction or suggestion."
   },
   "hurteemj_feedback_report": {
-    "mn": "Хүртээмж — санал хүсэлтийн тайлан",
-    "en": "Hurteemj — feedback report"
+    "mn": "Хүртээмж - санал хүсэлтийн тайлан",
+    "en": "Hurteemj - feedback report"
   },
   "service": {
     "mn": "Үйлчилгээ",
@@ -368,7 +368,7 @@ export const translations = {
   },
   "based_on_the_organisations_websites_not_confirmed_directly_ask_ab": {
     "mn": "Байгууллагын цахим мэдээлэлд тулгуурлав. Утасдаж баталгаажуулаагүй; зардал, хүртээмжийг лавлаарай.",
-    "en": "Based on the organisations’ websites. Not confirmed directly; ask about costs and accessibility."
+    "en": "Based on the organisations' websites. Not confirmed directly; ask about costs and accessibility."
   },
   "all_districts": {
     "mn": "Бүх дүүрэг",
