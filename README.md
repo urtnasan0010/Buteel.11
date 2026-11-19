@@ -1,6 +1,6 @@
 # Hurteemj
 
-Mongolian-only website with Home, Understand, Help and Rights pages. Home includes bundled guidance and all published posts. Understand, Help and Rights contain educational guides without post feeds. Essential information does not require a seeded database. The visible Ажилтан header button opens `/admin`; anonymous visitors must sign in. There is no language switch, and legacy `?lang=en` URLs serve Mongolian. Stored English fields remain intact for compatibility. See [HOME_ONLY_POSTS.md](HOME_ONLY_POSTS.md) for the current publication model; this supersedes older cleanup notes below.
+Mongolian-only website with Home, Understand, Help and Rights pages. Home includes bundled guidance and all published posts. Understand, Help and Rights contain educational guides without post feeds. Essential information does not require a seeded database. Staff open `/admin` directly and sign in with an authorised account. There is no language switch, and legacy `?lang=en` URLs serve Mongolian. Stored English fields remain intact for compatibility. See [HOME_ONLY_POSTS.md](HOME_ONLY_POSTS.md) for the current publication model; this supersedes older cleanup notes below.
 
 ## Run locally
 

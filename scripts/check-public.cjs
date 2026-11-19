@@ -37,8 +37,7 @@ const base = process.env.PUBLIC_BASE_URL || 'http://127.0.0.1:3216';
           assert.equal(await page.locator('main .intro,main .section-links,main a[href*="rights-contacts"]').count(), 0);
           assert.equal(await page.getByText('Одоогоор нийтлэгдсэн мэдээ алга. Дээрх мэдээлэл, холбоосыг ашиглаарай.', {exact:true}).count(), 0);
         }
-        assert.equal(await page.locator('.staff-entry[href="/admin?lang=mn"]').count(), 1);
-        assert.equal(await page.getByRole('link', {name:'Ажилтан',exact:true}).count(), 1);
+        assert.equal(await page.locator('.site-header a[href^="/admin"]').count(), 0);
         assert.equal(await page.locator('.site-header a[hreflang]').count(), 0);
         assert.equal(await page.getByText('Staff', { exact: true }).count(), 0);
         const html = await page.content();
@@ -127,15 +126,14 @@ const base = process.env.PUBLIC_BASE_URL || 'http://127.0.0.1:3216';
         await page.goto(`${base}${route}?lang=en`);
         assert.equal(await page.locator('html').getAttribute('lang'), 'mn', 'Legacy English URLs serve Mongolian');
         assert.equal(await page.locator('.site-header a[hreflang]').count(), 0);
-        assert.equal(await page.getByRole('link', {name:'Ажилтан',exact:true}).count(), 1);
+        assert.equal(await page.locator('.site-header a[href^="/admin"]').count(), 0);
       }
-      await page.goto(`${base}/?lang=mn`);
       const adminResponses = [];
       page.on('response', response => { if (new URL(response.url()).pathname.startsWith('/admin')) adminResponses.push(response.status()); });
-      await page.locator('.staff-entry').click();
+      await page.goto(`${base}/admin`);
       await page.waitForURL('**/admin/login?lang=mn');
       await page.locator('main input[name="email"]').waitFor();
-      assert.equal(await page.locator('main input[name="password"]').count(), 1, 'Staff entry renders the sign-in form');
+      assert.equal(await page.locator('main input[name="password"]').count(), 1, 'Direct admin access redirects to the sign-in form');
       await page.waitForTimeout(300);
       assert.ok(adminResponses.length < 8, 'No repeated admin/login redirect loop');
       await page.reload();
@@ -156,6 +154,6 @@ const base = process.env.PUBLIC_BASE_URL || 'http://127.0.0.1:3216';
     for (const route of ['/admin/login', '/admin/reset']) assert.equal((await fetch(`${base}${route}`)).status, 200);
     fs.mkdirSync('artifacts/public', { recursive: true });
     fs.writeFileSync('artifacts/public/checks.json', JSON.stringify(results, null, 2));
-    console.log(`Public checks passed: ${results.length} route/language/viewport combinations, staff entry and no unverified contacts; anonymous admin guards and login/reset tested.`);
+    console.log(`Public checks passed: ${results.length} route/language/viewport combinations. Public header, contacts, direct admin access, and login/reset checked.`);
   } finally { await browser.close(); }
 })().catch(error => { console.error(error); process.exitCode = 1; });

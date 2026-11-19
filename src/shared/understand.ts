@@ -78,7 +78,7 @@ export type DisabilityTopic = {
 const text = (mn: string, en: string): Text => ({ mn, en });
 
 export const understandCopy = {
-  title: text('Хөгжлийн бэрхшээлийг ойлгох нь', 'Understanding disability'),
+  title: text('Хөгжлийн бэрхшээлтэй иргэдийг ойлгох нь', 'Understanding disability'),
   intro: text('Хүн бүрийн туршлага өөр. Хэрхэн харилцах, орчны саадыг багасгах, тохирох дэмжлэгийг хамтдаа сонгох талаар суралцаарай.', 'Everyone has a different experience. Learn how to communicate, reduce barriers and agree on support together.'),
   topics: text('12 сэдэвтэй танилцах', 'Explore the 12 topics'),
   details: text('Дэмжлэг ба эх сурвалж', 'Support and sources'),

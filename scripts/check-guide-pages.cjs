@@ -43,7 +43,7 @@ exports.checkGuide = async function checkGuide(route, count, portVariable, tools
       if (route === 'understand') {
         assert.equal(await page.locator('.topic-index a').count(), 12);
         assert.equal(await page.locator('.guide-intro,#shared-support-heading').count(), 0);
-        assert.equal(await page.locator('main h1').innerText(), 'Хөгжлийн бэрхшээлийг ойлгох нь');
+        assert.equal(await page.locator('main h1').innerText(), 'Хөгжлийн бэрхшээлтэй иргэдийг ойлгох нь');
       }
       if (route === 'help') assert.equal(await page.locator('.section-links,.home-subtitle').count(), 0);
       if (route === 'rights') {

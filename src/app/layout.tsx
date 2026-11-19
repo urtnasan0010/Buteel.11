@@ -35,10 +35,13 @@ export default async function Layout({ children }: { children: React.ReactNode }
       <Link className="brand" href={`/?lang=${lang}`} aria-label="Нүүр хуудас">
         <span className="brand-icon" aria-hidden="true"><Icon kind="brand" /></span>
       </Link>
-      {!signedIn && <Navigation lang={lang} />}
-      <div className="staff-header-actions"><a className="button secondary staff-entry" href="/admin?lang=mn">{signedIn ? 'Удирдлага' : 'Ажилтан'}</a>
-        {signedIn && <><Link className="language" href={`/?lang=${lang}`}>{t(lang,'home')}</Link><StaffSignOut /></>}
-      </div>
+      {signedIn ? (
+        <div className="staff-header-actions">
+          <a className="button secondary staff-entry" href="/admin?lang=mn">Удирдлага</a>
+          <Link className="language" href={`/?lang=${lang}`}>{t(lang,'home')}</Link>
+          <StaffSignOut />
+        </div>
+      ) : <Navigation lang={lang} />}
     </header>
     {children}
     {path !== '/' && <footer className="compact-footer"><p>{n(lang,'brand')}</p></footer>}

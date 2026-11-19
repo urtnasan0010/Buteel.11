@@ -1,8 +1,8 @@
 # Home-only publishing
 
-Current interface: Mongolian only. The public header includes a direct Ажилтан link to `/admin`; access still requires an authorised account. The language switch is removed, and all language query values resolve to Mongolian. Existing stored English fields and source URLs are preserved.
+Current interface: Mongolian only. Staff open `/admin` directly and sign in with an authorised account. The language switch is removed, and all language query values resolve to Mongolian. Existing stored English fields and source URLs are preserved.
 
-Admin authentication uses a protected route group for `/admin` and `/admin/verification`. `/admin/login` and `/admin/reset` are outside that layout, avoiding a cached-path redirect loop. The staff entry and successful sign-in use a fresh document navigation. Regression checks click the actual staff button and assert the sign-in form renders without repeated redirects.
+Admin authentication uses a protected route group for `/admin` and `/admin/verification`. `/admin/login` and `/admin/reset` are outside that layout, avoiding a cached-path redirect loop. Successful sign-in uses a fresh document navigation. The browser regression check opens `/admin` directly and checks that the sign-in form renders without repeated redirects.
 
 As of 2026-11-17, every published admin post appears on Home only. Existing `announcement`, `event` and `warning` values are content categories, not page destinations. The editor and previews use bilingual category labels and explicitly explain the Home destination.
 

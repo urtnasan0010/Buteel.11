@@ -3,7 +3,7 @@ import { autismGlossary, disabilityTopics, seizureFirstAid, understandCopy as co
 
 export default function Page() {
   return <main id="main" className="content page understand-page">
-    <GuideHeader title="Хөгжлийн бэрхшээлийг ойлгох нь" subtitle="Хүн бүрийн туршлага, хэрэгцээг ойлгож, тохирсон дэмжлэг үзүүлье." />
+    <GuideHeader title={copy.title.mn} subtitle="Хүн бүрийн туршлага, хэрэгцээг ойлгож, тохирсон дэмжлэг үзүүлье." />
     <nav className="topic-index" aria-label={copy.topicIndex.mn}>
       {disabilityTopics.map(topic => <a key={topic.id} href={`#${topic.id}`}>{topic.title.mn}</a>)}
     </nav>
