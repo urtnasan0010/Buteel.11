@@ -1,10 +1,11 @@
 import Link from 'next/link';
+import type { ReactNode } from 'react';
 import { selectLanguage } from '@/shared/language';
 import { listPosts } from '@/server/posts';
 import { pc } from '@/shared/posts';
 import PostArticle from '@/client/components/post-article';
 
-export async function PostsPage({ searchParams, path = '/', embedded = false, embeddedHeading, heroClassName = '' }: { heroClassName?: string; embeddedHeading?: string; embedded?: boolean; path?: string; searchParams: Promise<{ lang?: string | string[]; page?: string }> }) {
+export async function PostsPage({ searchParams, path = '/', embedded = false, embeddedHeading, heroClassName = '', children }: { heroClassName?: string; embeddedHeading?: string; embedded?: boolean; path?: string; searchParams: Promise<{ lang?: string | string[]; page?: string }>; children?: ReactNode }) {
   // Category values never choose a destination; publishing is confined to Home.
   if (path !== '/') return null;
   const params = await searchParams; const lang = selectLanguage(params.lang);
@@ -23,6 +24,7 @@ export async function PostsPage({ searchParams, path = '/', embedded = false, em
         ? 'A nationwide directory of disability support, organisations and rights.'
         : 'Монгол даяарх хөгжлийн бэрхшээлийн дэмжлэг, байгууллага, эрхийн мэдээллийн сан.'}</p>
     </header>}
+    {children}
     {(unavailable || Boolean(data?.posts.length)) && <section id="posts" className="post-feed" aria-label={pc(lang,'heading')}>
       {unavailable ? <div className="post-empty"><p role="status">{pc(lang,'unavailable')}</p><a className="button secondary" href={href()}>{pc(lang,'retry')}</a></div>
         : data?.posts.map(post => <PostArticle key={post.id} post={post} lang={lang}/>)}
