@@ -1,6 +1,6 @@
 # Public website fixes
 
-Current policy (2026-11-17): the site is Mongolian-only, with no language switch. A visible Ажилтан header link opens `/admin`; anonymous users are redirected to sign-in and private routes remain protected. This supersedes the historical hidden-admin and bilingual-navigation behavior described below.
+Current policy: the site is Mongolian-only. The review below records earlier behavior.
 
 ## Root cause and baseline content
 

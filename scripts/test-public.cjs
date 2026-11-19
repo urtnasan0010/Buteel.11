@@ -59,25 +59,8 @@ const Link = ({ children, ...props }) => React.createElement('a', props, childre
   const { mayPublish } = load('src/shared/rights-publication.ts');
   assert.equal(mayPublish('UNVERIFIED'), false);
   assert.equal(mayPublish('UNVERIFIED', { publishUnverified: true, approvedBy: '', approvedAt: null, reason: '' }), false);
-  assert.equal(mayPublish('UNVERIFIED', { publishUnverified: true, approvedBy: 'test-admin', approvedAt: '2026-11-16', reason: 'explicit test approval' }), true);
+  assert.equal(mayPublish('UNVERIFIED', { publishUnverified: true, approvedBy: 'test-reviewer', approvedAt: '2026-11-16', reason: 'explicit test approval' }), true);
   console.log('Visitor Rights copy excludes internal verification language in Mongolian.');
-  for (const path of ['/admin', '/admin/verification', '/admin/future-private-page']) {
-    const privateLoader = createLoader({
-      'next/headers': { headers: async () => new Headers({ 'x-page': path, 'x-language': 'mn' }) },
-      'next/navigation': { redirect: () => { throw Error('AUTH_REDIRECT'); } },
-      '@/server/auth': { currentAdmin: async () => null },
-    });
-    await assert.rejects(privateLoader('src/app/admin/(protected)/layout.tsx').default({ children: 'PRIVATE' }), /AUTH_REDIRECT/);
-  }
-  const adminLoader = createLoader({
-    'next/headers': { headers: async () => new Headers({ 'x-page': '/admin/verification' }) },
-    'next/navigation': { redirect: () => { throw Error('AUTH_REDIRECT'); } },
-    '@/server/auth': { currentAdmin: async () => 'test-admin' },
-  });
-  assert.equal(await adminLoader('src/app/admin/(protected)/layout.tsx').default({ children: 'PRIVATE' }), 'PRIVATE');
-  const verificationHtml = renderToStaticMarkup(await adminLoader('src/app/admin/(protected)/verification/page.tsx').default());
-  assert.ok(verificationHtml.includes('DOCX') && verificationHtml.includes('publishUnverified'));
-  console.log('Admin layout rejects anonymous access; authenticated verification retains internal evidence.');
   const { understandSources, sourceDisplayDate, disabilityTopics } = load('src/shared/understand.ts');
   assert.equal(disabilityTopics.length, 12);
   assert.ok(disabilityTopics.every(topic => topic.tips.length >= 2));

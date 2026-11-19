@@ -128,32 +128,14 @@ const base = process.env.PUBLIC_BASE_URL || 'http://127.0.0.1:3216';
         assert.equal(await page.locator('.site-header a[hreflang]').count(), 0);
         assert.equal(await page.locator('.site-header a[href^="/admin"]').count(), 0);
       }
-      const adminResponses = [];
-      page.on('response', response => { if (new URL(response.url()).pathname.startsWith('/admin')) adminResponses.push(response.status()); });
-      await page.goto(`${base}/admin`);
-      await page.waitForURL('**/admin/login?lang=mn');
-      await page.locator('main input[name="email"]').waitFor();
-      assert.equal(await page.locator('main input[name="password"]').count(), 1, 'Direct admin access redirects to the sign-in form');
-      await page.waitForTimeout(300);
-      assert.ok(adminResponses.length < 8, 'No repeated admin/login redirect loop');
-      await page.reload();
-      assert.equal(await page.locator('main input[name="password"]').count(), 1, 'Direct login loads correctly');
       await context.close();
     }
-    for (const route of ['/admin', '/admin/verification']) {
-      const response = await fetch(`${base}${route}`, { redirect: 'manual' });
-      assert.equal(response.status, 307);
-      assert.ok(response.headers.get('location').startsWith('/admin/login'));
-      const body = await response.text();
-      assert.ok(!body.includes('DOCX') && !body.includes('7700-1982') && !body.includes('publication:'));
+    for (const route of ['/admin', '/admin/verification', '/admin/login', '/admin/reset', '/api/admin/posts', '/api/auth/get-session']) {
+      const response = await fetch(base + route, { redirect: 'manual' });
+      assert.equal(response.status, 404, 'Removed route ' + route);
     }
-    assert.equal((await fetch(`${base}/api/admin/posts`)).status, 401);
-    const spoofed = await fetch(`${base}/admin/verification`, { redirect: 'manual', headers: { 'x-page': '/admin/login' } });
-    assert.equal(spoofed.status, 307, 'Client headers cannot bypass the proxy/admin guard');
-    assert.equal((await fetch(`${base}/api/admin/posts`, { method: 'POST', headers: { origin: base } })).status, 401);
-    for (const route of ['/admin/login', '/admin/reset']) assert.equal((await fetch(`${base}${route}`)).status, 200);
     fs.mkdirSync('artifacts/public', { recursive: true });
     fs.writeFileSync('artifacts/public/checks.json', JSON.stringify(results, null, 2));
-    console.log(`Public checks passed: ${results.length} route/language/viewport combinations. Public header, contacts, direct admin access, and login/reset checked.`);
+    console.log(`Public checks passed: ${results.length} route/language/viewport combinations. Public header, contacts, and retired routes checked.`);
   } finally { await browser.close(); }
 })().catch(error => { console.error(error); process.exitCode = 1; });

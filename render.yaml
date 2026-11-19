@@ -16,12 +16,6 @@ services:
         value: 24.14.1
       - key: DATABASE_URL
         sync: false
-      - key: NEON_AUTH_BASE_URL
-        sync: false
-      - key: NEON_AUTH_COOKIE_SECRET
-        sync: false
-      - key: APP_ORIGIN
-        sync: false
       - key: AWS_ENDPOINT_URL_S3
         sync: false
       - key: AWS_REGION

@@ -7,8 +7,8 @@ $archivePath = Join-Path $archiveDirectory 'hurteemj-source.zip'
 # Deliberately list source/configuration entries instead of archiving the workspace.
 $entries = @('src','db','scripts','.github','.env.example','.gitignore','.node-version',
   'package.json','package-lock.json','tsconfig.json','next-env.d.ts','next.config.ts',
-  'postcss.config.mjs','eslint.config.mjs','neon.ts','render.yaml','README.md','HOME_POSTS.md','review-flags.txt',
-  'HELP_REVIEW.md','RIGHTS_REVIEW.md','UNDERSTAND_REVIEW.md','PUBLIC_REVIEW.md','HOME_ONLY_POSTS.md')
+  'postcss.config.mjs','eslint.config.mjs','neon.ts','render.yaml','README.md','review-flags.txt',
+  'HELP_REVIEW.md','RIGHTS_REVIEW.md','UNDERSTAND_REVIEW.md','PUBLIC_REVIEW.md')
 New-Item -ItemType Directory -Path $stageRoot | Out-Null
 try {
   foreach ($entry in $entries) {
@@ -23,7 +23,7 @@ try {
     }
     Copy-Item -LiteralPath $sourcePath -Destination (Join-Path $stageRoot $entry) -Recurse -Force
   }
-  foreach ($required in @('db/004-home-posts.sql','scripts/migrate.mjs','scripts/grant-admin.mjs','package-lock.json','.env.example')) {
+  foreach ($required in @('db/004-home-posts.sql','scripts/migrate.mjs','package-lock.json','.env.example')) {
     if (-not (Test-Path -LiteralPath (Join-Path $stageRoot $required))) { throw "Required setup file missing: $required" }
   }
   New-Item -ItemType Directory -Path $archiveDirectory -Force | Out-Null

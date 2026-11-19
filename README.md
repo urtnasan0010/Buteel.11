@@ -1,6 +1,6 @@
 # Hurteemj
 
-Mongolian-only website with Home, Understand, Help and Rights pages. Home includes bundled guidance and all published posts. Understand, Help and Rights contain educational guides without post feeds. Essential information does not require a seeded database. Staff open `/admin` directly and sign in with an authorised account. There is no language switch, and legacy `?lang=en` URLs serve Mongolian. Stored English fields remain intact for compatibility. See [HOME_ONLY_POSTS.md](HOME_ONLY_POSTS.md) for the current publication model; this supersedes older cleanup notes below.
+Mongolian-only website with Home, Understand, Help and Rights pages. Home includes bundled guidance and all published posts. Understand, Help and Rights contain educational guides without post feeds. Essential information does not require a seeded database. There is no language switch, and legacy `?lang=en` URLs serve Mongolian. Stored English fields remain intact for compatibility.
 
 ## Run locally
 
@@ -15,24 +15,20 @@ npm run build
 npm start
 ```
 
-## Home posts and administration
+## Home posts
 
-See [HOME_POSTS.md](HOME_POSTS.md) for editor behavior, image limits, storage, verification and recovery notes. Admins can save drafts, preview, edit, publish, move posts back to draft and delete posts. Visitors see published posts with expandable descriptions, galleries and pagination. Empty/unavailable feeds retain the bundled guide and show a clear message.
-
-The existing managed Neon Auth email login and password-reset flows remain available. Every admin page and post API checks the session and `admin_accounts` allowlist. Signup and social-account creation endpoints are not exposed. Admin pages use noindex.
+Visitors can read published posts with expandable descriptions, galleries and pagination. The site reads posts and images from the existing database and private bucket.
 
 Runtime environment variables:
 
 - `DATABASE_URL`: pooled Postgres connection.
-- `NEON_AUTH_BASE_URL` and `NEON_AUTH_COOKIE_SECRET`: existing managed authentication.
 - `AWS_ENDPOINT_URL_S3`, `AWS_REGION`, `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`: existing private `assets` bucket for post images.
-- `APP_ORIGIN`: exact public HTTPS origin, without a trailing slash. Configure this origin in Neon Auth trusted domains as well.
 
 Never commit secrets. `DATABASE_URL_UNPOOLED` is for maintenance commands, not the web process. The retired reporting feature no longer uses `REPORT_SECRET`; existing environment values can stay in place.
 
 ## Database and retained records
 
-Versioned migrations remain under `db/`. Home uses `home_posts` and `home_post_media_cleanup`. Existing organisation, guide, rights, report and disability-category records are retained in Postgres but are no longer connected to the public pages or current editor. This cleanup does not delete or change database records.
+Versioned migrations remain under `db/`. Home reads from `home_posts`. Existing organisation, guide, rights, report and disability-category records are retained in Postgres but are no longer connected to the public pages. This cleanup does not delete or change database records.
 
 The original listings, research translations, review flags and research maintenance scripts are retained as data history. They are not run by the website. Only the retired disability-category seed script and unused feature modules were removed.
 
@@ -42,8 +38,6 @@ Apply database changes only after owner approval:
 npm run db:migrate
 ```
 
-To grant an existing owner-created account admin access, use the existing `scripts/grant-admin.mjs` workflow. Do not run import, publication or grant commands without authorization.
-
 ## Render configuration
 
 Keep Root Directory blank for this repository. The checked-in `render.yaml` keeps automatic deployments disabled.
@@ -52,9 +46,9 @@ Keep Root Directory blank for this repository. The checked-in `render.yaml` keep
 - Start: `npm start -- --port $PORT`
 - Health check: `/api/health` (returns 503 if the post table or private image bucket is unavailable).
 
-Supply runtime variables in Render; do not run migrations, imports, publications or admin grants as part of deployment. Configuring or syncing a Blueprint can initiate its first deployment, so do it only when authorized. Local changes do not push or deploy anything.
+Supply runtime variables in Render; do not run migrations, imports or publications as part of deployment. Configuring or syncing a Blueprint can initiate its first deployment, so do it only when authorized. Local changes do not push or deploy anything.
 
-The Blueprint declares all required database, authentication and image-storage variables as manual inputs. For an existing Render service, add the four AWS variables and change the health-check path manually; local Blueprint edits do not update a running service.
+The Blueprint declares all required database and image-storage variables as manual inputs. For an existing Render service, add the four AWS variables and change the health-check path manually; local Blueprint edits do not update a running service.
 
 ## Share source safely
 
@@ -62,6 +56,6 @@ On Windows, run `npm run source:zip`. It creates `artifacts/hurteemj-source.zip`
 
 ## Cleanup and undo
 
-The unused directory, reporting, disability-guide and general-content-editor modules have been removed. Authentication is isolated in `src/client/components/admin-auth.tsx`; the post editor remains separate.
+The unused directory, reporting, disability-guide and general-content-editor modules have been removed.
 
 Review with `git diff`. Use `git checkout -p -- <file>` for selected tracked changes; inspect new files separately. Preserve unrelated uncommitted changes. Reverting source does not undo database migrations or stored posts. Do not commit `.env`, `.next`, `node_modules` or `*.tsbuildinfo`.
